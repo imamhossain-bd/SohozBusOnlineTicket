@@ -19,13 +19,19 @@
                     </div>
                     <div>
                         <ul class="flex gap-5">
-                            <li class="px-4 py-2 text-base font-semibold border-2 border-green-700 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-bus"></i> BUS</a></li>
-                            <li class="px-4 py-2 text-base font-semibold hover:border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-jet-fighter-up"></i> Air</a></li>
-                            <li class="px-4 py-2 text-base font-semibold hover:border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-train-subway"></i> Train</a></li>
-                            <li class="px-4 py-2 text-base font-semibold hover:border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-ship"></i> Launch</a></li>
-                            <li class="px-4 py-2 text-base font-semibold hover:border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-regular fa-calendar"></i> Event</a></li>
-                            <li class="px-4 py-2 text-base font-semibold hover:border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-brands fa-slack"></i> Park</a></li>
+                            <li class=" px-4 py-1 text-base font-semibold border-2 border-green-700 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-bus"></i> BUS</a></li>
+                            <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-jet-fighter-up"></i> Air</a></li>
+                            <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-train-subway"></i> Train</a></li>
+                            <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-ship"></i> Launch</a></li>
+                            <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-regular fa-calendar"></i> Event</a></li>
+                            <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-brands fa-slack"></i> Park</a></li>
                         </ul>
+                    </div>
+                    <div class="flex items-center gap-5">
+                        <button class="bg-[#f88922] px-4 py-1 rounded-full text-white font-semibold"><a href=""><i class="fa-solid fa-phone"></i>  16374</a></button>
+                        <div>
+                            <button class="text-base font-semibold px-3 py-[2px] border-transparent border-2 hover:border-green-700 rounded-full"><a href="login.php">Login</a></button>
+                        </div>
                     </div>
                 </div>
             </nav>
