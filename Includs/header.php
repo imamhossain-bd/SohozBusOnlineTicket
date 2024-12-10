@@ -12,10 +12,10 @@
 <body>
     <section>
         <div>
-            <nav class="bg-slate-400 h-20 w-full">
+            <nav class="bg-white h-[75px] w-full">
                 <div class="px-40 flex justify-between items-center gap-5 pt-5">
                     <div class="w-28">
-                        <img src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt="">
+                        <a href="main.php"><img src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt=""></a>
                     </div>
                     <div>
                         <ul class="flex gap-5">
@@ -28,7 +28,7 @@
                         </ul>
                     </div>
                     <div class="flex items-center gap-5">
-                        <button class="bg-[#f88922] px-4 py-1 rounded-full text-white font-semibold"><a href=""><i class="fa-solid fa-phone"></i>  16374</a></button>
+                        <button class="bg-[#f88922] px-4 py-2 rounded-full text-white text-sm font-medium"><a href=""><i class="fa-solid fa-phone"></i>  16374</a></button>
                         <div>
                             <button class="text-base font-semibold px-3 py-[2px] border-transparent border-2 hover:border-green-700 rounded-full"><a href="login.php">Login</a></button>
                         </div>
