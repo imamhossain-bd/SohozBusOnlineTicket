@@ -1,3 +1,27 @@
+<?php
+include('Includs/db.php');
+
+if (isset($_POST['loginBtn'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $stmt = $conn->prepare('SELECT * FROM users WHERE email = ?');
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+
+    if ($user && password_verify($password, $user['password'])) {
+        session_start();
+        $_SESSION['user_id'] = $user['id'];
+        header('Location:main.php');
+        exit();
+    } else {
+        echo "Invalid email or password.";
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,6 +60,7 @@
             padding: 15px;
             border: none;
             outline: none;
+            color: #000;
             font-size: 13px;
             border-radius: 15px;
             margin-top: 10px;
@@ -61,7 +86,7 @@
             <a href="main.php"><i class="text-[#079d49] fa-solid fa-arrow-left"></i></a>
             <a class="text-black" href="main.php"> To Home Page</a>
         </div>
-        <form id="form_data" action="">
+        <form id="form_data" method="POST" action=""  enctype="multipart/form-data">
             <div class="flex justify-center">
                 <img class="w-36 mb-5" src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt="">
             </div>
@@ -76,7 +101,7 @@
                 <input class="" type="text" name="email" id="email" placeholder="Email Address Or Mobile Number"><br>
                 <input class="" type="password" name="password" id="password" placeholder="Enter Your Password"><br>
                 <a class="flex justify-end pt-1 text-[14px] text-[#e39752]" href="#">Forgot Your Password?</a><br>
-                <button id="login_btn" class="font-semibold"><a href="#">Login</a></button>
+                <button id="login_btn" name="loginBtn" class="font-semibold"><a href="#">Login</a></button>
             </div>
         </form>
     </section>
