@@ -1,23 +1,28 @@
 <?php
-include('Includs/db.php');
-
-if (isset($_POST['loginBtn'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $stmt = $conn->prepare('SELECT * FROM users WHERE email = ?');
-    $stmt->execute([$email]);
-    $user = $stmt->fetch();
-
-    if ($user && password_verify($password, $user['password'])) {
-        session_start();
-        $_SESSION['user_id'] = $user['id'];
-        header('Location:main.php');
-        exit();
-    } else {
-        echo "Invalid email or password.";
-    }
-}
+    require('Includs/db.php');
+    session_start();
+    // When form submitted, check and create user session.
+    if (isset($_POST['email'])) {
+        $email = stripslashes($_REQUEST['email']);    // removes backslashes
+        $email = mysqli_real_escape_string($con, $email);
+        $password = stripslashes($_REQUEST['password']);
+        $password = mysqli_real_escape_string($con, $password);
+        // Check user is exist in the database
+        $query    = "SELECT * FROM `users` WHERE email='$email'
+                     AND password='" . md5($password) . "'";
+        $result = mysqli_query($con, $query) or die(mysql_error());
+        $rows = mysqli_num_rows($result);
+        if ($rows == 1) {
+            $_SESSION['email'] = $email;
+            // Redirect to user dashboard page
+            header("Location: dashboard.php");
+        } else {
+            echo "<div class='form'>
+                  <h3>Incorrect email/password.</h3><br/>
+                  <p class='link'>Click here to <a href='login.php'>Login</a> again.</p>
+                  </div>";
+        }
+    } else {}
 ?>
 
 
@@ -43,7 +48,7 @@ if (isset($_POST['loginBtn'])) {
             min-height: 100vh;
             padding: 0 10px;
             background: #f4f4f4;
-            padding-top: 7%;
+            padding-top: 3%;
         }
         #form_data{
             background-color: rgb(255, 255, 255);
@@ -83,8 +88,8 @@ if (isset($_POST['loginBtn'])) {
         
     <section>
         <div class="ml-[37%] flex gap-5 mb-5">
-            <a href="main.php"><i class="text-[#079d49] fa-solid fa-arrow-left"></i></a>
-            <a class="text-black" href="main.php"> To Home Page</a>
+            <a href="index.php"><i class="text-[#079d49] fa-solid fa-arrow-left"></i></a>
+            <a class="text-black" href="index.php"> To Home Page</a>
         </div>
         <form id="form_data" method="POST" action=""  enctype="multipart/form-data">
             <div class="flex justify-center">
@@ -95,7 +100,7 @@ if (isset($_POST['loginBtn'])) {
             </div>
             <div class="flex justify-between px-3 text-[#079d49] mb-4">
                 <a class="text-sm" href="">Don’t have an account?</a>
-                <a class="text-sm" href="">Register Now</a>
+                <a class="text-sm" href="register.php">Register Now</a>
             </div>
             <div id="input_label">
                 <input class="" type="text" name="email" id="email" placeholder="Email Address Or Mobile Number"><br>

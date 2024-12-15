@@ -1,13 +1,8 @@
 <?php
-    $host = 'localhost';
-    $db_name = 'shohoz_bus';
-    $username = 'root';
-    $password = '';
-    
-    try {
-        $conn = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
-    }
+
+$conn = mysqli_connect("localhost","root","","shohoz_bus");
+
+if(!$conn){
+    die("Connection Failed". mysqli_connect_error());
+}
 ?>
