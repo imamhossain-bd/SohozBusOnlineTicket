@@ -4,24 +4,24 @@ require('Includs/db.php'); // Database connection
 if (isset($_POST['firstName'])) {
     // Get and sanitize form inputs
     $firstName = stripslashes($_POST['firstName']);
-    $firstName = mysqli_real_escape_string($con, $firstName);
+    $firstName = mysqli_real_escape_string($conn, $firstName);
 
     $lastName = stripslashes($_POST['lastName']);
-    $lastName = mysqli_real_escape_string($con, $lastName);
+    $lastName = mysqli_real_escape_string($conn, $lastName);
 
     $name = $firstName . ' ' . $lastName;
 
     $email = stripslashes($_POST['email']);
-    $email = mysqli_real_escape_string($con, $email);
+    $email = mysqli_real_escape_string($conn, $email);
 
     $password = stripslashes($_POST['password']);
-    $password = mysqli_real_escape_string($con, $password);
+    $password = mysqli_real_escape_string($conn, $password);
 
     $confirmPassword = stripslashes($_POST['confirmPassword']);
-    $confirmPassword = mysqli_real_escape_string($con, $confirmPassword);
+    $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
 
     $mobileNumber = stripslashes($_POST['number']);
-    $mobileNumber = mysqli_real_escape_string($con, $mobileNumber);
+    $mobileNumber = mysqli_real_escape_string($conn, $mobileNumber);
 
     $create_datetime = date("Y-m-d H:i:s");
 
@@ -38,7 +38,7 @@ if (isset($_POST['firstName'])) {
         $query = "INSERT INTO `users` (name, password, email, mobile_number, create_datetime) 
                   VALUES ('$name', '$hashedPassword', '$email', '$mobileNumber', '$create_datetime')";
 
-        $result = mysqli_query($con, $query);
+        $result = mysqli_query($conn, $query);
 
         if ($result) {
             // Redirect to dashboard on success
