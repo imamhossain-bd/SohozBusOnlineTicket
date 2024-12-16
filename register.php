@@ -1,54 +1,41 @@
 <?php
-require('Includs/db.php'); // Database connection
+require('Includs/db.php'); 
 
-if (isset($_POST['firstName'])) {
-    // Get and sanitize form inputs
-    $firstName = stripslashes($_POST['firstName']);
-    $firstName = mysqli_real_escape_string($conn, $firstName);
-
-    $lastName = stripslashes($_POST['lastName']);
-    $lastName = mysqli_real_escape_string($conn, $lastName);
+if(isset($_POST['registerBtn'])){
+    $firstName  = mysqli_real_escape_string($conn, $_POST['firstName']);
+    $lastName  = mysqli_real_escape_string($conn, $_POST['secondName']);
 
     $name = $firstName . ' ' . $lastName;
 
-    $email = stripslashes($_POST['email']);
-    $email = mysqli_real_escape_string($conn, $email);
+    $created_at = date("Y-m-d H:i:s");
 
-    $password = stripslashes($_POST['password']);
-    $password = mysqli_real_escape_string($conn, $password);
+    $type = $_POST['type'];
+    $number = mysqli_real_escape_string($conn, $_POST['number']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $pass = md5($_POST['password']);
+    $cPass = md5($_POST['cpassword']);
 
-    $confirmPassword = stripslashes($_POST['confirmPassword']);
-    $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
+    $select = "SELECT * FROM users WHERE email = '$email', && password = '$pass' ";
 
-    $mobileNumber = stripslashes($_POST['number']);
-    $mobileNumber = mysqli_real_escape_string($conn, $mobileNumber);
+    $result = mysqli_query($conn, $select);
 
-    $create_datetime = date("Y-m-d H:i:s");
-
-    // Validate form data
-    if ($password !== $confirmPassword) {
-        echo "<div style='color: red; text-align: center;'>Passwords do not match!</div>";
-    } elseif (empty($firstName) || empty($email) || empty($password)) {
-        echo "<div style='color: red; text-align: center;'>All required fields must be filled out!</div>";
-    } else {
-        // Hash the password
-        $hashedPassword = md5($password);
-
-        // Insert query
-        $query = "INSERT INTO `users` (name, password, email, mobile_number, create_datetime) 
-                  VALUES ('$name', '$hashedPassword', '$email', '$mobileNumber', '$create_datetime')";
-
-        $result = mysqli_query($conn, $query);
-
-        if ($result) {
-            // Redirect to dashboard on success
-            header("Location: AdminPanle/dashboard.php");
-            exit();
-        } else {
-            echo "<div style='color: red; text-align: center;'>Registration failed. Please try again later.</div>";
+    if(mysqli_num_rows($result) > 0 ){
+        $error = 'User Already Exist!';
+    }
+    else{
+        if($pass != $cPass){
+            $error = "Password Not Matched";
+        }
+        else{
+            $insert = "INSERT INTO users(name, email, number, password, type)VALUES('$name', '$email', '$number', '$pass' '$type')";
+            mysqli_query($conn, $insert);
+            header('location:login.php');
         }
     }
+
+
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -138,6 +125,13 @@ if (isset($_POST['firstName'])) {
             <a class="text-black" href="index.php"> To Home Page</a>
         </div>
         <form id="form_data" method="POST" action=""  enctype="multipart/form-data">
+            <?php
+                if(isset($error)){
+                    foreach($error as $error){
+                        echo '<span class= "error-msg">'.$error.'</span>';
+                    }
+                }
+            ?>
             <div class="flex justify-center">
                 <img class="w-36 mb-5" src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt="">
             </div>
@@ -150,12 +144,16 @@ if (isset($_POST['firstName'])) {
             </div>
             <!-- Name -->
             <div id="nameInput" class="flex items-center gap-2">
-                <input class="" type="text" name="name" id="name" placeholder="First Name">
-                <input class="" type="text" name="name" id="name" placeholder="Last Name">
+                <input class="" type="text" name="firstName" id="name" placeholder="First Name">
+                <input class="" type="text" name="secondName" id="name" placeholder="Last Name">
             </div>
             <!-- Date Of Birth -->
             <div id="nameInput" class="flex items-center gap-2">
-                <input type="text" name="dateOfBirth" id="dateOfBirth" placeholder="Date Of Birth" onfocus="(this.type='date')" onblur="(this.type='text')">
+                <!-- <input type="text" name="dateOfBirth" id="dateOfBirth" placeholder="Date Of Birth" onfocus="(this.type='date')" onblur="(this.type='text')"> -->
+                <select name="type" id="type">
+                    <option value="Admin">Admin</option>
+                    <option value="User">User</option>
+                </select>
                 <select name="gender" id="gender">
                     <option value="Gander">Gander</option>
                     <option value="Male">Male</option>
@@ -170,7 +168,7 @@ if (isset($_POST['firstName'])) {
             <!-- Password & Submit Button -->
             <div id="input_label">
                 <input class="" type="password" name="password" id="password" placeholder="Password"><br>
-                <input class="" type="password" name="password" id="password" placeholder="Confirm Password"><br>
+                <input class="" type="password" name="cpassword" id="password" placeholder="Confirm Password"><br>
                 <button id="register_btn" name="registerBtn" class="font-semibold"><a href="#">Register</a></button>
             </div>
         </form>
