@@ -1,40 +1,36 @@
 <?php
-require('Includs/db.php'); 
+@include 'Includs/db.php'; 
 
-if(isset($_POST['registerBtn'])){
-    $firstName  = mysqli_real_escape_string($conn, $_POST['firstName']);
-    $lastName  = mysqli_real_escape_string($conn, $_POST['secondName']);
+    if(isset($_POST['registerBtn'])){
+        $firstName = mysqli_real_escape_string($conn, $_POST['firstName']);
+        $lastName = mysqli_real_escape_string($conn, $_POST['secondName']);
 
-    $name = $firstName . ' ' . $lastName;
+        $name =  $firstName . ' ' . $lastName;
+        $type = $_POST['type'];
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $number = mysqli_real_escape_string($conn, $_POST['number']);
+        $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $cPass = $_POST['cpassword'];
 
-    $created_at = date("Y-m-d H:i:s");
 
-    $type = $_POST['type'];
-    $number = mysqli_real_escape_string($conn, $_POST['number']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $pass = md5($_POST['password']);
-    $cPass = md5($_POST['cpassword']);
+        $select = "SELECT * FROM users WHERE email = '$email' and password = '$pass' ";
+        $result = mysqli_query($conn, $select);
 
-    $select = "SELECT * FROM users WHERE email = '$email', && password = '$pass' ";
 
-    $result = mysqli_query($conn, $select);
-
-    if(mysqli_num_rows($result) > 0 ){
-        $error = 'User Already Exist!';
-    }
-    else{
-        if($pass != $cPass){
-            $error = "Password Not Matched";
+        if(mysqli_num_rows($result) > 0){
+            $error[] = 'User Already Exist!';
+        }else{
+            if($pass != $cpass){
+                $error[] = 'Password Not Matched';
+            }else{
+                $insert = "INSERT INTO users(name, email, number, password, type)VALUES('$name', '$email', '$number', '$pass', '$type')";
+                mysqli_query($conn, $insert);
+                header('Location: login.php');
+            }
         }
-        else{
-            $insert = "INSERT INTO users(name, email, number, password, type)VALUES('$name', '$email', '$number', '$pass' '$type')";
-            mysqli_query($conn, $insert);
-            header('location:login.php');
-        }
+
+
     }
-
-
-}
 
 ?>
 
@@ -126,11 +122,11 @@ if(isset($_POST['registerBtn'])){
         </div>
         <form id="form_data" method="POST" action=""  enctype="multipart/form-data">
             <?php
-                if(isset($error)){
-                    foreach($error as $error){
-                        echo '<span class= "error-msg">'.$error.'</span>';
-                    }
+            if (!empty($error)) {
+                foreach ($error as $error) {
+                    echo '<span class="error-msg">' . $error . '</span>';
                 }
+            }
             ?>
             <div class="flex justify-center">
                 <img class="w-36 mb-5" src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt="">
