@@ -1,38 +1,43 @@
 <?php
-@include 'Includs/db.php'; 
+@include './Includs/db.php'; 
 
-    if(isset($_POST['registerBtn'])){
-        $firstName = mysqli_real_escape_string($conn, $_POST['firstName']);
-        $lastName = mysqli_real_escape_string($conn, $_POST['secondName']);
+if (isset($_POST['registerBtn'])) {
+    // Capture form data
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['secondName'];  // Correct the field name
+    $name = $firstName . ' ' . $lastName;
+    $type = $_POST['type'];
+    $email = $_POST['email'];
+    $number = $_POST['number'];
+    $pass = $_POST['password'];
+    $cPass = $_POST['cpassword'];
 
-        $name =  $firstName . ' ' . $lastName;
-        $type = $_POST['type'];
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
-        $number = mysqli_real_escape_string($conn, $_POST['number']);
-        $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $cPass = $_POST['cpassword'];
-
-
-        $select = "SELECT * FROM users WHERE email = '$email' and password = '$pass' ";
+    // Check if passwords match
+    if ($pass != $cPass) {
+        $error[] = "Passwords do not match.";
+    } else {
+        // Check if email already exists in the database
+        $select = "SELECT * FROM users WHERE email = '$email'";
         $result = mysqli_query($conn, $select);
 
+        if (mysqli_num_rows($result) > 0) {
+            $error[] = "Email already registered.";
+        } else {
+            // Insert user data into database
+            $insert = "INSERT INTO users (name,number, email, password, type) 
+                       VALUES ('$name','$number', '$email', '$pass', '$type')";
 
-        if(mysqli_num_rows($result) > 0){
-            $error[] = 'User Already Exist!';
-        }else{
-            if($pass != $cpass){
-                $error[] = 'Password Not Matched';
-            }else{
-                $insert = "INSERT INTO users(name, email, number, password, type)VALUES('$name', '$email', '$number', '$pass', '$type')";
-                mysqli_query($conn, $insert);
-                header('Location: login.php');
+            if (mysqli_query($conn, $insert)) {
+                header('Location:login.php');
+            } else {
+                echo "Error: " . mysqli_error($conn);
             }
         }
-
-
     }
-
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -121,13 +126,7 @@
             <a class="text-black" href="index.php"> To Home Page</a>
         </div>
         <form id="form_data" method="POST" action=""  enctype="multipart/form-data">
-            <?php
-            if (!empty($error)) {
-                foreach ($error as $error) {
-                    echo '<span class="error-msg">' . $error . '</span>';
-                }
-            }
-            ?>
+           
             <div class="flex justify-center">
                 <img class="w-36 mb-5" src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt="">
             </div>
@@ -148,12 +147,12 @@
                 <!-- <input type="text" name="dateOfBirth" id="dateOfBirth" placeholder="Date Of Birth" onfocus="(this.type='date')" onblur="(this.type='text')"> -->
                 <select name="type" id="type">
                     <option value="Admin">Admin</option>
-                    <option value="User">User</option>
+                    <option value="users">User</option>
                 </select>
                 <select name="gender" id="gender">
-                    <option value="Gander">Gander</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option value="gander">Gander</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
                 </select>
             </div>
             <!-- Number & Email -->
@@ -165,7 +164,7 @@
             <div id="input_label">
                 <input class="" type="password" name="password" id="password" placeholder="Password"><br>
                 <input class="" type="password" name="cpassword" id="password" placeholder="Confirm Password"><br>
-                <button id="register_btn" name="registerBtn" class="font-semibold"><a href="#">Register</a></button>
+                <button id="register_btn" name="registerBtn" class="font-semibold">Register</button>
             </div>
         </form>
     </section>
