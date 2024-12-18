@@ -1,7 +1,35 @@
 <?php
-    require('Includs/db.php');
-    
-    
+@include './Includs/db.php'; 
+
+session_start();
+
+if (isset($_POST['loginBtn'])) {
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $pass = mysqli_real_escape_string($conn, $_POST['password']);
+
+    $select = "SELECT * FROM users WHERE email = '$email'";
+    $result = mysqli_query($conn, $select);
+
+    if(mysqli_num_rows($result) > 0){
+        $row = mysqli_fetch_assoc($result);
+
+        if (password_verify($pass, $row['password'])) { // Verify hashed password
+            if ($row['type'] == 'admin') {
+                $_SESSION['admin_name'] = $row['name'];
+                header('Location:AdminPanle/dashboard.php'); // Admin Dashboard
+                exit;
+            } elseif ($row['type'] == 'user') {
+                $_SESSION['user_name'] = $row['name'];
+                header('Location:AdminPanle/user_dashboard.php'); // User Dashboard
+                exit;
+            }
+        } else {
+            $error[] = 'Incorrect Password!';
+        }
+    } else {
+        $error[] = 'Email not found!';
+    }
+}
 ?>
 
 
@@ -84,8 +112,8 @@
             <div id="input_label">
                 <input class="" type="text" name="email" id="email" placeholder="Email Address Or Mobile Number"><br>
                 <input class="" type="password" name="password" id="password" placeholder="Enter Your Password"><br>
-                <a class="flex justify-end pt-1 text-[14px] text-[#e39752]" href="#">Forgot Your Password?</a><br>
-                <button id="login_btn" name="loginBtn" class="font-semibold"><a href="#">Login</a></button>
+                <a class="flex justify-end pt-1 text-[14px] text-[#e39752]" href="">Forgot Your Password?</a><br>
+                <button id="login_btn" name="loginBtn" class="font-semibold">Login</button>
             </div>
         </form>
     </section>
