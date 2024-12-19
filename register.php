@@ -1,6 +1,85 @@
 <?php
 @include './Includs/db.php'; 
 
+// $errors = []; // Initialize an array to store errors
+
+// if (isset($_POST['registerBtn'])) {
+//     $firstName = trim($_POST['firstName']);
+//     $lastName = trim($_POST['secondName']);
+//     $type = $_POST['type'];
+//     $email = trim($_POST['email']);
+//     $number = trim($_POST['number']);
+//     $pass = $_POST['password'];
+//     $cPass = $_POST['cpassword'];
+//     $uploadDir = 'uploads/images/'; 
+//     $fileName = $_FILES['profilePhoto']['name'] ?? '';
+//     $fileTmpName = $_FILES['profilePhoto']['tmp_name'] ?? '';
+//     $fileError = $_FILES['profilePhoto']['error'] ?? '';
+
+
+
+//     // Validate required fields
+//     if (empty($firstName)) $errors['firstName'] = "First Name is required.";
+//     if (empty($lastName)) $errors['secondName'] = "Last Name is required.";
+//     if (empty($type)) $errors['type'] = "Type is required.";
+//     if (empty($gender)) $errors['gender'] = "gender is required.";
+//     if (empty($email)) $errors['email'] = "Email is required.";
+//     if (empty($number)) $errors['number'] = "Mobile Number is required.";
+//     if (empty($pass)) $errors['password'] = "Password is required.";
+//     if ($pass !== $cPass) $errors['cpassword'] = "Passwords do not match.";
+
+
+//     // Validate and upload the file
+
+
+//         // Continue only if the directory exists
+//         if (empty($errors['profilePhoto'])) {
+//             if ($fileError === UPLOAD_ERR_NO_FILE) {
+//                // $errors['profilePhoto'] = "Profile photo is required.";
+//             } elseif ($fileError !== UPLOAD_ERR_OK) {
+//                 $errors['profilePhoto'] = "An error occurred during file upload.";
+//             } else {
+//                 $allowedExtensions = ['jpg', 'jpeg', 'png'];
+//                 $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+
+//                 if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
+//                     $errors['profilePhoto'] = "Only JPG, JPEG, and PNG files are allowed.";
+//                 } else {
+//                     $uniqueFileName = uniqid() . '.' . $fileExtension;
+//                     $targetFile = $uploadDir . $uniqueFileName;
+//                 }
+//             }
+//         }
+
+//         // Debugging output if an error occurs
+//         if (!empty($errors['profilePhoto'])) {
+//             echo "Error: " . $errors['profilePhoto'];
+//         }
+
+
+
+//     if (empty($errors)) {
+//         $select = "SELECT * FROM users WHERE email = '$email'";
+//         $result = mysqli_query($conn, $select);
+
+//         if (mysqli_num_rows($result) > 0) {
+//             $errors['email'] = "Email already registered.";
+//         } else {
+//             $name = $firstName . ' ' . $lastName;
+//             $insert = "INSERT INTO users (name, number, email, password, type) 
+//                        VALUES ('$name', '$number', '$email', '$pass', '$type')";
+
+//             if (mysqli_query($conn, $insert)) {
+//                 header('Location: login.php');
+//                 exit;
+//             } else {
+//                 $errors['general'] = "Error: " . mysqli_error($conn);
+//             }
+//         }
+//     }
+// }
+
+
 $errors = []; // Initialize an array to store errors
 
 if (isset($_POST['registerBtn'])) {
@@ -16,58 +95,52 @@ if (isset($_POST['registerBtn'])) {
     $fileTmpName = $_FILES['profilePhoto']['tmp_name'] ?? '';
     $fileError = $_FILES['profilePhoto']['error'] ?? '';
 
-
-
     // Validate required fields
     if (empty($firstName)) $errors['firstName'] = "First Name is required.";
     if (empty($lastName)) $errors['secondName'] = "Last Name is required.";
     if (empty($type)) $errors['type'] = "Type is required.";
-    if (empty($gender)) $errors['gender'] = "gender is required.";
     if (empty($email)) $errors['email'] = "Email is required.";
     if (empty($number)) $errors['number'] = "Mobile Number is required.";
     if (empty($pass)) $errors['password'] = "Password is required.";
     if ($pass !== $cPass) $errors['cpassword'] = "Passwords do not match.";
 
+    // Validate and upload the file if any
+    if (empty($errors['profilePhoto'])) {
+        if ($fileError === UPLOAD_ERR_NO_FILE) {
+            // Optionally, handle when no file is uploaded
+        } elseif ($fileError !== UPLOAD_ERR_OK) {
+            $errors['profilePhoto'] = "An error occurred during file upload.";
+        } else {
+            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
 
-    // Validate and upload the file
-
-
-        // Continue only if the directory exists
-        if (empty($errors['profilePhoto'])) {
-            if ($fileError === UPLOAD_ERR_NO_FILE) {
-               // $errors['profilePhoto'] = "Profile photo is required.";
-            } elseif ($fileError !== UPLOAD_ERR_OK) {
-                $errors['profilePhoto'] = "An error occurred during file upload.";
+            if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
+                $errors['profilePhoto'] = "Only JPG, JPEG, and PNG files are allowed.";
             } else {
-                $allowedExtensions = ['jpg', 'jpeg', 'png'];
-                $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-
-                if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
-                    $errors['profilePhoto'] = "Only JPG, JPEG, and PNG files are allowed.";
-                } else {
-                    $uniqueFileName = uniqid() . '.' . $fileExtension;
-                    $targetFile = $uploadDir . $uniqueFileName;
-                }
+                $uniqueFileName = uniqid() . '.' . $fileExtension;
+                $targetFile = $uploadDir . $uniqueFileName;
+                // Move file to upload directory
+                move_uploaded_file($fileTmpName, $targetFile);
             }
         }
+    }
 
-        // Debugging output if an error occurs
-        if (!empty($errors['profilePhoto'])) {
-            echo "Error: " . $errors['profilePhoto'];
-        }
-
-
-
+    // Check if there are any errors
     if (empty($errors)) {
+        // Check if email already exists
         $select = "SELECT * FROM users WHERE email = '$email'";
         $result = mysqli_query($conn, $select);
 
         if (mysqli_num_rows($result) > 0) {
             $errors['email'] = "Email already registered.";
         } else {
+            // Hash password before saving to the database
+            $hashedPassword = password_hash($pass, PASSWORD_DEFAULT);
             $name = $firstName . ' ' . $lastName;
+
+            // Insert new user into the database
             $insert = "INSERT INTO users (name, number, email, password, type) 
-                       VALUES ('$name', '$number', '$email', '$pass', '$type')";
+                       VALUES ('$name', '$number', '$email', '$hashedPassword', '$type')";
 
             if (mysqli_query($conn, $insert)) {
                 header('Location: login.php');
@@ -78,6 +151,8 @@ if (isset($_POST['registerBtn'])) {
         }
     }
 }
+
+
 ?>
 
 

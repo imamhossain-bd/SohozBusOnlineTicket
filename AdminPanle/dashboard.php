@@ -1,5 +1,18 @@
 <?php
-    include("Includs/auth_session.php");
+@include './Includs/db.php'; 
+
+    session_start();
+
+    // Ensure user is authenticated
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: login.php');
+        exit();
+    }
+    
+    // Assuming user data is stored in $_SESSION['user_id']
+    echo "<h1>Welcome to your dashboard, User {$_SESSION['user_id']}!</h1>";
+    echo "<p>This is your personal space where you can view your activities, update details, etc.</p>";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
