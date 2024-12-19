@@ -110,8 +110,8 @@ if (isset($_POST['loginBtn'])) {
                 <a class="text-sm" href="register.php">Register Now</a>
             </div>
             <div id="input_label">
-                <input class="" type="text" name="email" id="email" placeholder="Email Address Or Mobile Number"><br>
-                <input class="" type="password" name="password" id="password" placeholder="Enter Your Password"><br>
+                <input class="" type="text" name="email" id="email" placeholder="Email Address Or Mobile Number" require><br>
+                <input class="" type="password" name="password" id="password" placeholder="Enter Your Password" require><br>
                 <a class="flex justify-end pt-1 text-[14px] text-[#e39752]" href="">Forgot Your Password?</a><br>
                 <button id="login_btn" name="loginBtn" class="font-semibold">Login</button>
             </div>

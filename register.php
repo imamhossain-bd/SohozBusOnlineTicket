@@ -1,41 +1,85 @@
 <?php
 @include './Includs/db.php'; 
 
+$errors = []; // Initialize an array to store errors
+
 if (isset($_POST['registerBtn'])) {
-    // Capture form data
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['secondName'];  // Correct the field name
-    $name = $firstName . ' ' . $lastName;
+    $firstName = trim($_POST['firstName']);
+    $lastName = trim($_POST['secondName']);
     $type = $_POST['type'];
-    $email = $_POST['email'];
-    $number = $_POST['number'];
+    $email = trim($_POST['email']);
+    $number = trim($_POST['number']);
     $pass = $_POST['password'];
     $cPass = $_POST['cpassword'];
+    $uploadDir = 'uploads/images/'; 
+    $fileName = $_FILES['profilePhoto']['name'] ?? '';
+    $fileTmpName = $_FILES['profilePhoto']['tmp_name'] ?? '';
+    $fileError = $_FILES['profilePhoto']['error'] ?? '';
 
-    // Check if passwords match
-    if ($pass != $cPass) {
-        $error[] = "Passwords do not match.";
-    } else {
-        // Check if email already exists in the database
+
+
+    // Validate required fields
+    if (empty($firstName)) $errors['firstName'] = "First Name is required.";
+    if (empty($lastName)) $errors['secondName'] = "Last Name is required.";
+    if (empty($type)) $errors['type'] = "Type is required.";
+    if (empty($gender)) $errors['gender'] = "gender is required.";
+    if (empty($email)) $errors['email'] = "Email is required.";
+    if (empty($number)) $errors['number'] = "Mobile Number is required.";
+    if (empty($pass)) $errors['password'] = "Password is required.";
+    if ($pass !== $cPass) $errors['cpassword'] = "Passwords do not match.";
+
+
+    // Validate and upload the file
+
+
+        // Continue only if the directory exists
+        if (empty($errors['profilePhoto'])) {
+            if ($fileError === UPLOAD_ERR_NO_FILE) {
+               // $errors['profilePhoto'] = "Profile photo is required.";
+            } elseif ($fileError !== UPLOAD_ERR_OK) {
+                $errors['profilePhoto'] = "An error occurred during file upload.";
+            } else {
+                $allowedExtensions = ['jpg', 'jpeg', 'png'];
+                $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+
+                if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
+                    $errors['profilePhoto'] = "Only JPG, JPEG, and PNG files are allowed.";
+                } else {
+                    $uniqueFileName = uniqid() . '.' . $fileExtension;
+                    $targetFile = $uploadDir . $uniqueFileName;
+                }
+            }
+        }
+
+        // Debugging output if an error occurs
+        if (!empty($errors['profilePhoto'])) {
+            echo "Error: " . $errors['profilePhoto'];
+        }
+
+
+
+    if (empty($errors)) {
         $select = "SELECT * FROM users WHERE email = '$email'";
         $result = mysqli_query($conn, $select);
 
         if (mysqli_num_rows($result) > 0) {
-            $error[] = "Email already registered.";
+            $errors['email'] = "Email already registered.";
         } else {
-            // Insert user data into database
-            $insert = "INSERT INTO users (name,number, email, password, type) 
-                       VALUES ('$name','$number', '$email', '$pass', '$type')";
+            $name = $firstName . ' ' . $lastName;
+            $insert = "INSERT INTO users (name, number, email, password, type) 
+                       VALUES ('$name', '$number', '$email', '$pass', '$type')";
 
             if (mysqli_query($conn, $insert)) {
-                header('Location:login.php');
+                header('Location: login.php');
+                exit;
             } else {
-                echo "Error: " . mysqli_error($conn);
+                $errors['general'] = "Error: " . mysqli_error($conn);
             }
         }
     }
 }
 ?>
+
 
 
 
@@ -57,7 +101,7 @@ if (isset($_POST['registerBtn'])) {
         }
         
         body {
-            height: 110vh;
+            height: 125vh;
             padding: 0 10px;
             background: #f4f4f4;
             padding-top: 2%;
@@ -103,7 +147,7 @@ if (isset($_POST['registerBtn'])) {
             font-size: 13px;
             border-radius: 15px;
             margin-top: 10px;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
             background-color: #e8f0fe;
         }
         #register_btn{
@@ -114,6 +158,30 @@ if (isset($_POST['registerBtn'])) {
             border-radius: 15px;
             font-size: 18px;
             text-align: center;
+            margin-top: 6px;
+        }
+        
+        .upload-btn {
+            display: inline-block;
+            background-color: #e8f0fe; /* Red color */
+            color: gray;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 13px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            width: 100%;
+            
+        }
+
+        .upload-btn input {
+            display: none;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            font-size: 14px;
         }
         
     </style>
@@ -137,36 +205,85 @@ if (isset($_POST['registerBtn'])) {
                 <a class="text-sm" href="">Already, have an account?</a>
                 <a class="text-sm" href="login.php">Login</a>
             </div>
-            <!-- Name -->
-            <div id="nameInput" class="flex items-center gap-2">
-                <input class="" type="text" name="firstName" id="name" placeholder="First Name">
-                <input class="" type="text" name="secondName" id="name" placeholder="Last Name">
-            </div>
-            <!-- Date Of Birth -->
-            <div id="nameInput" class="flex items-center gap-2">
-                <!-- <input type="text" name="dateOfBirth" id="dateOfBirth" placeholder="Date Of Birth" onfocus="(this.type='date')" onblur="(this.type='text')"> -->
-                <select name="type" id="type">
-                    <option value="Admin">Admin</option>
-                    <option value="users">User</option>
-                </select>
-                <select name="gender" id="gender">
-                    <option value="gander">Gander</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-            </div>
-            <!-- Number & Email -->
-            <div id="nameInput" class="flex items-center gap-2">
-                <input class="" type="number" name="number" id="number" placeholder="Mobile Number">
-                <input class="" type="email" name="email" id="email" placeholder="Email Address">
-            </div>
-            <!-- Password & Submit Button -->
-            <div id="input_label">
-                <input class="" type="password" name="password" id="password" placeholder="Password"><br>
-                <input class="" type="password" name="cpassword" id="password" placeholder="Confirm Password"><br>
-                <button id="register_btn" name="registerBtn" class="font-semibold">Register</button>
-            </div>
+                <!-- Name -->
+                <div id="nameInput" class = "flex gap-5">
+                    <div>
+                        <input type="text" name="firstName" id="name" placeholder="First Name" value="<?= isset($firstName) ? htmlspecialchars($firstName) : '' ?>">
+                        <small class="text-red-500"><?= $errors['firstName'] ?? '' ?></small>
+                    </div>
+                    <div>
+                        <input type="text" name="secondName" id="name" placeholder="Last Name" value="<?= isset($lastName) ? htmlspecialchars($lastName) : '' ?>">
+                        <small class="text-red-500"><?= $errors['secondName'] ?? '' ?></small>
+                    </div>
+                </div>
+                <!-- User Type -->
+                <div id="nameInput" class = "grid grid-cols-2 gap-5">
+                    <div id="nameInput">
+                        <select name="gender" id="gender" class='w-full'>
+                            <option value="gander" >Gender</option>
+                            <option value="male" >Male</option>
+                            <option value="female" >Female</option>
+                        </select>
+                        <small class="text-red-500"><?= $errors['gender'] ?? '' ?></small>
+                    </div>
+                    <div>
+                        <select name="type" id="type">
+                            <option value="">Select Type</option>
+                            <option value="Admin" <?= isset($type) && $type === 'Admin' ? 'selected' : '' ?>>Admin</option>
+                            <option value="users" <?= isset($type) && $type === 'users' ? 'selected' : '' ?>>User</option>
+                        </select>
+                        <small class="text-red-500"><?= $errors['type'] ?? '' ?></small>
+                    </div>
+                </div>
+                <!-- Email -->
+                <div id="nameInput" class="flex gap-5">
+                    <div>
+                        <input type="email" name="email" id="email" placeholder="Email Address" value="<?= isset($email) ? htmlspecialchars($email) : '' ?>">
+                        <small class="text-red-500"><?= $errors['email'] ?? '' ?></small>
+                    </div>
+                    <div>
+                        <input type="number" name="number" id="number" placeholder="Mobile Number" value="<?= isset($number) ? htmlspecialchars($number) : '' ?>">
+                        <small class="text-red-500"><?= $errors['number'] ?? '' ?></small>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div id="input_label" class= 'grid grid-cols-2 gap-5'>
+                    <div>
+                        <input type="password" name="password" id="password" placeholder="Password">
+                        <small class="text-red-500"><?= $errors['password'] ?? '' ?></small>
+                    </div>
+                    <div>
+                        <input type="password" name="cpassword" id="cpassword" placeholder="Confirm Password">
+                        <small class="text-red-500"><?= $errors['cpassword'] ?? '' ?></small>
+                    </div>
+                </div>
+                <!-- Profile Photo -->
+                <div class="w-full mb-4">
+                    <label class="upload-btn">
+                    Click to upload
+                    <input type="file" name="profilePhoto" accept=".jpg, .jpeg, .png" id="fileInput" onchange="showFileName()">
+                </label>
+                <div class="file-name mt-5 px-3 py-3 text-[gray] rounded-xl bg-[#e8f0fe]" id="fileName">No file chosen</div>
+                    <small class="text-red-500"><?= $errors['profilePhoto'] ?? '' ?></small>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button id="register_btn" name="registerBtn" class="font-semibold">Register</button>
+                </div>
         </form>
     </section>
+
+
+
+
+    <script>
+        function showFileName() {
+            const input = document.getElementById('fileInput');
+            const fileName = document.getElementById('fileName');
+            fileName.textContent = input.files[0] ? input.files[0].name : "No file chosen";
+        }
+    </script>
 </body>
 </html>
