@@ -1,17 +1,8 @@
 <?php
-@include './Includs/db.php'; 
+session_start();
 
-    session_start();
-
-    // Ensure user is authenticated
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: login.php');
-        exit();
-    }
-    
-    // Assuming user data is stored in $_SESSION['user_id']
-    echo "<h1>Welcome to your dashboard, User {$_SESSION['user_id']}!</h1>";
-    echo "<p>This is your personal space where you can view your activities, update details, etc.</p>";
+@include('./Includes/db.php'); 
+@include('./Includes/auth_session.php');
 
 ?>
 <!DOCTYPE html>
@@ -29,7 +20,7 @@
     <div class="form">
         <p>Hey, <?php echo $_SESSION['email']; ?>!</p>
         <p>You are now user dashboard page.</p>
-        <p><a href="logout.php">Logout</a></p>
+        <p><a href="../logout.php">Logout</a></p>
     </div>
     </section>
 </body>
