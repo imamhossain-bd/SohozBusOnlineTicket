@@ -24,7 +24,11 @@
                             <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-train-subway"></i> Train</a></li>
                             <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-ship"></i> Launch</a></li>
                             <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-regular fa-calendar"></i> Event</a></li>
-                            <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-brands fa-slack"></i> Park</a></li>
+                            <div class="cursor-pointer">
+                                <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-brands fa-slack"></i> Park</a></li>
+                                <span class="text-[10px] bg-red-600 text-white font-semibold py-[1px] px-1 rounded absolute top-[16px] ml-16 uppercase">Beta</span>
+                            </div>
+                            
                         </ul>
                     </div>
                     <div class="flex items-center gap-5">
