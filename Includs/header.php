@@ -15,7 +15,7 @@
             <nav class="bg-white h-[75px] w-full">
                 <div class="px-40 flex justify-between items-center gap-5 pt-5">
                     <div class="w-28">
-                        <a href="main.php"><img src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt=""></a>
+                        <a href="../main.php"><img src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt=""></a>
                     </div>
                     <div>
                         <ul class="flex gap-5">
