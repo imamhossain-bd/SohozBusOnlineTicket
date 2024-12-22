@@ -12,8 +12,7 @@
     <?php require_once("Includs/header.php")?>    
     <?php require_once("Pages/busTicket.php")?>
     
+
     
-
-
 </body>
 </html>
