@@ -15,11 +15,11 @@
             <nav class="bg-white h-[75px] w-full">
                 <div class="px-40 flex justify-between items-center gap-5 pt-5">
                     <div class="w-28">
-                        <a href="../main.php"><img src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt=""></a>
+                        <a href=""><img src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt=""></a>
                     </div>
                     <div>
                         <ul class="flex gap-5">
-                            <li class=" px-4 py-1 text-base font-semibold border-2 border-green-700 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="./Pages/busTicket.php"><i class="fa-solid fa-bus"></i> BUS</a></li>
+                            <li class=" px-4 py-1 text-base font-semibold border-2 border-green-700 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href=""><i class="fa-solid fa-bus"></i> BUS</a></li>
                             <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href=""><i class="fa-solid fa-jet-fighter-up"></i> Air</a></li>
                             <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-train-subway"></i> Train</a></li>
                             <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-solid fa-ship"></i> Launch</a></li>
