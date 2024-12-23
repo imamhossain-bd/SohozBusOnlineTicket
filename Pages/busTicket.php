@@ -71,7 +71,7 @@
                                 <div class="h-[54px] rounded-lg w-[50%]">
                                     <label for="fromcity">
                                         <p class="text-[#079d49] text-[11px] mt-1"></p>
-                                        <button class="text-orange-500 text-[10px] mt-4 font-medium">+ ADD RETURN TRIP</button>
+                                        <button class="text-orange-500 text-[10px] ml-5 mt-4 font-medium">+ ADD RETURN TRIP</button>
                                     </label>
                                 </div>
                             </div>
@@ -193,7 +193,7 @@
      </section>
      <!-- Shohoz with our mobile app -->
       <section class="h-[300px] w-full ">
-            <div class="flex gap-10 px-28 mt-8">
+            <div class="flex gap-10 mt px-28 mt-8">
                 <div>
                     <img src="https://i.ibb.co.com/4VDBBv8/app-illustrator.png" alt="" class="w-[90%] h-[95%]">
                 </div>
@@ -248,7 +248,7 @@
             const calendarDaysContainer = datepicker.daysContainer;
 
             // Styling the main container
-            calendarContainer.className = `${calendarContainer.className} bg-white p-4 ml-[-15px] -mt-14 border border-gray-200 rounded-lg shadow-lg font-sans text-sm font-normal text-gray-700 `; 
+            calendarContainer.className = `${calendarContainer.className} bg-white p-4 ml-[-15px] mt-[-47px]  border border-gray-200 rounded-lg shadow-lg font-sans text-sm font-normal text-gray-700 `; 
 
             // Styling the navigation bar
             calendarMonthNav.className = `${calendarMonthNav.className} flex items-center </hr> mt-2 justify-between mb-4 text-[#079d49] font-bold`;
