@@ -57,16 +57,12 @@
                         <div class="border-2 rounded-lg cursor-pointer border-gray-300 w-full h-14">
                             <div class="flex px-2">
                                 <div class="h-[54px] rounded-lg w-[50%]">
-                                    <!-- <label for="fromcity" class="">
-                                        <p class="text-[#079d49] text-[11px] mt-1">Journey Date</p>
-                                        <input type="text" name="PickDate" id="date-picker" placeholder="Pick a date" 
-                                            class="text-[15px] font-bold text-left text-[#333] outline-none border-0 bg-transparent cursor-pointer max-w-[100%]">
-                                    </label> -->
-                                    <label for="fromcity">
+                                    <label for="fromcity" class="">
                                         <p class="text-[#079d49] text-[11px] mt-1">Journey Date</p>
                                         <input type="text" name="PickDate" id="date-picker" placeholder="Pick a date" 
                                             class="text-[15px] font-bold text-left text-[#333] outline-none border-0 bg-transparent cursor-pointer max-w-[100%]">
                                     </label>
+                                    
                                 </div>
                                 <div class="h-[54px] rounded-lg w-[50%]">
                                     <label for="fromcity">
@@ -77,7 +73,7 @@
                             </div>
                         </div>
                         <div>
-                            <button href="" class="px-5 py-4 rounded-lg text-white font-semibold bg-[#0dac53] ">SEARCH</button>
+                            <button id="findLocation" href="" class="px-5 py-4 rounded-lg text-white font-semibold bg-[#0dac53] ">SEARCH</button>
                         </div>
                     </div>
                 </form>
@@ -235,43 +231,119 @@
 
 
       <script>
-             const datepicker = flatpickr("#date-picker", {
-                dateFormat: "F j, Y",
-                defaultDate: new Date(),
-            });
+             const datepicker = flatpickr("#date-picker")
+            //   {
+            //     dateFormat: "F j, Y",
+            //     defaultDate: new Date(),
+            // });
 
             // Apply custom styling to the date picker elements
-            const calendarContainer = datepicker.calendarContainer;
-            const calendarMonthNav = datepicker.monthNav;
-            const calendarNextMonthNav = datepicker.nextMonthNav;
-            const calendarPrevMonthNav = datepicker.prevMonthNav;
-            const calendarDaysContainer = datepicker.daysContainer;
+            //const calendarContainer = datepicker.calendarContainer;
+            // const calendarMonthNav = datepicker.monthNav;
+            // const calendarNextMonthNav = datepicker.nextMonthNav;
+            // const calendarPrevMonthNav = datepicker.prevMonthNav;
+            // const calendarDaysContainer = datepicker.daysContainer;
 
-            // Styling the main container
-            calendarContainer.className = `${calendarContainer.className} bg-white p-4 ml-[-15px] mt-[-47px]  border border-gray-200 rounded-lg shadow-lg font-sans text-sm font-normal text-gray-700 `; 
+            // // Styling the main container
+            //calendarContainer.className = `${calendarContainer.className} bg-[#5a6f6b] p-4 ml-[-15px] mt-[-47px]  border border-gray-200 rounded-lg shadow-lg font-sans text-sm font-normal text-gray-700 `; 
 
-            // Styling the navigation bar
-            calendarMonthNav.className = `${calendarMonthNav.className} flex items-center </hr> mt-2 justify-between mb-4 text-[#079d49] font-bold`;
+            // // Styling the navigation bar
+            // calendarMonthNav.className = `${calendarMonthNav.className} flex items-center </hr> mt-2 justify-between mb-4 text-[#079d49] font-bold`;
 
-            // Styling the next month navigation button
-            calendarNextMonthNav.className = `${calendarNextMonthNav.className} h-8 w-9 bg-[#079d49] mr-[10px] mt-2 flex items-center justify-center text-white rounded-full hover:bg-green-600 transition-colors duration-300`;
+            // // Styling the next month navigation button
+            // calendarNextMonthNav.className = `${calendarNextMonthNav.className} h-8 w-9 bg-[#079d49] mr-[10px] mt-2 flex items-center justify-center text-white rounded-full hover:bg-green-600 transition-colors duration-300`;
 
-            // Styling the previous month navigation button
-            calendarPrevMonthNav.className = `${calendarPrevMonthNav.className} h-8 w-9 bg-gray-200 ml-[10px] mt-2 flex items-center justify-center text-gray-700 rounded-full hover:bg-gray-300 transition-colors duration-300`;
+            // // Styling the previous month navigation button
+            // calendarPrevMonthNav.className = `${calendarPrevMonthNav.className} h-8 w-9 bg-gray-200 ml-[10px] mt-2 flex items-center justify-center text-gray-700 rounded-full hover:bg-gray-300 transition-colors duration-300`;
 
-            // Styling the days container
+            // // Styling the days container
 
-            calendarDaysContainer.className = `${calendarDaysContainer.className} grid grid-cols-7 gap-1 text-center`;
+            // calendarDaysContainer.className = `${calendarDaysContainer.className} grid grid-cols-7 gap-1 text-center`;
 
-            // Styling individual days
-            document.querySelectorAll(".flatpickr-day").forEach(day => {
-                day.className += " py-2 rounded-md hover:bg-green-100 transition-colors duration-300";
-            });
+            // // Styling individual days
+            // document.querySelectorAll(".flatpickr-day").forEach(day => {
+            //     day.className += " py-2 rounded-md hover:bg-green-100 transition-colors duration-300";
+            // });
 
-            // Styling the selected day
-            document.querySelectorAll(".flatpickr-day.selected").forEach(selectedDay => {
-                selectedDay.className += " bg-[#079d49] text-white border-[#079d49]";
-            });
+            // // Styling the selected day
+            // document.querySelectorAll(".flatpickr-day.selected").forEach(selectedDay => {
+            //     selectedDay.className += " bg-[#079d49] text-white border-[#079d49]";
+            // });
+
+                // find The sate.....................
+
+
+                const endPoint = "https://bdapis.com/api/v1.2/districts/";
+
+                // Fetch districts from the API
+                async function fetchDistricts() {
+                try {
+                    const res = await fetch(endPoint);
+                    const data = await res.json();
+                    return data.data;
+                } catch (error) {
+                    console.error('Error fetching districts:', error);
+                    return [];
+                }
+                }
+
+                // Initialize the inputs and suggestions
+                const fromInput = document.getElementById('fromInput');
+                const fromSuggestions = document.getElementById('fromSuggestions');
+                const toInput = document.getElementById('toInput');
+                const toSuggestions = document.getElementById('toSuggestions');
+
+                let districts = [];
+
+                // Populate suggestions dynamically
+                function showSuggestions(input, suggestionsBox, query) {
+                suggestionsBox.innerHTML = ''; // Clear previous suggestions
+                suggestionsBox.classList.add('hidden');
+
+                if (query) {
+                    const filteredDistricts = districts.filter(district => 
+                    district.district.toLowerCase().includes(query.toLowerCase()) || 
+                    district.districtbn.includes(query)
+                    );
+
+                    if (filteredDistricts.length > 0) {
+                    suggestionsBox.classList.remove('hidden');
+                    filteredDistricts.forEach(district => {
+                        const li = document.createElement('li');
+                        li.textContent = `${district.district} - ${district.districtbn}`;
+                        li.className = 'px-4 py-2 hover:bg-blue-100 cursor-pointer';
+                        li.addEventListener('click', () => {
+                        input.value = `${district.district} - ${district.districtbn}`;
+                        suggestionsBox.classList.add('hidden');
+                        });
+                        suggestionsBox.appendChild(li);
+                    });
+                    }
+                }
+                }
+
+                // Add event listeners to inputs
+                [fromInput, toInput].forEach((input, index) => {
+                const suggestionsBox = index === 0 ? fromSuggestions : toSuggestions;
+
+                input.addEventListener('input', () => {
+                    const query = input.value;
+                    showSuggestions(input, suggestionsBox, query);
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!suggestionsBox.contains(e.target) && e.target !== input) {
+                    suggestionsBox.classList.add('hidden');
+                    }
+                });
+                });
+
+                // Fetch districts on page load
+                fetchDistricts().then(data => {
+                districts = data;
+                });
+
+
         </script>
 </body>
 </html>
