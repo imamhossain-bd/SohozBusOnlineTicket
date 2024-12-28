@@ -14,6 +14,6 @@
     <?php require_once("Pages/busTicket.php")?>
     
 
-    
+    <?php require_once("Includs/footer.php")?>
 </body>
 </html>

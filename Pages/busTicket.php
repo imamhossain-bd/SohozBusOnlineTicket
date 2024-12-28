@@ -265,8 +265,8 @@
             </div>
          </section>
          <!-- Questions & Answers -->
-          <section class="h-[690px] bg-[#329375] w-full">
-                <div class="flex px-24 pt-20 gap-10 flex-col md:flex-row justify-between">
+          <section class="h-[690px] bg-[#39a583] w-full">
+                <div class="flex px-24 pt-20 gap-5 flex-col md:flex-row justify-between">
                     <div class="w-full mt-5">
                         <p class="text-4xl font-bold text-left text-white">Got Questions ?</p>
                         <p class="text-2xl lg:text-4xl font-bold text-left text-white">We've Got Answers</p>
@@ -360,8 +360,6 @@
                                 </div>
                                 </div>
                             </div>
-                            
-
                         <!-- Accordion End -->
                     </div>
                 </div>
@@ -369,7 +367,7 @@
 
 
 
-
+    <?php require_once("./Includs/footer.php")?>
 
 
 
