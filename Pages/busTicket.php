@@ -40,7 +40,9 @@
                                 </div>
                             </div>
                         </label>
-                        <ul id="fromSuggestions" class="absolute z-10 bg-[#e2e2e2] shadow-xl mt-14 rounded w-[27%] hidden"></ul>
+                        <div id="fromSuggestions" class="absolute z-10 bg-[#f1f1f1] shadow-xl mt-14 rounded w-[26.5%] max-h-52 list-none overflow-y-auto hidden">
+                            <button></button>
+                        </div>
 
                         <div class="mt-[17px] cursor-pointer">
                             <svg _ngcontent-ng-c827709370="" xmlns="http://www.w3.org/2000/svg" width="18" height="23" viewBox="0 0 18 23" fill="none" class="hover:scale-110 transition-transform"><path _ngcontent-ng-c827709370="" d="M18 18.4L13.2 13.8L13.2 17.25L4.8 17.25C3.48 17.25 2.4 16.215 2.4 14.95C2.4 13.685 3.48 12.65 4.8 12.65L13.2 12.65C15.852 12.65 18 10.5915 18 8.05C18 5.5085 15.852 3.45 13.2 3.45L4.8 3.45L4.8 -5.7699e-07L1.70628e-06 4.6L4.8 9.2L4.8 5.75L13.2 5.75C14.52 5.75 15.6 6.785 15.6 8.05C15.6 9.315 14.52 10.35 13.2 10.35L4.8 10.35C2.148 10.35 1.36496e-06 12.4085 1.25386e-06 14.95C1.14277e-06 17.4915 2.148 19.55 4.8 19.55L13.2 19.55L13.2 23L18 18.4Z" fill="#0F2444"></path></svg>
@@ -57,7 +59,9 @@
                                 </div>
                             </div>
                         </label>
-                        <ul id="toSuggestions" class="absolute z-10 bg-[#e2e2e2] shadow-xl mt-14 rounded w-[27%] ml-[31%] hidden"></ul>
+                        <div id="toSuggestions" class="absolute z-10 bg-[#f1f1f1] max-h-52 overflow-y-auto list-none shadow-xl mt-14 rounded w-[26.5%] ml-[31%] hidden">
+                            <button></button>
+                        </div>
 
                         <div class="border-2 rounded-lg cursor-pointer border-gray-300 w-full h-14">
                             <div class="flex px-2">
@@ -305,14 +309,14 @@
             // });
 
             // Apply custom styling to the date picker elements
-            //const calendarContainer = datepicker.calendarContainer;
+            const calendarContainer = datepicker.calendarContainer;
             // const calendarMonthNav = datepicker.monthNav;
             // const calendarNextMonthNav = datepicker.nextMonthNav;
             // const calendarPrevMonthNav = datepicker.prevMonthNav;
             // const calendarDaysContainer = datepicker.daysContainer;
 
             // // Styling the main container
-            //calendarContainer.className = `${calendarContainer.className} bg-[#5a6f6b] p-4 ml-[-15px] mt-[-47px]  border border-gray-200 rounded-lg shadow-lg font-sans text-sm font-normal text-gray-700 `; 
+            calendarContainer.className = `${calendarContainer.className} bg-[#5a6f6b] p-4 ml-[-15px] mt-[-47px]  border border-gray-200 rounded-lg shadow-lg font-sans text-sm font-normal text-gray-700 `; 
 
             // // Styling the navigation bar
             // calendarMonthNav.className = `${calendarMonthNav.className} flex items-center </hr> mt-2 justify-between mb-4 text-[#079d49] font-bold`;
