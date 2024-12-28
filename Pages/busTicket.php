@@ -86,68 +86,6 @@
                         </div>
                     </div>
                 </form>
-                        <!-- <div>
-                            <form class="">
-                            <label for="fromInput" class="border-2 rounded-lg cursor-pointer border-gray-300 w-full h-14 flex gap-3 items-center px-4 mb-4">
-                                <div class="text-[#079d49]">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                    <path d="M13.9275 1.42945C14.2541 0.580255 13.4197 -0.254121 12.5705 0.0724892L0.673149 4.64842C-0.278128 5.01429 -0.202793 6.3845 0.782861 6.64385L5.69051 7.93537C5.87356 7.98353 6.01643 8.12647 6.06459 8.30945L7.35611 13.2171C7.61546 14.2028 8.98573 14.2782 9.35155 13.3268L13.9275 1.42945Z" fill="#079D49"/>
-                                </svg>
-                                </div>
-                                <div>
-                                <p class="text-[#079d49] text-[11px]">FROM</p>
-                                <input 
-                                    type="text" 
-                                    id="fromInput" 
-                                    placeholder="Type to search districts (From)"
-                                    class="text-[15px] font-bold text-[#333] outline-none border-0 bg-transparent w-full"
-                                />
-                                </div>
-                            </label>
-                            <ul id="fromSuggestions" class="absolute z-10 bg-white border rounded shadow-lg w-full hidden"></ul>
-
-                            <label for="toInput" class="border-2 rounded-lg cursor-pointer border-gray-300 w-full h-14 flex gap-3 items-center px-4 mb-4">
-                                <div class="text-[#079d49]">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="14" viewBox="0 0 12 14" fill="none">
-                                    <path d="M10.2426 10.414L9.42472 11.2364C8.82184 11.8379 8.03967 12.6114 7.07779 13.5569C6.47678 14.1478 5.52323 14.1477 4.92229 13.5567L2.51663 11.1776C2.21429 10.8757 1.96121 10.6212 1.75736 10.414C-0.585785 8.03165 -0.585785 4.16909 1.75736 1.78675C4.1005 -0.595584 7.89951 -0.595584 10.2426 1.78675C12.5858 4.16909 12.5858 8.03165 10.2426 10.414ZM7.72284 6.29282C7.72284 5.3254 6.95148 4.54115 6.00001 4.54115C5.04853 4.54115 4.27716 5.3254 4.27716 6.29282C4.27716 7.26021 5.04853 8.04447 6.00001 8.04447C6.95148 8.04447 7.72284 7.26021 7.72284 6.29282Z" fill="#079D49"/>
-                                </svg>
-                                </div>
-                                <div>
-                                <p class="text-[#079d49] text-[11px]">TO</p>
-                                <input 
-                                    type="text" 
-                                    id="toInput" 
-                                    placeholder="Type to search districts (To)"
-                                    class="text-[15px] font-bold text-[#333] outline-none border-0 bg-transparent w-full"
-                                />
-                                </div>
-                            </label>
-                            <ul id="toSuggestions" class="absolute z-10 bg-white border rounded shadow-lg w-full hidden"></ul>
-
-                            <div>
-                                <label class="border-2 rounded-lg cursor-pointer border-gray-300 w-full h-14 flex gap-3 items-center px-4 mb-4">
-                                    <div>
-                                    <p class="text-[#079d49] text-[11px]">Journey Date</p>
-                                    <input 
-                                        type="text" 
-                                        id="date-picker" 
-                                        placeholder="Pick a date"
-                                        class="text-[15px] font-bold text-[#333] outline-none border-0 bg-transparent w-full"
-                                    />
-                                    </div>
-                                    <div class="text-right mb-4">
-                                    <button class="text-orange-500 text-[10px] font-medium">+ ADD RETURN TRIP</button>
-                                </div>
-                                </label>
-                                
-                            </div>
-
-                            
-                                <button id="findLocation" class="w-full px-5 py-4 rounded-lg text-white font-semibold bg-[#0dac53] hover:bg-[#079d49]">
-                                    SEARCH
-                                </button> 
-                            </form>
-                        </div> -->
             </div>
         </div>
     </section>
@@ -259,8 +197,8 @@
         </div>
      </section>
      <!-- Shohoz with our mobile app -->
-      <section class="h-[300px] w-full ">
-            <div class="flex gap-10 mt px-28 mt-8">
+      <section class="h-[400px] w-full ">
+            <div class="flex gap-10 px-28 mt-8">
                 <div>
                     <img src="https://i.ibb.co.com/4VDBBv8/app-illustrator.png" alt="" class="w-[90%] h-[95%]">
                 </div>
@@ -299,6 +237,145 @@
                 
             </div>
       </section>
+        <!-- travel options -->
+         <section class="h-[500px] bg-[#ebebeb] w-full">
+            <div class="flex gap-10 px-28 ">
+                <div class="mt-24">
+                    <h2 class="text-4xl font-bold">All your <span class="text-[#218f51]">travel options</span> in one <br> place</h2>
+                    <p class="text-2xl mt-5 font-normal text-left text-primary-black">More than 1,000 trusted travel partners <br> across trains, buses, flights, and launch so that <br> you can focus on the journey.</p>
+
+                    <div class="flex flex-wrap gap-7 items-center justify-between mt-10">
+                        <div>
+                            <p class="mb-4 text-3xl font-semibold text-left text-[#218f51]">250 Million+</p>
+                            <p class="text-lg font-normal mb-4 text-left text-primary-black">Tickets Sold</p>
+                        </div>
+                        <div>
+                            <p class="mb-4 text-3xl font-semibold text-left text-[#218f51]">3000+</p>
+                            <p class="text-lg font-normal mb-4 text-left text-primary-black">Routes</p>
+                        </div>
+                        <div>
+                            <p class="mb-4 text-3xl font-semibold text-left text-[#218f51]">10 Million+</p>
+                            <p class="text-lg font-normal mb-4 text-left text-primary-black">Happy Users</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ml-32 mt-24">
+                    <img src="https://i.ibb.co.com/WvjQ5JX/travel-option.png" alt="">
+                </div>
+            </div>
+         </section>
+         <!-- Questions & Answers -->
+          <section class="h-[690px] bg-[#329375] w-full">
+                <div class="flex px-24 pt-20 gap-10 flex-col md:flex-row justify-between">
+                    <div class="w-full mt-5">
+                        <p class="text-4xl font-bold text-left text-white">Got Questions ?</p>
+                        <p class="text-2xl lg:text-4xl font-bold text-left text-white">We've Got Answers</p>
+                        <p class="text-lg font-normal text-left text-white mt-4 mb-10">We are always happy to hear from you. If you <br> have any questions, suggestions or opinions, <br> please do not hesitate to reach out to us.</p>
+                        <div>
+                            <button class="w-44 h-16 rounded-2xl bg-white flex justify-center items-center cursor-pointer"><a class="text-base font-bold text-center text-primary-black" href="">Contact Us</a></button>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Accordion Start -->
+                        <div class="">
+                            <div class="space-y-4">
+                                
+                                <div class="border-b border-gray-300">
+                                <button
+                                    class="w-full flex justify-between items-center py-4 text-left text-white font-medium bg-transparent"
+                                    onclick="toggleAccordion(this)"
+                                >
+                                    <span class="text-md md:text-2xl font-semibold text-left text-white">How can I purchase a ticket from Shohoz Platform?</span>
+                                    <span class="text-white font-bold text-xl">+</span>
+                                </button>
+                                <div class="hidden  py-2 text-gray-600 bg-transparent">
+                                    <p class="text-sm lg:text-base font-normal text-left text-white">Please visit our website <a href="https://www.shohoz.com" class="font-bold">www.shohoz.com</a> or download our mobile App. <br>
+                                    <a href="https://play.google.com/store/search?q=shohoz&c=apps" target="_blank" class="font-bold">Download App For Android</a> <br>
+                                    <a href="https://apps.apple.com/us/app/shohoz-app/id1354321445" target="_blank" class="font-bold">Download App For IOS</a> <br>
+                                    Or call our helpline number at <a href="tel:16374" class="font-bold">16374</a> for ticket purchase and for more information.
+                                </p>
+                                </div>
+                                </div>
+                                
+                                <div class="border-b border-gray-300">
+                                <button
+                                    class="w-full flex justify-between items-center py-4 text-left text-white font-medium bg-transparent"
+                                    onclick="toggleAccordion(this)"
+                                >
+                                    <span class="text-md md:text-2xl font-semibold text-left text-white">Is there any time frame to buy a ticket?</span>
+                                    <span class="text-white font-bold text-xl">+</span>
+                                </button>
+                                <div class="hidden py-2 text-gray-600">
+                                    <p class="text-white font-normal text-base">
+                                        There is no time limit to buy tickets from our website or app. But if a customer wants to purchase <br> a ticket through our helpline number, then the customer should call our  helpline number <br> <a class="font-bold" href="tel:16374">16374 </a> <b>(Operation Time- 7:00 AM to 11:59 PM)</b>.
+                                    </p>
+                                </div>
+                                </div>
+                               
+                                <div class="border-b border-gray-300">
+                                <button
+                                    class="w-full flex justify-between items-center py-4 text-left text-white font-medium bg-transparent"
+                                    onclick="toggleAccordion(this)"
+                                >
+                                    <span class="text-md md:text-2xl font-semibold text-left text-white">What is the process of Migrate or Cancelling a ticket?</span>
+                                    <span class="text-white font-bold text-xl">+</span>
+                                </button>
+                                <div class="hidden py-2 text-gray-600">
+                                    <p class="text-white ">
+                                        For cancellation and migration, customers must have 12/24 hours before trip departure time <br> depending on  the operator. For migration, customers must call our helpline number <a class="font-bold" href="tel:16374">16374 </a>. <br> Also, the  customer must call  from his ticket booking number. Also, a customer can cancel a ticket <br> from our website if he   has  enough  time from the trip departure time (12/24 hours excluding 12 AM to 7 AM).
+                                    </p>
+                                </div>
+                                </div>
+                                
+                                <div class="border-b border-gray-300">
+                                <button
+                                    class="w-full flex justify-between items-center py-4 text-left text-white font-medium bg-transparent"
+                                    onclick="toggleAccordion(this)"
+                                >
+                                    <span class="text-md md:text-2xl font-semibold text-left text-white">How can I check Shohoz's offers?</span>
+                                    <span class="text-white font-bold text-xl">+</span>
+                                </button>
+                                <div class="hidden py-2 text-gray-600">
+                                    <p class="text-white ">
+                                    Customers can check our offers on our website. Firstly, go to our website then Click 'BUS' option, <br> and then go to the 'Deals and offers' option. Customers also can call our helpline number <a class="font-bold" href="tel:16374">16374 </a> for <br> more queries  and offers.
+                                    </p>
+                                </div>
+                                </div>
+                                
+                                <div class="border-b border-gray-300">
+                                <button
+                                    class="w-full flex justify-between items-center py-4 text-left text-white font-medium bg-transparent"
+                                    onclick="toggleAccordion(this)"
+                                >
+                                    <span  class="text-md md:text-2xl font-medium text-left text-white">
+                                    After purchasing a ticket from Shohoz, I cancelled that ticket due to a personal issue or the operator
+                                    cancelled their trip. But I have not received my refund yet. What should I do now?
+                                    </span>
+                                    <span class="text-white font-bold text-xl">+</span>
+                                </button>
+                                <div class="hidden py-2 text-white">
+                                    <p>
+                                        As per our <a href="/cancellation-and-refunds">refund policy</a> , it takes maximum of 5-7 working days for Bkash and Nagad both. For <br> Internet  banking, Debit cards and Credit cards it takes maximum of 7-10 working days. If the customer did not get  the refund in mentioned timeline, please call <a class="font-bold" href="tel:16374">16374 </a> or mail us at <a href="mailto:info@shohoz.com">info@shohoz.com</a>.
+                                    </p>
+                                </div>
+                                </div>
+                            </div>
+                            
+
+                        <!-- Accordion End -->
+                    </div>
+                </div>
+          </section>
+
+
+
+
+
+
+
+
+
+
 
 
       <script>
@@ -414,6 +491,25 @@
                 fetchDistricts().then(data => {
                     districts = data;
                 });
+
+
+                // Accordion .....................
+
+                function toggleAccordion(button) {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector("span:last-child");
+
+                    if (content.classList.contains("hidden")) {
+                        content.classList.remove("hidden");
+                        content.classList.add("block", "transition-all", "duration-2s");
+                        icon.textContent = "-"; // Change "+" to "-"
+                    } else {
+                        content.classList.add("hidden");
+                        content.classList.remove("block", "transition-all", "duration-2s");
+                        icon.textContent = "+"; // Change "-" to "+"
+                    }
+                    }
+
 
 
 
