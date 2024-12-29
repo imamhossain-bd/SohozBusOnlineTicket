@@ -8,23 +8,32 @@ if (isset($_POST['loginBtn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    try {
-        // Prepare the SQL query
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email); // 's' indicates the type is string
+    // Prepare the SQL query
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
 
+    if ($stmt) {
+        // Bind the email parameter
+        $stmt->bind_param("s", $email);
+
+        // Execute the query
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $user = $result->fetch_assoc();
 
-            if ($user) { // Check if the user exists
-                // Use password_verify to match the input password with the hashed password in the database
+            if ($user) {
                 if (password_verify($password, $user['password'])) {
-                    // Set session variables and redirect to the dashboard
+                    // Set session variables
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['email'] = $user['email'];
-                    header('Location: AdminPanle/dashboard.php');
-                    exit();
+
+                    // Redirect based on user type
+                    if (strtolower($user['type']) === 'admin' ) {
+                        header('Location: AdminPanle/dashboard.php');
+                        
+                    } else {
+                        header('Location: AdminPanle/user_dashboard.php');
+                        
+                    }
                 } else {
                     // Incorrect password
                     $error_message = "Invalid password. Please try again.";
@@ -34,13 +43,16 @@ if (isset($_POST['loginBtn'])) {
                 $error_message = "No account found with this email.";
             }
         } else {
-            $error_message = "Database query failed.";
+            // Query execution failed
+            $error_message = "Failed to execute query. Please try again.";
         }
-    } catch (Exception $e) {
-        $error_message = "Error: " . $e->getMessage();
+    } else {
+        // Query preparation failed
+        $error_message = "Failed to prepare query. Please try again.";
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>

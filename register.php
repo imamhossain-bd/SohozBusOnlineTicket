@@ -1,7 +1,7 @@
 <?php
 @include './Includs/db.php'; 
 
-$errors = []; // Initialize an array to store errors
+$errors = []; 
 
 if (isset($_POST['registerBtn'])) {
     $firstName = trim($_POST['firstName']);

@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+@include('./Includes/db.php'); 
+@include('./Includes/auth_session.php');
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
