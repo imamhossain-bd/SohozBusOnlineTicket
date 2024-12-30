@@ -13,7 +13,7 @@
     <section>
         <div>
             <nav class="bg-white h-[75px] w-full">
-                <div class="fixed px-40 flex justify-between items-center gap-5 pt-5">
+                <div class="fixed bg-white w-full z-10 h-[95px] mt-[-14px] shadow-xl px-40 flex justify-between items-center gap-5 pt-5">
                     <div class="w-28">
                         <a href=""><img src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" alt=""></a>
                     </div>
@@ -26,7 +26,7 @@
                             <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-regular fa-calendar"></i> Event</a></li>
                             <div class="cursor-pointer">
                                 <li class=" px-4 py-1 text-base font-semibold border-transparent border-2 hover:border-green-700 hover:text-[#01652c] rounded-xl"><a href="#"><i class="fa-brands fa-slack"></i> Park</a></li>
-                                <span class="text-[10px] bg-red-600 text-white font-semibold py-[1px] px-1 rounded absolute top-[16px] ml-16 uppercase">Beta</span>
+                                <span class="text-[10px] bg-red-600 text-white font-semibold py-[1px] px-1 rounded absolute top-[40px] ml-14 uppercase">Beta</span>
                             </div>
                         </ul>
                     </div>
