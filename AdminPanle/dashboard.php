@@ -1,10 +1,4 @@
-<?php
-session_start();
 
-@include('./Includes/db.php'); 
-@include('./Includes/auth_session.php');
-
-?>
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -44,6 +38,11 @@ session_start();
                 </div>
             </aside>
         </div>
+        <!-- <div class="w-[20%]">
+            <?php
+                require_once("./pages/siderbar.php")
+            ?>
+        </div> -->
         
          <div class="w-[80%] ">
             <!-- Navbar Start -->
@@ -123,7 +122,7 @@ session_start();
                     </ul>
             </div>
             <!-- Navbar End -->
-            <div>
+            <div class="mainPage">
                 
             </div>
          </div>
