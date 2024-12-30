@@ -18,7 +18,6 @@ session_start();
     <section>
         <aside class="fixed inset-y-0 left-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto transition-all duration-200 -translate-x-full bg-[#f8f9fa] border-0 shadow-none xl:ml-4 dark:bg-[#f8f9fa] ease-soft-in-out z-990 max-w-64 rounded-2xl xl:translate-x-0 xl:bg-transparent ps ps--active-y">
             <div class="h-20">
-
                 <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap text-slate-700 dark:text-white" href="" target="_blank">
                 
                 <img src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" class="hidden h-full max-w-full transition-all duration-200 ease-soft-in-out  max-h-9 ml-4 dark:inline-block" alt="main_logo">
@@ -32,6 +31,9 @@ session_start();
                 <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 18px;"></div>
             </div>
         </aside> 
+        <div class="content-area relative min-h-screen flex flex-col transition-all duration-500 ease-in-out">
+            
+        </div>
     </section>
     
 </body>
