@@ -114,9 +114,6 @@
                 <a class="flex justify-end items-center gap-3 text-white text-lg font-medium mt-2 hover:underline" href="#">View More <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
-        
-        
-
     </section>
 </body>
 </html>

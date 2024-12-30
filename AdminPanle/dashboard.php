@@ -15,7 +15,7 @@
     <section>
     <div class="flex h-[100vh]">
 
-        <div class="w-[20%]">
+        <div class="w-[20%]" clicked>
             <?php require_once("./pages/siderbar.php")?>
         </div>
 
