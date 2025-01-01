@@ -28,7 +28,7 @@ if (isset($_POST['loginBtn'])) {
 
                     // Redirect based on user type
                     if (strtolower($user['type']) === 'admin' ) {
-                        header('Location: AdminPanle/dashboard.php');
+                        header('Location: AdminPanle/dashboard.php?pages=adminDash');
                         
                     } else {
                         header('Location: AdminPanle/user_dashboard.php');

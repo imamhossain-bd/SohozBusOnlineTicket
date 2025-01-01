@@ -6,45 +6,48 @@ $errors = [];
 if (isset($_POST['registerBtn'])) {
     $firstName = trim($_POST['firstName']);
     $lastName = trim($_POST['secondName']);
-    $type = $_POST['type'];
+    //$type = $_POST['type'];
     $email = trim($_POST['email']);
     $number = trim($_POST['number']);
     $pass = $_POST['password'];
     $cPass = $_POST['cpassword'];
-    $uploadDir = 'uploads/images/'; 
-    $fileName = $_FILES['profilePhoto']['name'] ?? '';
-    $fileTmpName = $_FILES['profilePhoto']['tmp_name'] ?? '';
-    $fileError = $_FILES['profilePhoto']['error'] ?? '';
+    // $uploadDir = 'uploads/images/'; 
+    // $fileName = $_FILES['profilePhoto']['name'] ?? '';
+    // $fileTmpName = $_FILES['profilePhoto']['tmp_name'] ?? '';
+    // $fileError = $_FILES['profilePhoto']['error'] ?? '';
+
+    $defaultType = 'user';
+    
 
     // Validate required fields
     if (empty($firstName)) $errors['firstName'] = "First Name is required.";
     if (empty($lastName)) $errors['secondName'] = "Last Name is required.";
-    if (empty($type)) $errors['type'] = "Type is required.";
+    //if (empty($type)) $errors['type'] = "Type is required.";
     if (empty($email)) $errors['email'] = "Email is required.";
     if (empty($number)) $errors['number'] = "Mobile Number is required.";
     if (empty($pass)) $errors['password'] = "Password is required.";
     if ($pass !== $cPass) $errors['cpassword'] = "Passwords do not match.";
 
     // Validate and upload the file if any
-    if (empty($errors['profilePhoto'])) {
-        if ($fileError === UPLOAD_ERR_NO_FILE) {
-            // Optionally, handle when no file is uploaded
-        } elseif ($fileError !== UPLOAD_ERR_OK) {
-            $errors['profilePhoto'] = "An error occurred during file upload.";
-        } else {
-            $allowedExtensions = ['jpg', 'jpeg', 'png'];
-            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+    // if (empty($errors['profilePhoto'])) {
+    //     if ($fileError === UPLOAD_ERR_NO_FILE) {
+    //         // Optionally, handle when no file is uploaded
+    //     } elseif ($fileError !== UPLOAD_ERR_OK) {
+    //         $errors['profilePhoto'] = "An error occurred during file upload.";
+    //     } else {
+    //         $allowedExtensions = ['jpg', 'jpeg', 'png'];
+    //         $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
 
-            if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
-                $errors['profilePhoto'] = "Only JPG, JPEG, and PNG files are allowed.";
-            } else {
-                $uniqueFileName = uniqid() . '.' . $fileExtension;
-                $targetFile = $uploadDir . $uniqueFileName;
-                // Move file to upload directory
-                move_uploaded_file($fileTmpName, $targetFile);
-            }
-        }
-    }
+    //         if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
+    //             $errors['profilePhoto'] = "Only JPG, JPEG, and PNG files are allowed.";
+    //         } else {
+    //             $uniqueFileName = uniqid() . '.' . $fileExtension;
+    //             $targetFile = $uploadDir . $uniqueFileName;
+    //             // Move file to upload directory
+    //             move_uploaded_file($fileTmpName, $targetFile);
+    //         }
+    //     }
+    // }
 
     // Check if there are any errors
     if (empty($errors)) {
@@ -61,7 +64,7 @@ if (isset($_POST['registerBtn'])) {
 
             // Insert new user into the database
             $insert = "INSERT INTO users (name, number, email, password, type) 
-                       VALUES ('$name', '$number', '$email', '$hashedPassword', '$type')";
+                       VALUES ('$name', '$number', '$email', '$hashedPassword', '$defaultType')";
 
             if (mysqli_query($conn, $insert)) {
                 header('Location: login.php');
@@ -222,14 +225,7 @@ if (isset($_POST['registerBtn'])) {
                         </select>
                         <small class="text-red-500"><?= $errors['gender'] ?? '' ?></small>
                     </div>
-                    <div>
-                        <select name="type" id="type">
-                            <option value="">Select Type</option>
-                            <option value="Admin" <?= isset($type) && $type === 'Admin' ? 'selected' : '' ?>>Admin</option>
-                            <option value="users" <?= isset($type) && $type === 'users' ? 'selected' : '' ?>>User</option>
-                        </select>
-                        <small class="text-red-500"><?= $errors['type'] ?? '' ?></small>
-                    </div>
+                    
                 </div>
                 <!-- Email -->
                 <div id="nameInput" class="flex gap-5">

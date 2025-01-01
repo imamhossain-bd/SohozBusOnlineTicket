@@ -63,7 +63,7 @@ $result = $conn->query("SELECT id, bus_no, bus_create FROM buses");
                 </button>
             </div>
         </div>
-    <section class="px-4 ml-[50%] w-full py-3">
+        <section class="px-4 ml-[50%] w-full py-3">
         <!-- Bus Data Table -->
         <div class="overflow-x-auto mb-6">
             <table class="min-w-full table-auto border-collapse">
@@ -102,6 +102,25 @@ $result = $conn->query("SELECT id, bus_no, bus_create FROM buses");
                 </tbody>
             </table>
         </div>
+        <!-- Add Bus Popup Form -->
+        <div id="popupForm" class="fixed inset-0 bg-gray-400 bg-opacity-50 flex justify-center items-center hidden opacity-0 transition-opacity duration-300">
+            <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-sm transform -translate-y-20 transition-transform duration-300">
+                <div class="p-5">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Add New Bus</h2>
+                    <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
+                        <div class="mb-4">
+                            <label for="addBus" class="block text-sm font-medium text-gray-700 mb-1">Bus Number</label>
+                            <input id="addBus" name="addBus" type="text" class="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+                        </div>
+                        <div class="flex justify-end gap-3">
+                            <button id="closePopup" type="button" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300">Cancel</button>
+                            <button type="submit" name="submitBtn" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Edit Bus Popup Form -->
         <div id="editPopupForm" class="fixed inset-0 bg-gray-400 bg-opacity-50 flex justify-center items-center hidden opacity-0 transition-opacity duration-300">
