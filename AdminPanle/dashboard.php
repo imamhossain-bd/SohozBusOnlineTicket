@@ -13,33 +13,31 @@
 </head>
 <body>
     <section>
-    <div class="flex h-[100vh]">
+        <div class="flex] h-[100vh]">
 
-        <div class="w-[20%]" clicked>
-            <div class="fixed">
-            <?php require_once("./pages/siderbar.php")?>
+            <div class="fixed z-50 w-[20%]">
+                <?php require_once("./pages/siderbar.php")?>
+            </div>
+
+            <div class=" ml-[20%] flex h-full">
+                <div class="z-50">
+                    <?php require_once("./pages/navbar.php")?>
+                </div>
+                <div>
+                <main class="w-full pl-5 py-5 mt-24 -z-50">
+                    <?php
+                    $page = isset($_GET['pages']) ? $_GET['pages'] : 'dashboard';
+                    $file = "./pages/{$page}.php";
+                    if (file_exists($file)) {
+                        include $file;
+                    } else {
+                        echo "<h1 class='text-2xl'>Page not found</h1>";
+                    }
+                    ?>
+                </main>
+                </div>
             </div>
         </div>
-
-        <div class="w-[80%] flex h-full">
-            <div class="z-50">
-                <?php require_once("./pages/navbar.php")?>
-            </div>
-            <div>
-            <main class="flex-1 mt-24 -z-50">
-                <?php
-                $page = isset($_GET['pages']) ? $_GET['pages'] : 'dashboard';
-                $file = "./pages/{$page}.php";
-                if (file_exists($file)) {
-                    include $file;
-                } else {
-                    echo "<h1 class='text-2xl'>Page not found</h1>";
-                }
-                ?>
-            </main>
-            </div>
-        </div>
-    </div>
     </section>
     
 </body>

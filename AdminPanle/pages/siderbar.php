@@ -14,7 +14,7 @@
 <body>
     <section>
     <div class="">
-            <aside class="fixed  w-[290px] h-full shadow-xl pt-8 bg-[#ffffff]">
+            <div class="fixed w-[20%] h-full shadow-xl pt-8 bg-[#ffffff]">
                 <div class="h-20">
                     <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap text-slate-700 dark:text-white" href="" target="_blank">
                         <img src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" class="h-full max-w-full transition-all duration-200 ease-soft-in-out max-h-9 ml-8 dark:inline-block" alt="main_logo">
@@ -35,7 +35,7 @@
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href=""><i class="fa-solid fa-circle-user w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Add New Admin</a></li>
                     </ul>
                 </div>
-            </aside>
+            </div>
         </div>
     </section>
 </body>
