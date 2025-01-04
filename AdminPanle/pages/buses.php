@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 $conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -15,8 +15,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 }
 
+if (isset($_POST['editSubmitBtn'])) {
+    // Get values from the form
+    $busId = $_POST['editBusId']; // Hidden input for bus ID
+    $updateBusNum = $_POST['editBusNum']; // Updated bus number
+
+    // Update query
+    $sql = "UPDATE buses SET bus_no = '$updateBusNum' WHERE id = '$busId'";
+
+    // Execute the query and check if it succeeded
+    if ($conn->query($sql)) {
+        echo "SuccessFul";
+    } else {
+        echo "Error: " . $conn->error;
+    }
+}
+
 $sql = "SELECT * FROM buses"; // Query to get bus details
 $result = $conn->query($sql);
+
+ob_end_flush();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,6 +74,33 @@ $result = $conn->query($sql);
             </div>
             <!-- End The Popup Form -->
 
+            <!-- Edit Popup Form Start -->
+            <div id="editFrom" class="fixed flex ml-[300px] items-center justify-center bg-opacity-20 pt-36 hidden opacity-0 transition-opacity duration-300">
+                <div class="bg-white p-6 transform -translate-y-20 transition-transform duration-300 rounded-lg shadow-xl w-[400px]">
+                    <h2 class="font-bold mb-3 mt-2">Edit Bus Number</h2>
+                    <form action="" method="POST" id="editForm">
+                        <!-- Hidden input to store bus ID -->
+                        <input type="hidden" name="editBusId" id="editBusId">
+                        
+                        <!-- Input for bus number -->
+                        <input type="text" name="editBusNum" id="editBusNum" placeholder="Bus Number Update" 
+                            class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                        <!-- Buttons -->
+                        <div class="flex justify-end gap-4">
+                            <button type="button" id="editCancelBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+                                Cancel
+                            </button>
+                            <button type="submit" id="editSubmitBtn" name="editSubmitBtn" class="px-4 py-2 bg-orange-500 text-white rounded-lg">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Edit Popup Form End -->
+
             <!-- Bus Table Display Start-->
             <div class="overflow-x-auto mt-10 ml-[50%] w-full mb-6">
                 <table class="min-w-full table-auto border-collapse">
@@ -76,9 +121,11 @@ $result = $conn->query($sql);
                                     <td class="px-4 py-2 border"><?php echo $row['bus_create']; ?></td>
                                     <td class="px-4 py-2 border text-center">
                                         <!-- Edit Button -->
-                                        <a href="#" class="text-blue-500 hover:text-blue-700" onclick="openEditPopup(<?php echo $row['id']; ?>, '<?php echo $row['bus_no']; ?>')">
+                                        <a href="#" id="editButton" class="text-blue-500 hover:text-blue-700" 
+                                        onclick="openEditPopup(<?php echo $row['id']; ?>, '<?php echo $row['bus_no']; ?>')">
                                             <i class="fas fa-edit"></i> Edit
-                                        </a> |
+                                        </a>
+                                        |
                                         <!-- Delete Button -->
                                         <a href="?delete=<?php echo $row['id']; ?>" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this bus?')">
                                             <i class="fas fa-trash"></i> Delete
@@ -104,8 +151,12 @@ $result = $conn->query($sql);
         const openModalBtn = document.getElementById('openModalBtn');
         const modal = document.getElementById('modal');
         const cancelBtn = document.getElementById('cancelBtn');
-        const content = document.getElementById('content');
+        // Edit Cancel And Submit Button
+        const editButton = document.getElementById('editButton');
+        const editPopup = document.getElementById('editFrom');
 
+        const content = document.getElementById('content');
+        
         openModalBtn.addEventListener('click', () => {
             modal.classList.remove('hidden', 'opacity-0');
             modal.classList.add('opacity-100');
@@ -120,6 +171,29 @@ $result = $conn->query($sql);
                 modal.classList.add('hidden');
             }, 300);
         })
+
+        function openEditPopup(busId, busNumber) {
+        const editPopup = document.getElementById('editFrom');
+        const editBusNumInput = document.getElementById('editBusNum');
+        const editBusIdInput = document.getElementById('editBusId');
+
+        // Populate form inputs with the current bus data
+        editBusNumInput.value = busNumber;
+        editBusIdInput.value = busId;
+
+        // Show the popup
+        editPopup.classList.remove('hidden', 'opacity-0');
+        editPopup.classList.add('opacity-100');
+    }
+
+    // Close the popup when cancel is clicked
+    document.getElementById('editCancelBtn').addEventListener('click', () => {
+        const editPopup = document.getElementById('editFrom');
+        editPopup.classList.add('hidden', 'opacity-0');
+        editPopup.classList.remove('opacity-100');
+    });
+
+        
     </script>
 </body>
 </html>

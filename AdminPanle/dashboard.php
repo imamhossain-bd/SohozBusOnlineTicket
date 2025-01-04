@@ -13,7 +13,7 @@
 </head>
 <body>
     <section>
-        <div class="flex] h-[100vh]">
+        <div class="flex h-[100vh]">
 
             <div class="fixed z-50 w-[20%]">
                 <?php require_once("./pages/siderbar.php")?>
