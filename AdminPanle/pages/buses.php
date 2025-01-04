@@ -31,6 +31,25 @@ if (isset($_POST['editSubmitBtn'])) {
     }
 }
 
+$id = $_GET['id'] ?? null;
+
+if ($id) {
+    // Sanitize the input to prevent SQL injection
+    $id = intval($id);
+
+    // Delete query
+    $sql = "DELETE FROM buses WHERE id = $id";
+
+    // Execute the query
+    if ($conn->query($sql)) {
+        // Redirect to the buses page after successful deletion
+        header("Location: buses.php");
+        exit();
+    } else {
+        echo "Error: " . $conn->error;
+    }
+}
+
 $sql = "SELECT * FROM buses"; // Query to get bus details
 $result = $conn->query($sql);
 
@@ -127,7 +146,7 @@ ob_end_flush();
                                         </a>
                                         |
                                         <!-- Delete Button -->
-                                        <a href="?delete=<?php echo $row['id']; ?>" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this bus?')">
+                                        <a href="buses.php?id=<?php echo $row['id']; ?>" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this bus?')">
                                             <i class="fas fa-trash"></i> Delete
                                         </a>
                                     </td>
