@@ -132,8 +132,8 @@ ob_end_flush();
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if ($result->num_rows > 0): ?>
-                            <?php while ($row = $result->fetch_assoc()): ?>
+                        <?php if ($result->num_rows > 0): $count = 1; ?>
+                            <?php while ($row = $result->fetch_assoc()):  $row['id']=$count++; ?>
                                 <tr>
                                     <td class="px-4 py-2 border"><?php echo $row['id']; ?></td>
                                     <td class="px-4 py-2 border"><?php echo $row['bus_no']; ?></td>
