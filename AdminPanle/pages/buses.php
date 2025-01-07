@@ -31,30 +31,16 @@ if (isset($_POST['editSubmitBtn'])) {
     }
 }
 
-$id = $_GET['id'] ?? null;
 
-if ($id) {
-    // Sanitize the input to prevent SQL injection
-    $id = intval($id);
 
-    // Delete query
-    $sql = "DELETE FROM buses WHERE id = $id";
-
-    // Execute the query
-    if ($conn->query($sql)) {
-        // Redirect to the buses page after successful deletion
-        header("Location: buses.php");
-        exit();
-    } else {
-        echo "Error: " . $conn->error;
-    }
-}
-
-$sql = "SELECT * FROM buses"; // Query to get bus details
+                    
+$sql = "SELECT * FROM buses";
 $result = $conn->query($sql);
 
 ob_end_flush();
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,35 +118,36 @@ ob_end_flush();
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if ($result->num_rows > 0): $count = 1; ?>
-                            <?php while ($row = $result->fetch_assoc()):  $row['id']=$count++; ?>
-                                <tr>
-                                    <td class="px-4 py-2 border"><?php echo $row['id']; ?></td>
-                                    <td class="px-4 py-2 border"><?php echo $row['bus_no']; ?></td>
-                                    <td class="px-4 py-2 border"><?php echo $row['bus_create']; ?></td>
-                                    <td class="px-4 py-2 border text-center">
-                                        <!-- Edit Button -->
-                                        <a href="#" id="editButton" class="text-blue-500 hover:text-blue-700" 
-                                        onclick="openEditPopup(<?php echo $row['id']; ?>, '<?php echo $row['bus_no']; ?>')">
-                                            <i class="fas fa-edit"></i> Edit
-                                        </a>
-                                        |
-                                        <!-- Delete Button -->
-                                        <a href="buses.php?id=<?php echo $row['id']; ?>" class="text-red-500 hover:text-red-700" onclick="return confirm('Are you sure you want to delete this bus?')">
-                                            <i class="fas fa-trash"></i> Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="4" class="px-4 py-2 text-center border">No buses available</td>
-                            </tr>
-                        <?php endif; ?>
+                    <?php
+                        if($result->num_rows > 0){
+                            $count = 1;
+                            while($row = $result->fetch_assoc()){
+                                $count++;
+                                echo '
+                                    <tr>
+                                        <td class="px-4 py-2 border">' . $count . '</td>
+                                        <td class="px-4 py-2 border">' . $row["bus_no"] . '</td>
+                                        <td class="px-4 py-2 border">' . $row["bus_create"] . '</td>
+                                        <td class="px-4 flex gap-2 py-2 border text-center">
+                                            <a href="" id="editButton" class="text-white rounded-md px-3 py-1 bg-orange-500" onclick="openEditPopup(' . $row["id"] . ', \'' . $row["bus_no"] . '\')">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <a href="Delete/delete_buses.php?id=' . $row["id"] . '" class="text-white rounded-md px-3 py-1 bg-orange-500">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                ';
+                            }
+                        } else {
+                            echo "No Bus Available";
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
             <!-- Bus Table Display End-->
+          
 
         </div>
     </section>
@@ -191,7 +178,8 @@ ob_end_flush();
             }, 300);
         })
 
-        function openEditPopup(busId, busNumber) {
+        function openEditPopup(busId, busNumber, event) {
+            event.preventDefault();
         const editPopup = document.getElementById('editFrom');
         const editBusNumInput = document.getElementById('editBusNum');
         const editBusIdInput = document.getElementById('editBusId');
