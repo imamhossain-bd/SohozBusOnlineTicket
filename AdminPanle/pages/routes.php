@@ -1,4 +1,13 @@
+<?php
+@include '../Includs/db.php';
 
+
+
+
+$sql = "SELECT * FROM routes";
+$result = $conn->query($sql);
+
+?>
 
 
 <!DOCTYPE html>
@@ -31,16 +40,21 @@
                 <hr class="mb-2">
                 <form action="" method="POST">
                     <div>
+                        <!-- Via Citiy -->
                         <label for="" class="font-semibold text-lg">Via Cities</label><br>
                         <input type="text" name ="viaCitiesAdd" placeholder="Add Via Cities" class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"/> <br>
+                        <!-- Bus Number -->
                         <label for="" class="font-semibold text-lg">Bus Number</label><br>
                         <input type="text" name="Bus_Number" id="Bus_Number" placeholder="Bus Number" class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"/><br>
+                        <!-- Cost -->
                         <label for="" class="font-semibold text-lg">Cost</label><br>
                         <input type="text" name="cost" id="cost" placeholder="Cost" class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"><br>
+                        <!-- Departure Date -->
                         <label for="" class="font-semibold text-lg">Departure Date</label><br>
                         <input type="date" name="departure_Date" id="departure_Date" class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"><br>
+                        <!-- Departure Time -->
                         <label for="" class="font-semibold text-lg">Departure Time</label><br>
-                        <input type="time" name="time" id="time" class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"><br>
+                        <input type="time" name="departure_time" id="time" class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"><br>
                     </div>
                     <div class="flex justify-end gap-4">
                         <button id="cancelRouteBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Cancel</button>
@@ -50,9 +64,41 @@
             </div>
          </div>
         <!-- open Add Route Popup  End-->
-
-        <div>
-            
+        <!-- Route Table Display -->
+        <div class="overflow-x-auto mt-10 ml-[40%] w-full mb-6">
+            <table class="min-w-full table-auto border-collapse">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 border">ID</th>
+                        <th class="px-4 py-2 border">Via Cities</th>
+                        <th class="px-4 py-2 border">Bus</th>
+                        <th class="px-4 py-2 border">Departure Date</th>
+                        <th class="px-4 py-2 border">Departure Time</th>
+                        <th class="px-4 py-2 border">Cost</th>
+                        <th class="px-4 py-2 border">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        if($result->num_rows > 0){
+                            while($row = $result->fetch_assoc()){
+                                echo '
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                
+                                ';
+                            }
+                        }
+                    ?>
+                </tbody>
+            </table>
         </div>
         
     </section>
@@ -68,7 +114,8 @@
             openRoutePopup.classList.remove('hidden', 'opacity-0');
 
         })
-        cancelRoutePopup.addEventListener('click', () =>{
+        cancelRoutePopup.addEventListener('click', (event) =>{
+            event.preventDefault();
             openRoutePopup.classList.add('hidden');
         })
 
