@@ -1,12 +1,70 @@
 <?php
-@include '../Includs/db.php';
+// Database connection
+$conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
+
+if (!$conn) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+
+// Function to check if the route already exists
+function exist_routes($conn, $viaCities, $departureDate, $departureTime) {
+    $query = "SELECT * FROM `routes` 
+              WHERE `route_cities` = '$viaCities' 
+              AND `route_dep_date` = '$departureDate' 
+              AND `route_dep_time` = '$departureTime' ";
+              
+    $result = mysqli_query($conn, $query);
+    return (mysqli_num_rows($result) > 0);
+}
 
 
 
+// Check if the form is submitted
+if (isset($_POST['submitRouteBtn'])) {
+    $viaCities = strtoupper($_POST['viaCitiesAdd']);
+    $busNumber = $_POST['Bus_Number'];
+    $cost = floatval($_POST['costInp']) ;
+    $departureDate = $_POST['departure_Date'];
+    $departureTime = $_POST['departure_time'];
 
-$sql = "SELECT * FROM routes";
+    $route_exists = exist_routes($conn, $viaCities, $departureDate, $departureTime);
+    $route_added = false;
+
+    if (!$route_exists) {
+        $sql = "INSERT INTO `routes` 
+    (`bus_no`, `route_cities`, `route_dep_date`, `route_dep_time`, `route_step_cost`, `route_created`) 
+    VALUES ('$busNumber', '$viaCities', '$departureDate', '$departureTime', '$cost', current_timestamp())";
+$result = mysqli_query($conn, $sql);
+
+        if ($result) {
+            $autoInc_id = mysqli_insert_id($conn);
+
+            if ($autoInc_id) {
+                $code = rand(1, 99999);
+                $route_id = "RT-" . $code . $autoInc_id;
+
+                $query = "UPDATE `routes` SET `route_id` = '$route_id' WHERE `id` = $autoInc_id";
+                $queryResult = mysqli_query($conn, $query);
+
+                if ($queryResult) {
+                    $route_added = true;
+                }
+            }
+        } else {
+            die("Error inserting route: " . mysqli_error($conn));
+        }
+    } else {
+        echo "<strong>Error!</strong> Route already exists.";
+    }
+
+    if ($route_added) {
+        echo "<div><strong>Success!</strong> Route has been added successfully.</div>";
+    }
+}
+
+// Fetch and display all routes
+$sql = "SELECT * FROM `routes`";
 $result = $conn->query($sql);
-
 ?>
 
 
@@ -48,7 +106,7 @@ $result = $conn->query($sql);
                         <input type="text" name="Bus_Number" id="Bus_Number" placeholder="Bus Number" class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"/><br>
                         <!-- Cost -->
                         <label for="" class="font-semibold text-lg">Cost</label><br>
-                        <input type="text" name="cost" id="cost" placeholder="Cost" class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"><br>
+                        <input type="text" name="costInp" id="cost" placeholder="Cost" class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"><br>
                         <!-- Departure Date -->
                         <label for="" class="font-semibold text-lg">Departure Date</label><br>
                         <input type="date" name="departure_Date" id="departure_Date" class="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"><br>
@@ -65,7 +123,7 @@ $result = $conn->query($sql);
          </div>
         <!-- open Add Route Popup  End-->
         <!-- Route Table Display -->
-        <div class="overflow-x-auto mt-10 ml-[40%] w-full mb-6">
+        <div class="overflow-x-auto mt-10 ml-[10%] w-full mb-6">
             <table class="min-w-full table-auto border-collapse">
                 <thead>
                     <tr>
@@ -79,23 +137,29 @@ $result = $conn->query($sql);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                        if($result->num_rows > 0){
-                            while($row = $result->fetch_assoc()){
-                                echo '
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                
-                                ';
-                            }
+                <?php
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr>
+                                <td class='border px-4 py-2'>{$row['route_id']}</td>
+                                <td class='border px-4 py-2'>{$row['route_cities']}</td>
+                                <td class='border px-4 py-2'>{$row['bus_no']}</td>
+                                <td class='border px-4 py-2'>{$row['route_dep_date']}</td>
+                                <td class='border px-4 py-2'>{$row['route_dep_time']}</td>
+                                <td class='border px-4 py-2'>$ {$row['route_step_cost']}</td>
+                                <td class='px-4 flex gap-2 py-2 border text-center'>
+                                    <a href='' id='editButton' class='text-white rounded-md px-3 py-1 bg-orange-500'>
+                                        <i class='fas fa-edit'></i> Edit
+                                    </a>
+                                    <a href='' id='deleteButton' class='text-white rounded-md px-3 py-1 bg-orange-500'>
+                                        <i class='fas fa-trash'></i> Delete
+                                    </a>
+                                </td>
+                            </tr>";
                         }
+                    } else {
+                        echo "<tr><td colspan='6' class='text-center py-4'>No routes found.</td></tr>";
+                    }
                     ?>
                 </tbody>
             </table>
