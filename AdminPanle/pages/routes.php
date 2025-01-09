@@ -58,7 +58,7 @@ $result = mysqli_query($conn, $sql);
     }
 
     if ($route_added) {
-        echo "<div><strong>Success!</strong> Route has been added successfully.</div>";
+        echo "<div class=''><strong>Success!</strong> Route has been added successfully.</div>";
     }
 }
 
