@@ -14,7 +14,7 @@
 <body>
     <section>
     <div class="">
-            <div class="fixed w-[20%] h-full shadow-xl pt-8 bg-[#ffffff]">
+            <div class="fixed w-[20%] h-full shadow-xl pt-8 bg-[#ffffff]" style="height: calc(100vh - 4px);">
                 <div class="h-20">
                     <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap text-slate-700 dark:text-white" href="" target="_blank">
                         <img src="https://i.ibb.co.com/5Y53PdM/shohoz-logo-new.png" class="h-full max-w-full transition-all duration-200 ease-soft-in-out max-h-9 ml-8 dark:inline-block" alt="main_logo">
@@ -25,9 +25,10 @@
                     <hr class="mx-6 mt-3">
                 </div>
                 <div class="mt-20 px-6">
-                    <ul class="w-full">
+                    <ul class="w-full ">
                         <li class="mb-4 rounded-lg text-base hover:text-[#11BE86] hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=adminDash"><i class="fa-solid fa-gauge w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Dashboard</a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=buses"><i class="fa-solid fa-bus w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Buses</a></li>
+                        <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href=""><i class="fa-solid fa-calendar-days w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Schedule </a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=routes"><i class="fa-solid fa-road w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Routes</a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href=""><i class="fa-solid fa-users w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Customers</a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href=""><i class="fa-solid fa-ticket w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Booking</a></li>

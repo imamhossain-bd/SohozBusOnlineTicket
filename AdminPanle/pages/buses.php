@@ -178,27 +178,6 @@ ob_end_flush();
             }, 300);
         })
 
-        function openEditPopup(busId, busNumber, event) {
-            event.preventDefault();
-        const editPopup = document.getElementById('editFrom');
-        const editBusNumInput = document.getElementById('editBusNum');
-        const editBusIdInput = document.getElementById('editBusId');
-
-        // Populate form inputs with the current bus data
-        editBusNumInput.value = busNumber;
-        editBusIdInput.value = busId;
-
-        // Show the popup
-        editPopup.classList.remove('hidden', 'opacity-0');
-        editPopup.classList.add('opacity-100');
-    }
-
-    // Close the popup when cancel is clicked
-    document.getElementById('editCancelBtn').addEventListener('click', () => {
-        const editPopup = document.getElementById('editFrom');
-        editPopup.classList.add('hidden', 'opacity-0');
-        editPopup.classList.remove('opacity-100');
-    });
 
         
     </script>
