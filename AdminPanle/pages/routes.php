@@ -178,7 +178,7 @@ $result = $conn->query($sql);
             </div>
         <!-- Open Edit Route Popup End -->
         <!-- Route Table Display -->
-        <div class="overflow-x-auto mt-10 ml-[3%] w-full mb-6">
+        <div class="overflow-x-auto mt-10 ml-[10%] w-full mb-6">
             <table class="min-w-full border-2 border-gray-200 table-auto border-collapse">
                 <thead>
                     <tr class="bg-slate-300">
