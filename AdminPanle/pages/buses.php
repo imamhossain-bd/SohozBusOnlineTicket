@@ -26,6 +26,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+
+// Delete Buses 
+
+$success_message = '';
+// Delete Bed Type
+if (isset($_GET['deleteId'])) {
+    $deletedId = $_GET['deleteId'];
+    $isDeleted = "DELETE FROM buses WHERE id = $deletedId";
+    if (mysqli_query($conn, $isDeleted)) {
+        $success_message = "Bus deleted successfully!";
+    } else {
+        echo "<p class='text-red-500'>Error: " . mysqli_error($conn) . "</p>";
+    }
+}
+
 $sql = "SELECT * FROM buses";
 $result = $conn->query($sql);
 
@@ -101,34 +116,36 @@ ob_end_flush();
                 </thead>
                 <tbody>
                 <?php
-                if ($result->num_rows > 0) {
-                    $count = 1;
-                    while ($row = $result->fetch_assoc()) {
-                        echo '
-                            <tr>
-                                <td class="px-4 py-2 border">' . $count++ . '</td>
-                                <td class="px-4 py-2 border">' . $row["bus_no"] . '</td>
-                                <td class="px-4 py-2 border">' . $row["bus_create"] . '</td>
-                                <td class="px-4 flex gap-2 py-2 border text-center">
-                                    <a href="#" 
-                                       class="text-white rounded-md px-3 py-1 bg-orange-500 edit-button" 
-                                       data-id="' . $row["id"] . '" 
-                                       data-bus-no="' . $row["bus_no"] . '">
-                                       <i class="fas fa-edit"></i> Edit
-                                    </a>
-                                    <a href="Delete/delete_buses.php?id=' . $row["id"] . '" 
-                                       class="text-white rounded-md px-3 py-1 bg-orange-500" 
-                                       onclick="return confirm(\'Are you sure you want to delete this bus?\');">
-                                       <i class="fas fa-trash"></i> Delete
-                                    </a>
-                                </td>
-                            </tr>
-                        ';
+                    if ($result->num_rows > 0) {
+                        $count = 1;
+                        while ($row = $result->fetch_assoc()) {
+                            echo "
+                                <tr>
+                                    <td class='px-4 py-2 border'>{$count}</td>
+                                    <td class='px-4 py-2 border'>{$row['bus_no']}</td>
+                                    <td class='px-4 py-2 border'>{$row['bus_create']}</td>
+                                    <td class='px-4 flex gap-2 py-2 border text-center'>
+                                        <a href='#' 
+                                        class='text-white rounded-md px-3 py-1 bg-orange-500 edit-button' 
+                                        data-id='{$row['id']}' 
+                                        data-bus-no='{$row['bus_no']}'>
+                                        <i class='fas fa-edit'></i> Edit
+                                        </a>
+                                        <a href='dashboard.php?pages=buses&deleteId={$row['id']}' data-tip='Delete Routes'
+                                        class='text-white rounded-md px-3 py-1 bg-orange-500' 
+                                        onclick='return confirm(\"Are you sure you want to delete this bus?\");'>
+                                        <i class='fas fa-trash'></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            ";
+                            $count++;
+                        }
+                    } else {
+                        echo "<tr><td colspan='4' class='text-center py-4'>No Bus Available</td></tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='4' class='text-center py-4'>No Bus Available</td></tr>";
-                }
-                ?>
+                    ?>
+
                 </tbody>
             </table>
         </div>

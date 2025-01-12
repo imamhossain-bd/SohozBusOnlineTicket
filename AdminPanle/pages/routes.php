@@ -1,4 +1,5 @@
 <?php
+ob_start();
 // Database connection
 $conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
 
@@ -81,6 +82,21 @@ if (isset($_POST['routeEditBtn'])) {
         echo "<div class='wi-full py-3 px-4 bg-red-300 mb-5'>
                 <strong class='text-black py-3 font-semibold'>Error!</strong> " . mysqli_error($conn) . "
               </div>";
+    }
+}
+
+//   Delete Data ............
+
+$success_message = '';
+// Delete Bed Type
+if (isset($_GET['deleteId'])) {
+    $deletedId = $_GET['deleteId'];
+    $isDeleted = "DELETE FROM routes WHERE id = $deletedId";
+    if (mysqli_query($conn, $isDeleted)) {
+       echo '$success_message = "Route deleted successfully!" ';
+        // Ensure the script stops after the redirect
+    } else {
+        echo "<p class='text-red-500'>Error: " . mysqli_error($conn) . "</p>";
     }
 }
 
@@ -213,9 +229,9 @@ $result = $conn->query($sql);
                                     >
                                         <i class='fas fa-edit'></i> Edit
                                     </button>
-                                    <button id='deleteButton' class='text-white rounded-md px-3 py-1 bg-orange-500'>
+                                    <a href='dashboard.php?pages=routes&deleteId={$row['id']}' data-tip='Delete Routes' id='deleteButton' class='text-white rounded-md px-3 py-1 bg-orange-500'>
                                         <i class='fas fa-trash'></i> Delete
-                                    </button>
+                                    </a>
                                 </td>
                             </tr>";
                         }

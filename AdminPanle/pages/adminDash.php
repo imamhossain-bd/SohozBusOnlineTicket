@@ -1,5 +1,7 @@
 
-
+<?php
+    $conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +16,7 @@
     <script src="https://kit.fontawesome.com/d69002f9fe.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
     <section>
         <div class="px-8 grid grid-cols-4 gap-5 py-6 ">
             <div class="relative w-[260px] px-5 py-6 h-auto overflow-hidden bg-white rounded-xl shadow-lg transition-transform duration-300 group hover:scale-105 hover:shadow-xl">
@@ -40,8 +43,12 @@
                     </div>
                 </div>
                 <p class="text-gray-600 text-sm font-medium">Total Buses</p>
-                <p class="text-gray-900 text-3xl font-bold mt-1">999</p>
-                <a class="flex justify-end items-center gap-1 text-red-500 text-sm font-medium mt-2 hover:underline" href="">View More <i class="fas fa-arrow-right"></i></a>
+                <?php
+                $getBuses = $conn->query("select * from buses");
+                echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getBuses->num_rows .  "</p>";
+                ?>
+                
+                <a class="flex justify-end items-center gap-1 text-red-500 text-sm font-medium mt-2 hover:underline" href="dashboard.php?pages=buses">View More <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="relative w-[260px] px-5 py-6 h-auto overflow-hidden bg-white rounded-xl shadow-lg transition-transform duration-300 group hover:scale-105 hover:shadow-xl">
@@ -54,8 +61,11 @@
                     </div>
                 </div>
                 <p class="text-gray-600 text-sm font-medium">Total Routes</p>
-                <p class="text-gray-900 text-3xl font-bold mt-1">999</p>
-                <a class="flex justify-end items-center gap-1 text-orange-500 text-sm font-medium mt-2 hover:underline" href="#">View More <i class="fas fa-arrow-right"></i></a>
+                <?php
+                    $getRoute = $conn->query("Select * From routes");
+                    echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getRoute->num_rows . "</p>"
+                ?>
+                <a class="flex justify-end items-center gap-1 text-orange-500 text-sm font-medium mt-2 hover:underline" href="dashboard.php?pages=routes">View More <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="relative w-[260px] px-5 py-6 h-auto overflow-hidden bg-white rounded-xl shadow-lg transition-transform duration-300 group hover:scale-105 hover:shadow-xl">
@@ -89,14 +99,17 @@
             <div class="relative w-[260px] px-5 py-6 h-auto overflow-hidden bg-white rounded-xl shadow-lg transition-transform duration-300 group hover:scale-105 hover:shadow-xl">
                 <div class="flex justify-between items-center mb-3">
                     <div class="py-2 px-4 w-32 text-center bg-gray-100 rounded-lg">
-                        <h2 class="text-gray-800 font-semibold text-lg tracking-wide">Admins</h2>
+                        <h2 class="text-gray-800 font-semibold text-lg tracking-wide">Users</h2>
                     </div>
                     <div class="text-indigo-500 text-2xl">
                         <i class="fa-solid fa-user-lock"></i>
                     </div>
                 </div>
-                <p class="text-gray-600 text-sm font-medium">Total Admins</p>
-                <p class="text-gray-900 text-3xl font-bold mt-1">999</p>
+                <p class="text-gray-600 text-sm font-medium">Total Users</p>
+                <?php
+                    $getUsers = $conn->query("Select * From users");
+                    echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getUsers->num_rows . "</p>"
+                ?>
                 <a class="flex justify-end items-center gap-1 text-indigo-500 text-sm font-medium mt-2 hover:underline" href="#">View More <i class="fas fa-arrow-right"></i></a>
             </div>
 
