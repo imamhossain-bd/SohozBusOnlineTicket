@@ -5,18 +5,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Correct query to count the total number of seats for bus_id = 1
-$getSeats = $conn->query("SELECT COUNT(*) AS total_seats FROM bus_seats WHERE bus_id = 1");
-if ($getSeats) {
-    $row = $getSeats->fetch_assoc();
-    $totalSeats = $row['total_seats'];
-} else {
-    echo "Error: " . mysqli_error($conn);
-    $totalSeats = 0;
-}
 
-// Debugging: Log page load
-error_log("Page Loaded: Seat Count = " . $totalSeats);
 ?>
 
 <!DOCTYPE html>
@@ -98,7 +87,7 @@ error_log("Page Loaded: Seat Count = " . $totalSeats);
                     $getSeats = $conn->query("SELECT * FROM bus_seats");
                     echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getSeats->num_rows . "</p>";
                 ?>
-                <a class="flex justify-end items-center gap-1 text-purple-500 text-sm font-medium mt-2 hover:underline" href="#">View More <i class="fas fa-arrow-right"></i></a>
+                <a class="flex justify-end items-center gap-1 text-purple-500 text-sm font-medium mt-2 hover:underline" href="dashboard.php?pages=seates">View More <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="relative w-[260px] px-5 py-6 h-auto overflow-hidden bg-white rounded-xl shadow-lg transition-transform duration-300 group hover:scale-105 hover:shadow-xl">
@@ -129,7 +118,7 @@ error_log("Page Loaded: Seat Count = " . $totalSeats);
                     $getUsers = $conn->query("SELECT * FROM users");
                     echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getUsers->num_rows . "</p>";
                 ?>
-                <a class="flex justify-end items-center gap-1 text-indigo-500 text-sm font-medium mt-2 hover:underline" href="dashboard.php?pages=users">View More <i class="fas fa-arrow-right"></i></a>
+                <a class="flex justify-end items-center gap-1 text-indigo-500 text-sm font-medium mt-2 hover:underline" href="dashboard.php?pages=user">View More <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="relative w-[260px] px-5 py-6 h-auto overflow-hidden bg-white rounded-xl shadow-lg transition-transform duration-300 group hover:scale-105 hover:shadow-xl">

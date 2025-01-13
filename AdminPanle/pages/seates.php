@@ -9,31 +9,38 @@ if (!$conn) {
 
 $bus_id = 1;  // The bus ID you want to assign seats to
 
-// First, check if the bus_id exists in the buses table
+// Check if the bus exists in the buses table
 $check_bus_query = "SELECT * FROM buses WHERE id = $bus_id";
 $result = mysqli_query($conn, $check_bus_query);
 
 // If the bus doesn't exist, insert a new bus record
 if (mysqli_num_rows($result) == 0) {
-    // Assuming you need to insert a bus with a specific bus number (NBS4455 in this case)
-    $insert_bus_query = "INSERT INTO buses (id, bus_no) VALUES ($bus_id, 'NBS4455')";
+    $insert_bus_query = "INSERT INTO buses (id, bus_no) VALUES ($bus_id, 'MEH35KH')";
     mysqli_query($conn, $insert_bus_query);
 }
 
-// Now proceed to insert the bus seats
-$rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-$seats_per_row = 4;
+// Check if seats already exist for the bus
+$check_seats_query = "SELECT COUNT(*) AS total_seats FROM bus_seats WHERE bus_id = $bus_id";
+$seat_result = mysqli_query($conn, $check_seats_query);
+$seat_row = mysqli_fetch_assoc($seat_result);
 
-foreach ($rows as $row) {
-    for ($i = 1; $i <= $seats_per_row; $i++) {
-        $seat_code = $row . $i;
-        $query = "INSERT INTO bus_seats (bus_id, seat_code, status) VALUES ($bus_id, '$seat_code', 'available')";
-        if (!mysqli_query($conn, $query)) {
-            // Handle query error (optional)
-            echo "Error: " . mysqli_error($conn);
+// Only insert seats if none exist for the bus
+if ($seat_row['total_seats'] == 0) {
+    $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+    $seats_per_row = 4;
+
+    foreach ($rows as $row) {
+        for ($i = 1; $i <= $seats_per_row; $i++) {
+            $seat_code = $row . $i;
+            $query = "INSERT INTO bus_seats (bus_id, seat_code, status) VALUES ($bus_id, '$seat_code', 'available')";
+            if (!mysqli_query($conn, $query)) {
+                // Handle query error (optional)
+                echo "Error: " . mysqli_error($conn);
+            }
         }
     }
 }
+
 
 ?>
 
@@ -81,9 +88,9 @@ foreach ($rows as $row) {
             </form>
         </div>
 
-        <div id="NBS4455" class="w-full ml-[200px]  mt-24 max-w-4xl p-6 bg-[#e9e8e8] rounded-lg shadow-xl">
+        <div id="MEH35KH" class="w-full ml-[200px]  mt-24 max-w-4xl p-6 bg-[#e9e8e8] rounded-lg shadow-xl">
             <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Bus Seat Reservation</h1>
-            <p class="text-gray-600 mb-6 font-bold text-center">Bus NO: NBS4455</p>
+            <p class="text-gray-600 mb-6 font-bold text-center">Bus NO: MEH35KH</p>
             
             <div class="grid grid-cols-5 gap-4">
                 <!-- Driver -->
@@ -113,10 +120,10 @@ foreach ($rows as $row) {
 
                     // Display seats
                     echo "<div class='col-span-2 flex justify-around cursor-pointer'>
-                            <div class='${class_left_1} text-white w-12 h-12 rounded-md flex items-center justify-center'>
+                            <div class='${class_left_1} text-white w-16 h-12 rounded-md flex items-center justify-center'>
                                 $seat_left_1
                             </div>
-                            <div class='${class_left_2} text-white w-12 h-12 rounded-md flex items-center justify-center'>
+                            <div class='${class_left_2} text-white w-16 h-12 rounded-md flex items-center justify-center'>
                                 $seat_left_2
                             </div>
                         </div>";
@@ -124,10 +131,10 @@ foreach ($rows as $row) {
                     echo "<div class='col-span-1'></div>";  // Empty space in the middle
 
                     echo "<div class='col-span-2 flex justify-around cursor-pointer'>
-                            <div class='${class_right_1} text-white w-12 h-12 rounded-md flex items-center justify-center'>
+                            <div class='${class_right_1} text-white w-16 h-12 rounded-md flex items-center justify-center'>
                                 $seat_right_1
                             </div>
-                            <div class='${class_right_2} text-white w-12 h-12 rounded-md flex items-center justify-center'>
+                            <div class='${class_right_2} text-white w-16 h-12 rounded-md flex items-center justify-center'>
                                 $seat_right_2
                             </div>
                         </div>";

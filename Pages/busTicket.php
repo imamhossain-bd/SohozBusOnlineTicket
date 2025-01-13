@@ -14,6 +14,7 @@
 
 </style>
 <body>
+    
     <section>
         <div class="bg-[url('https://i.ibb.co/Jj5HQ4K/hero-illustration.webp')] bg-cover bg-center h-[19rem] pt-36 px-[10rem]">
             <div class="bg-[#fffffff2] mx-sm:p-2 max-w-full mx-auto relative w-full rounded-3xl h-[135px]">
@@ -82,7 +83,7 @@
                             </div>
                         </div>
                         <div>
-                            <button id="findLocation" href="" class="px-5 py-4 rounded-lg text-white font-semibold bg-[#0dac53] ">SEARCH</button>
+                            <button id="findLocation"  class="px-5 py-4 rounded-lg text-white font-semibold bg-[#0dac53] ">SEARCH</button>
                         </div>
                     </div>
                 </form>
@@ -507,8 +508,9 @@
                         icon.textContent = "+"; // Change "-" to "+"
                     }
                     }
-
-
+    document.getElementById('findLocation').addEventListener('click', function() {
+        window.location.href = '../busDetails.php';
+    });
 
 
         </script>
