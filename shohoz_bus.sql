@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 12, 2025 at 09:29 PM
+-- Generation Time: Jan 13, 2025 at 03:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,23 @@ SET time_zone = "+00:00";
 --
 -- Database: `shohoz_bus`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookings`
+--
+
+CREATE TABLE `bookings` (
+  `id` int(100) NOT NULL,
+  `booking_id` varchar(255) NOT NULL,
+  `customer_id` varchar(255) NOT NULL,
+  `route_id` varchar(255) NOT NULL,
+  `customer_route` varchar(255) NOT NULL,
+  `booked_amount` int(100) NOT NULL,
+  `booked_seat` varchar(155) NOT NULL,
+  `booking_created` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -118,6 +135,12 @@ INSERT INTO `users` (`id`, `name`, `number`, `email`, `password`, `type`) VALUES
 --
 
 --
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `buses`
 --
 ALTER TABLE `buses`
@@ -130,12 +153,6 @@ ALTER TABLE `routes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `seats`
---
-ALTER TABLE `seats`
-  ADD PRIMARY KEY (`bus_no`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -144,6 +161,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `buses`
