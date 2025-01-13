@@ -1,6 +1,22 @@
-
 <?php
-    $conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
+$conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Correct query to count the total number of seats for bus_id = 1
+$getSeats = $conn->query("SELECT COUNT(*) AS total_seats FROM bus_seats WHERE bus_id = 1");
+if ($getSeats) {
+    $row = $getSeats->fetch_assoc();
+    $totalSeats = $row['total_seats'];
+} else {
+    echo "Error: " . mysqli_error($conn);
+    $totalSeats = 0;
+}
+
+// Debugging: Log page load
+error_log("Page Loaded: Seat Count = " . $totalSeats);
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +60,7 @@
                 </div>
                 <p class="text-gray-600 text-sm font-medium">Total Buses</p>
                 <?php
-                $getBuses = $conn->query("select * from buses");
+                $getBuses = $conn->query("SELECT * FROM buses");
                 echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getBuses->num_rows .  "</p>";
                 ?>
                 
@@ -62,8 +78,8 @@
                 </div>
                 <p class="text-gray-600 text-sm font-medium">Total Routes</p>
                 <?php
-                    $getRoute = $conn->query("Select * From routes");
-                    echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getRoute->num_rows . "</p>"
+                    $getRoute = $conn->query("SELECT * FROM routes");
+                    echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getRoute->num_rows . "</p>";
                 ?>
                 <a class="flex justify-end items-center gap-1 text-orange-500 text-sm font-medium mt-2 hover:underline" href="dashboard.php?pages=routes">View More <i class="fas fa-arrow-right"></i></a>
             </div>
@@ -78,7 +94,10 @@
                     </div>
                 </div>
                 <p class="text-gray-600 text-sm font-medium">Total Seats</p>
-                <p class="text-gray-900 text-3xl font-bold mt-1">999</p>
+                <?php
+                    $getSeats = $conn->query("SELECT * FROM bus_seats");
+                    echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getSeats->num_rows . "</p>";
+                ?>
                 <a class="flex justify-end items-center gap-1 text-purple-500 text-sm font-medium mt-2 hover:underline" href="#">View More <i class="fas fa-arrow-right"></i></a>
             </div>
 
@@ -107,8 +126,8 @@
                 </div>
                 <p class="text-gray-600 text-sm font-medium">Total Users</p>
                 <?php
-                    $getUsers = $conn->query("Select * From users");
-                    echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getUsers->num_rows . "</p>"
+                    $getUsers = $conn->query("SELECT * FROM users");
+                    echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getUsers->num_rows . "</p>";
                 ?>
                 <a class="flex justify-end items-center gap-1 text-indigo-500 text-sm font-medium mt-2 hover:underline" href="dashboard.php?pages=users">View More <i class="fas fa-arrow-right"></i></a>
             </div>
