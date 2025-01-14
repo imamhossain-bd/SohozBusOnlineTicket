@@ -83,7 +83,7 @@
                             </div>
                         </div>
                         <div>
-                            <button id="findLocation"  class="px-5 py-4 rounded-lg text-white font-semibold bg-[#0dac53] ">SEARCH</button>
+                            <button id="findLocation" href="#" class="px-5 py-4 rounded-lg text-white font-semibold bg-[#0dac53] ">SEARCH</button>
                         </div>
                     </div>
                 </form>
@@ -508,9 +508,8 @@
                         icon.textContent = "+"; // Change "-" to "+"
                     }
                     }
-    document.getElementById('findLocation').addEventListener('click', function() {
-        window.location.href = '../busDetails.php';
-    });
+
+
 
 
         </script>

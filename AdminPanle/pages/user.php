@@ -2,19 +2,19 @@
 $conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
 $success_message = '';
 
-// Handle Role Update
+// Handle type Update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['updateUserBtn'])) {
-        $updateRole = $conn->real_escape_string($_POST['role']);
+        $updatetype = $conn->real_escape_string($_POST['type']);
         $updateId = $conn->real_escape_string($_POST['userId']);
 
-        $update_user = "UPDATE users SET role = '$updateRole' WHERE id = '$updateId'";
+        $update_user = "UPDATE users SET type = '$updatetype' WHERE id = '$updateId'";
         if (mysqli_query($conn, $update_user)) {
             $success_message = "User Updated successfully!";
-            header("Location:main_dashboard.php?page=manage_user&success_message=" . urlencode($success_message));
+            header("Location:dashboard.php?pages=user&success_message=" . urlencode($success_message));
             exit();
         } else {
-            $error = "Failed to update user role.";
+            $error = "Failed to update user type.";
         }
     }
 
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $delete_user = $conn->query("DELETE FROM users WHERE id = '$deleteId'");
         if ($delete_user) {
             $success_message = "User Deleted successfully!";
-            header("Location:main_dashboard.php?page=manage_user&success_message=" . urlencode($success_message));
+            header("Location:dashboard.php?pages=user&success_message=" . urlencode($success_message));
             exit();
         } else {
             $error = "Failed to delete user.";
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <th>Photo</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Role</th>
+                        <th>type</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $id = $row['id'] ?? 'Unknown';
                             $name = $row['name'] ?? 'Unknown';
                             $email = $row['email'] ?? 'Unknown';
-                            $role = $row['role'] ?? 'Unknown';
+                            $type = $row['type'] ?? 'Unknown';
                             $photo = $row['photo'] ?? null;
                             $photo_mime = $row['mime_type'] ?? null;
 
@@ -109,10 +109,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo "</td>
                                     <td>$name</td>
                                     <td>$email</td>
-                                    <td>$role</td>
+                                    <td>$type</td>
                                     <td>
                                         <button class='px-3 py-1 rounded-md text-sm border border-blue-500 font-medium hover:text-white hover:bg-blue-500' 
-                                            onclick=\"openUpdateModal($id, '$role')\">
+                                            onclick=\"openUpdateModal($id, '$type')\">
                                             <i class='fa-solid fa-pen-to-square'></i>
                                         </button>
                                         <button class='px-3 py-1 rounded-md text-sm border border-red-500 font-medium hover:text-white hover:bg-red-500' 
@@ -146,8 +146,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form id="updateUserForm" action="" method="POST">
                         <input type="hidden" id="updateUserId" name="userId" />
                         <div class="mb-4">
-                            <label for="updateRole">Role</label>
-                            <select id="updateRole" name="role" class="w-full px-3 py-2 mt-2 border rounded-md">
+                            <label for="updatetype">type</label>
+                            <select id="updatetype" name="type" class="w-full px-3 py-2 mt-2 border rounded-md">
                                 <option value="admin">Admin</option>
                                 <option value="user">User</option>
                             </select>
@@ -181,9 +181,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </section>
 
     <script>
-        function openUpdateModal(userId, role) {
+        function openUpdateModal(userId, type) {
             document.getElementById('updateUserId').value = userId;
-            document.getElementById('updateRole').value = role;
+            document.getElementById('updatetype').value = type;
             document.getElementById('updateModel').style.display = 'block';
         }
 

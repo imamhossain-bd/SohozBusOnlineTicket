@@ -11,8 +11,8 @@
     <script src="https://kit.fontawesome.com/d69002f9fe.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-100 font-sans">
-<?php
-    require('../Includs/header.php')
+    <?php
+        require('../Includs/header.php')
     ?>
   <div class="max-w-6xl mx-auto py-6">
     <!-- Search Header -->
