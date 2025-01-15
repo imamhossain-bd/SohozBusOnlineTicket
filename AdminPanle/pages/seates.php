@@ -1,73 +1,50 @@
 <?php
-// Database connection
 $conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
 
-// Check if connection was successful
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Only add seats if explicitly requested through a POST request
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addSeats'])) {
-    $bus_ids = [20, 23, 24, 25]; // Example bus IDs
+$bus_no = 'NBS4455';
+if (isset($_GET['submit'])) {  // Only run when the form is submitted
 
-    foreach ($bus_ids as $bus_id) {
-        // Check if the bus exists in the buses table
-        $check_bus_query = "SELECT * FROM buses WHERE id = $bus_id";
-        $result = mysqli_query($conn, $check_bus_query);
+    mysqli_query($conn, "INSERT INTO buses (bus_no) VALUES ('$bus_no')");
+    $bus_id = mysqli_insert_id($conn); // Get the inserted bus_id
 
-        // If the bus doesn't exist, insert a new bus record
-        if (mysqli_num_rows($result) == 0) {
-            $insert_bus_query = "INSERT INTO buses (id, bus_no) VALUES ($bus_id, 'Bus_$bus_id')";
-            mysqli_query($conn, $insert_bus_query);
-        }
-
-        // Check if seats already exist for the bus
-        $check_seats_query = "SELECT COUNT(*) AS total_seats FROM bus_seats WHERE bus_id = $bus_id";
-        $seat_result = mysqli_query($conn, $check_seats_query);
-        $seat_row = mysqli_fetch_assoc($seat_result);
-
-        // Only insert seats if none exist for the bus
-        if ($seat_row['total_seats'] == 0) {
-            $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-            $seats_per_row = 4;
-
-            foreach ($rows as $row) {
-                for ($i = 1; $i <= $seats_per_row; $i++) {
-                    $seat_code = $row . $i;
-                    $query = "INSERT INTO bus_seats (bus_id, seat_code, status) VALUES ($bus_id, '$seat_code', 'available')";
-                    if (!mysqli_query($conn, $query)) {
-                        echo "Error: " . mysqli_error($conn);
-                    }
-                }
-            }
+    // Insert seats for the bus
+    $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+    $seats_per_row = 4;
+    foreach ($rows as $row) {
+        for ($i = 1; $i <= $seats_per_row; $i++) {
+            $seat_code = $row . $i;
+            mysqli_query($conn, "INSERT INTO seats (bus_id, seat_code) VALUES ($bus_id, '$seat_code')");
         }
     }
 }
-
-// Initialize seat data and handle search functionality
-$seatStatus = [];
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['busJson'])) {
-    $bus_no = $_GET['busJson'];
-
-    // Retrieve the bus by number
-    $search_query = "SELECT * FROM buses WHERE bus_no = '$bus_no'";
-    $search_result = mysqli_query($conn, $search_query);
-
-    if (mysqli_num_rows($search_result) > 0) {
-        $bus = mysqli_fetch_assoc($search_result);
-        $bus_id = $bus['id'];
-
-        // Fetch all seat data for the bus
-        $seats_query = "SELECT * FROM bus_seats WHERE bus_id = $bus_id";
-        $seats_result = mysqli_query($conn, $seats_query);
-
-        while ($seat = mysqli_fetch_assoc($seats_result)) {
-            $seatStatus[$seat['seat_code']] = $seat['status'];
-        }
+if (isset($_GET['submit'])) {
+    $bus_no = $_GET['bus_no'];
+    $query = "SELECT seats.seat_code, seats.status FROM seats
+              JOIN buses ON seats.bus_id = buses.bus_id
+              WHERE buses.bus_no = '$bus_no'";
+    $result = mysqli_query($conn, $query);
+    $seatStatus = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $seatStatus[$row['seat_code']] = $row['status'];
     }
 }
+// $bus_no = 'NBS4455';
+// $seat_code = 'A1';
+// mysqli_query($conn, "UPDATE seats 
+//                      JOIN buses ON seats.bus_id = buses.bus_id 
+//                      SET seats.status = 'booked' 
+//                      WHERE buses.bus_no = '$bus_no' AND seats.seat_code = '$seat_code'");
+
+
 ?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,20 +79,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['busJson'])) {
 </head>
 <body>
     <section>
-            <div class="w-full max-w-sm p-4 bg-[#f0f0f0] rounded-lg shadow-xl">
-                <h2 class="text-xl text-center font-semibold text-gray-800 mb-4">Seat Status</h2>
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
-                    <div class="flex items-center ">
-                        <input type="text" name="bus_no" id="bus-no" placeholder="Bus Number" class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <button name="submit" class="px-6 py-[9px] bg-black text-white font-medium rounded-r-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">Search</button>
-                    </div>
-                </form>
-            </div>
+        <div class="w-full max-w-sm mx-auto p-4 bg-[#f0f0f0] rounded-lg shadow-xl mt-7">
+            <h2 class="text-xl text-center font-semibold text-gray-800 mb-4">Seat Status</h2>
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="GET">
+                <div class="flex items-center">
+                    <input type="text" name="bus_no" placeholder="Bus Number" class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <button name="submit" class="px-6 py-2 bg-black text-white font-medium rounded-r-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">Search</button>
+                </div>
+            </form>
+        </div>
 
+        
         <div id="Bus_Number" class="w-full ml-[200px] mt-24 max-w-4xl p-6 bg-[#e9e8e8] rounded-lg shadow-xl">
             <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Bus Seat Reservation</h1>
             <p class="text-gray-600 mb-6 font-bold text-center">
-                <?php echo isset($bus_no) ? "Bus NO: $bus_no" : "Search a Bus"; ?>
+                <?php echo isset($bus_no) ? "Bus NO: $bus_no" : "Bus Number"; ?>
             </p>
 
             <div class="grid grid-cols-5 gap-4">
@@ -155,6 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['busJson'])) {
                 ?>
             </div>
         </div>
+
     </section>
 </body>
 </html>
