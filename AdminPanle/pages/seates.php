@@ -31,13 +31,7 @@ if (isset($_GET['submit'])) {
     while ($row = mysqli_fetch_assoc($result)) {
         $seatStatus[$row['seat_code']] = $row['status'];
     }
-}
-// $bus_no = 'NBS4455';
-// $seat_code = 'A1';
-// mysqli_query($conn, "UPDATE seats 
-//                      JOIN buses ON seats.bus_id = buses.bus_id 
-//                      SET seats.status = 'booked' 
-//                      WHERE buses.bus_no = '$bus_no' AND seats.seat_code = '$seat_code'");
+} 
 
 
 ?>

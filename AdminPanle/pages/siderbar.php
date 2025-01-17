@@ -33,7 +33,7 @@
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href=""><i class="fa-solid fa-calendar-days w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Schedule </a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=routes"><i class="fa-solid fa-road w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Routes</a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href=""><i class="fa-solid fa-users w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Customers</a></li>
-                        <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href=""><i class="fa-solid fa-ticket w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Booking</a></li>
+                        <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=booking"><i class="fa-solid fa-ticket w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Booking</a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=seates"><i class="fa-solid fa-th w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Seats</a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href=""><i class="fa-solid fa-circle-user w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Add New Admin</a></li>
                     </ul>

@@ -33,7 +33,7 @@ if (!$conn) {
                 </div>
                 <p class="text-gray-600 text-sm font-medium">Total Bookings</p>
                 <p class="text-gray-900 text-3xl font-bold mt-1">999</p>
-                <a class="flex justify-end items-center gap-1 text-green-500 text-sm font-medium mt-2 hover:underline" href="#">View More <i class="fas fa-arrow-right"></i></a>
+                <a class="flex justify-end items-center gap-1 text-green-500 text-sm font-medium mt-2 hover:underline" href="dashboard.php?pages=booking">View More <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="relative w-[260px] px-5 py-6 h-auto overflow-hidden bg-white rounded-xl shadow-lg transition-transform duration-300 group hover:scale-105 hover:shadow-xl">
