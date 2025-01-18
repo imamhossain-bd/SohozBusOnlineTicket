@@ -32,7 +32,10 @@ if (!$conn) {
                     </div>
                 </div>
                 <p class="text-gray-600 text-sm font-medium">Total Bookings</p>
-                <p class="text-gray-900 text-3xl font-bold mt-1">999</p>
+                <?php
+                    $getBooking = $conn->query("SELECT * FROM bookings");
+                    echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getBooking->num_rows . "</p>";
+                ?>
                 <a class="flex justify-end items-center gap-1 text-green-500 text-sm font-medium mt-2 hover:underline" href="dashboard.php?pages=booking">View More <i class="fas fa-arrow-right"></i></a>
             </div>
 
