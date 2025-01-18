@@ -1,11 +1,50 @@
-
 <?php
-    $conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
+// Database connection
+$conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
 
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Check if form is submitted
+if (isset($_POST['submitBookingBtn'])) {
+    // Fetch form data
+    $customerId = mysqli_real_escape_string($conn, $_POST['customerId']);
+    $customerName = mysqli_real_escape_string($conn, $_POST['customerName']);
+    $customerNumber = mysqli_real_escape_string($conn, $_POST['customerNumber']);
+    $route = mysqli_real_escape_string($conn, $_POST['route']);
+    $destination = mysqli_real_escape_string($conn, $_POST['destination']);
+    $selectBus = mysqli_real_escape_string($conn, $_POST['selectBus']);
+    $seat = mysqli_real_escape_string($conn, $_POST['seat']);
+    $amount = mysqli_real_escape_string($conn, $_POST['amount']);
+
+    // Insert booking into database
+    $sql = "INSERT INTO customers (id, name, phone, route, destination, bus, seat, amount) 
+    VALUES ('$customerId', '$customerName', '$customerNumber', '$route', '$destination', '$selectBus', '$seat', '$amount')";
+
+if (mysqli_query($conn, $sql)) {
+// Mark the seat as booked
+$updateSeat = "UPDATE seats SET status='booked' WHERE bus='$selectBus' AND seat='$seat'";
+mysqli_query($conn, $updateSeat);
+
+echo "<script>alert('Booking successful!');</script>";
+} else {
+echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
+}
+}
+
+// Fetch seat status
+$seatStatus = [];
+if (isset($_POST['selectBus'])) {
+    $selectedBus = mysqli_real_escape_string($conn, $_POST['selectBus']);
+    $result = $conn->query("SELECT seat, status FROM seats WHERE bus = '$selectedBus'");
+    while ($row = $result->fetch_assoc()) {
+        $seatStatus[$row['seat']] = $row['status'];
     }
+}
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,23 +96,23 @@
                 <hr class="border mb-3">
                 <div>
                     <label for="" class="font-semibold text-lg">Customer ID</label><br>
-                    <input type="text" name="viaCitiesAdd" placeholder="Customer ID" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
+                    <input type="text" name="customerId" placeholder="Customer ID" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
                     <label for="" class="font-semibold text-lg">Customer Name</label><br>
-                    <input type="text" name="viaCitiesAdd" placeholder="Customer Name" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
+                    <input type="text" name="customerName" placeholder="Customer Name" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
                     <label for="" class="font-semibold text-lg">Customer Number</label><br>
-                    <input type="text" name="viaCitiesAdd" placeholder="Customer Number" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
+                    <input type="text" name="customerNumber" placeholder="Customer Number" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
                     <label for="" class="font-semibold text-lg">Route</label><br>
-                    <input type="text" name="viaCitiesAdd" placeholder="Route" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
+                    <input type="text" name="route" placeholder="Route" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
                     <label for="" class="font-semibold text-lg">Destination</label><br>
-                    <input type="text" name="viaCitiesAdd" placeholder="Destination" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
+                    <input type="text" name="destination" placeholder="Destination" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
                     <label for="" class="font-semibold text-lg">Bus Select</label><br>
-                    <select name="" id="selectBus" class="w-full mt-3 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select name="selectBus" id="selectBus" class="w-full mt-3 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="Select Bus">Select Bus</option>
                         <option value="NBS4455">NBS4455</option>
                         <option value="QWQXF65">QWQXF65</option>
                     </select>
 
-                    <div id="busSeat" class="grid grid-cols-5 gap-4 mb-6 hidden">
+                    <div id="busSeat" name="seat" class="grid grid-cols-5 gap-4 mb-6 hidden">
                         <!-- Driver -->
                         <div class="col-span-5 flex justify-end mb-4">
                             <div class="bg-gray-800 text-white cursor-pointer mr-5 px-4 py-2 rounded-md">Driver</div>
@@ -110,7 +149,7 @@
                         ?>
                     </div>
                     <label for="" class="font-semibold text-lg">Amount</label><br>
-                    <input type="text" name="viaCitiesAdd" placeholder="Amount" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
+                    <input type="text" name="amount" placeholder="Amount" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
                 </div>
                 <div>
                     <div class="flex justify-end gap-4">
@@ -120,9 +159,30 @@
                 </div>
             </div>
         </div>
-
     <!-- Add Booking Model Popup -->
+    <!-- Add Booking Table -->
+        <div class="overflow-x-auto mt-10 ml-[10%] w-full mb-6">
+            <table class="min-w-full table-auto border border-collapse">
+                <thead>
+                    <tr>
+                        <th class="border px-4 py-2">Customer ID</th>
+                        <th class="border px-4 py-2">Customer Name</th>
+                        <th class="border px-4 py-2">Customer Number</th>
+                        <th class="border px-4 py-2">Route</th>
+                        <th class="border px-4 py-2">Destination</th>
+                        <th class="border px-4 py-2">Seat</th>
+                        <th class="border px-4 py-2">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
 
+                    ?>
+                </tbody>
+            </table>
+        </div>
+
+    <!-- Add Booking Table -->
 
 
 
