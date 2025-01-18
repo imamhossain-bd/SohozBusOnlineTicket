@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2025 at 07:50 PM
+-- Generation Time: Jan 18, 2025 at 08:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,15 +28,28 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `bookings` (
-  `id` int(100) NOT NULL,
-  `booking_id` varchar(255) NOT NULL,
-  `customer_id` varchar(255) NOT NULL,
-  `route_id` varchar(255) NOT NULL,
-  `customer_route` varchar(255) NOT NULL,
-  `booked_amount` int(100) NOT NULL,
-  `booked_seat` varchar(155) NOT NULL,
-  `booking_created` datetime NOT NULL DEFAULT current_timestamp()
+  `id` int(11) NOT NULL,
+  `customerId` varchar(255) NOT NULL,
+  `customerName` varchar(255) NOT NULL,
+  `customerNumber` varchar(20) NOT NULL,
+  `route` varchar(255) NOT NULL,
+  `destination` varchar(255) NOT NULL,
+  `selectBus` varchar(50) NOT NULL,
+  `seat` varchar(10) NOT NULL,
+  `amount` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`id`, `customerId`, `customerName`, `customerNumber`, `route`, `destination`, `selectBus`, `seat`, `amount`) VALUES
+(1, 'KHR456', 'Kobir', '0187134574', 'Noakhali', 'Maijdee, Noakhali', 'Select Bus', '', 550.00),
+(2, 'PRF345', 'Hridoy', '017645634', 'Chottogram', 'Bagerhat', 'NBS4455', '', 650.00),
+(4, 'EJG467', 'Prince', '015473456', 'Noakhali', 'Sonapur', 'NBS4455', '', 550.00),
+(5, 'OPJ735', 'Habib', '0164843458', 'Dhaka-Lalmatia', 'Lalmatia', 'NBS4455', '', 500.00),
+(6, 'MRT456', 'Imam Hossain FJR', '01331642509', 'Dhaka-bandorban', 'bandorban', 'NBS4455', '', 500.00),
+(7, 'LRY745', 'Miraj', '0153562356', 'Dhaka - Gajipur', 'Gajipur', 'NBS4455', '', 300.00);
 
 -- --------------------------------------------------------
 
@@ -63,8 +76,7 @@ INSERT INTO `buses` (`id`, `bus_no`, `bus_assigned`, `bus_create`) VALUES
 (24, 'TTH8888', 0, '2024-12-31 11:40:31'),
 (25, 'REYH4255', 0, '2024-12-31 11:40:42'),
 (32, 'IUEJGKD7654', 0, '2025-01-13 10:16:32'),
-(33, 'NBS4455', 0, '2025-01-15 23:24:22'),
-(34, 'NBS4455', 0, '2025-01-15 23:25:11');
+(33, 'NBS4455', 0, '2025-01-15 23:24:22');
 
 -- --------------------------------------------------------
 
@@ -150,47 +162,7 @@ INSERT INTO `seats` (`seat_id`, `bus_id`, `seat_code`, `status`) VALUES
 (37, 33, 'J1', 'available'),
 (38, 33, 'J2', 'available'),
 (39, 33, 'J3', 'available'),
-(40, 33, 'J4', 'available'),
-(41, 34, 'A1', 'available'),
-(42, 34, 'A2', 'available'),
-(43, 34, 'A3', 'available'),
-(44, 34, 'A4', 'available'),
-(45, 34, 'B1', 'available'),
-(46, 34, 'B2', 'available'),
-(47, 34, 'B3', 'available'),
-(48, 34, 'B4', 'available'),
-(49, 34, 'C1', 'available'),
-(50, 34, 'C2', 'available'),
-(51, 34, 'C3', 'available'),
-(52, 34, 'C4', 'available'),
-(53, 34, 'D1', 'available'),
-(54, 34, 'D2', 'available'),
-(55, 34, 'D3', 'available'),
-(56, 34, 'D4', 'available'),
-(57, 34, 'E1', 'available'),
-(58, 34, 'E2', 'available'),
-(59, 34, 'E3', 'available'),
-(60, 34, 'E4', 'available'),
-(61, 34, 'F1', 'available'),
-(62, 34, 'F2', 'available'),
-(63, 34, 'F3', 'available'),
-(64, 34, 'F4', 'available'),
-(65, 34, 'G1', 'available'),
-(66, 34, 'G2', 'available'),
-(67, 34, 'G3', 'available'),
-(68, 34, 'G4', 'available'),
-(69, 34, 'H1', 'available'),
-(70, 34, 'H2', 'available'),
-(71, 34, 'H3', 'available'),
-(72, 34, 'H4', 'available'),
-(73, 34, 'I1', 'available'),
-(74, 34, 'I2', 'available'),
-(75, 34, 'I3', 'available'),
-(76, 34, 'I4', 'available'),
-(77, 34, 'J1', 'available'),
-(78, 34, 'J2', 'available'),
-(79, 34, 'J3', 'available'),
-(80, 34, 'J4', 'available');
+(40, 33, 'J4', 'available');
 
 -- --------------------------------------------------------
 
@@ -260,7 +232,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `buses`
