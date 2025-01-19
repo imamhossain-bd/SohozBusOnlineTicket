@@ -8,7 +8,7 @@ if (!$conn) {
 
 
 
-// Fetch seat status for booked seats
+// Fetch booked seat status
 $seatStatus = [];
 if (isset($_POST['selectBus']) || isset($_GET['selectBus'])) {
     $selectedBus = mysqli_real_escape_string($conn, $_POST['selectBus'] ?? $_GET['selectBus']);
@@ -21,8 +21,7 @@ if (isset($_POST['selectBus']) || isset($_GET['selectBus'])) {
     }
 }
 
-
-// Check if form is submitted
+// Handle form submission
 if (isset($_POST['submitBookingBtn'])) {
     // Fetch form data
     $customerId = mysqli_real_escape_string($conn, $_POST['customerId']);
@@ -31,16 +30,20 @@ if (isset($_POST['submitBookingBtn'])) {
     $route = mysqli_real_escape_string($conn, $_POST['route']);
     $destination = mysqli_real_escape_string($conn, $_POST['destination']);
     $selectBus = mysqli_real_escape_string($conn, $_POST['selectBus']);
-    $seat = isset($_POST['seats']) ? mysqli_real_escape_string($conn, $_POST['seats']) : '';
-    $amount = mysqli_real_escape_string($conn, $_POST['amount']);
+    $selectedSeats = isset($_POST['seats']) ? implode(',', $_POST['seats']) : '';
+    $amount = count($_POST['seats']) * 500; // Example: Calculate amount based on seat count
 
-    $sql = "INSERT INTO bookings (customerId, customerName, customerNumber, route, destination, selectBus, seat, amount) 
-            VALUES ('$customerId', '$customerName', '$customerNumber', '$route', '$destination', '$selectBus', '$seat', '$amount')";
-
-    if (mysqli_query($conn, $sql)) {
-        echo "<div class='wi-full py-3 px-4 bg-green-300 mb-5'>Booking added successfully!</div>";
+    if (count($_POST['seats']) > 4) {
+        echo "<div class='bg-red-300 p-3'>You can't select more than 4 seats!</div>";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        $sql = "INSERT INTO bookings (customerId, customerName, customerNumber, route, destination, selectBus, seat, amount) 
+                VALUES ('$customerId', '$customerName', '$customerNumber', '$route', '$destination', '$selectBus', '$selectedSeats', '$amount')";
+
+        if (mysqli_query($conn, $sql)) {
+            echo "<div class='bg-green-300 p-3'>Booking added successfully!</div>";
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
     }
 }
 
@@ -178,6 +181,7 @@ if (isset($_POST['updateBookingBtn'])) {
                         }
                         ?>
                     </div>
+                    <input type="hidden" name="seats" id="selectedSeats" />
                 <label class="font-semibold text-lg">Amount</label><br>
                 <input type="text" name="amount" placeholder="Amount" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
             </div>
@@ -208,7 +212,7 @@ if (isset($_POST['updateBookingBtn'])) {
             <?php
             $result = mysqli_query($conn, "SELECT * FROM bookings");
             while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>
+                echo "<tr class='hover:bg-[#e5e7eb]'>
                         <td class='border px-4 py-2'>{$row['customerId']}</td>
                         <td class='border px-4 py-2'>{$row['customerName']}</td>
                         <td class='border px-4 py-2'>{$row['customerNumber']}</td>
@@ -302,6 +306,43 @@ if (isset($_POST['updateBookingBtn'])) {
         cancelEdit.addEventListener('click', () => {
             editModal.classList.add('hidden');
         });
+
+        // JavaScript for Seat Selection
+        const seats = document.querySelectorAll('.seat.available');
+        const selectedSeatsInput = document.getElementById('selectedSeats');
+        let selectedSeats = [];
+
+        // Add event listeners to seats
+        seats.forEach(seat => {
+            seat.addEventListener('click', () => {
+                const seatNumber = seat.getAttribute('data-seat');
+
+                if (seat.classList.contains('booked')) {
+                    return; // Ignore clicks on booked seats
+                }
+
+                if (selectedSeats.includes(seatNumber)) {
+                    // Deselect the seat
+                    seat.classList.remove('bg-blue-500');
+                    seat.classList.add('bg-green-500');
+                    selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+                } else {
+                    // Select the seat
+                    if (selectedSeats.length < 4) { // Maximum of 4 seats
+                        seat.classList.remove('bg-green-500');
+                        seat.classList.add('bg-blue-500');
+                        selectedSeats.push(seatNumber);
+                    } else {
+                        alert("You can't select more than 4 seats");
+                    }
+                }
+
+                // Update hidden input with selected seats
+                selectedSeatsInput.value = selectedSeats.join(',');
+            });
+        });
+
+
         
     </script>
 </body>
