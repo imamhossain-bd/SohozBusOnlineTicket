@@ -10,7 +10,7 @@ if (!$conn) {
 
 $seatStatus = [];
 if (isset($_POST['selectBus']) || isset($_GET['selectBus'])) {
-    $selectedBus = mysqli_real_escape_string($conn, $_POST['selectBus'] ?? $_GET['selectBus']);
+    $selectedBus = ( $_POST['selectBus'] ?? $_GET['selectBus']);
     $result = mysqli_query($conn, "SELECT seat FROM bookings WHERE selectBus = '$selectedBus'");
     while ($row = mysqli_fetch_assoc($result)) {
         $bookedSeats = explode(',', $row['seat']);
@@ -20,42 +20,40 @@ if (isset($_POST['selectBus']) || isset($_GET['selectBus'])) {
     }
 }
 
-// Handle form submission
 if (isset($_POST['submitBookingBtn'])) {
-    $customerId = mysqli_real_escape_string($conn, $_POST['customerId']);
-    $customerName = mysqli_real_escape_string($conn, $_POST['customerName']);
-    $customerNumber = mysqli_real_escape_string($conn, $_POST['customerNumber']);
-    $route = mysqli_real_escape_string($conn, $_POST['route']);
-    $destination = mysqli_real_escape_string($conn, $_POST['destination']);
-    $selectBus = mysqli_real_escape_string($conn, $_POST['selectBus']);
+    $customerId =  $_POST['customerId'];
+    $customerName = $_POST['customerName'];
+    $customerNumber = $_POST['customerNumber'];
+    $route = $_POST['route'];
+    $destination = $_POST['destination'];
+    $selectBus = $_POST['selectBus'];
     
-     // Get selected seats from the input field
      $selectedSeatsString = $_POST['seats']; 
 
-     // Split the comma-separated string into an array
      $selectedSeatsArray = explode(',', $selectedSeatsString); 
- 
-     // Count the number of selected seats
-     $seatCount = count($selectedSeatsArray); 
- 
-     $amount = $seatCount * 500; // Example: $500 per seat
 
-    //var_dump($selectedSeats);
-    // Limit seat selection
+     $seatCount = count($selectedSeatsArray); 
+     $cost = $_POST['route_step_cost'];
+ 
+     $route = "INSERT INTO routes (bus_no, route_cities, route_dep_date, route_dep_time, route_step_cost, route_created) VALUE ('$cost')";
+
+     $amount = $seatCount * $cost; // Example: $500 per seat
+
+
     if ($seatCount > 4) {
         echo "<div class='bg-red-300 p-3'>You can't select more than 4 seats!</div>";
     } else {
         $sql = "INSERT INTO bookings (customerId, customerName, customerNumber, route, destination, selectBus, seat, amount) 
                 VALUES ('$customerId', '$customerName', '$customerNumber', '$route', '$destination', '$selectBus', '$selectedSeatsString', '$amount')";
         if (mysqli_query($conn, $sql)) {
-            echo "<div class='bg-green-300 p-3'>Booking added successfully!</div>";
+            echo "<div class='bg-green-300 p-3 mb-5'>Booking added successfully!</div>";
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }
     }
 }
 
-// Handle Delete
+// Delete
 if (isset($_GET['deleteId'])) {
     $deleteId = intval($_GET['deleteId']);
     $sql = "DELETE FROM bookings WHERE id = $deleteId";
@@ -67,11 +65,11 @@ if (isset($_GET['deleteId'])) {
     }
 }
 
-// Handle Update
+// Update
 if (isset($_POST['updateBookingBtn'])) {
     $editId = intval($_POST['editId']);
-    $customerName = mysqli_real_escape_string($conn, $_POST['editCustomerName']);
-    $customerNumber = mysqli_real_escape_string($conn, $_POST['editCustomerNumber']);
+    $customerName = $_POST['editCustomerName'];
+    $customerNumber = $_POST['editCustomerNumber'];
 
     $sql = "UPDATE bookings SET customerName = '$customerName', customerNumber = '$customerNumber' WHERE id = $editId";
 
