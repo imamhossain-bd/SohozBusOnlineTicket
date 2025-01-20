@@ -28,16 +28,25 @@ if (isset($_POST['submitBookingBtn'])) {
     $route = mysqli_real_escape_string($conn, $_POST['route']);
     $destination = mysqli_real_escape_string($conn, $_POST['destination']);
     $selectBus = mysqli_real_escape_string($conn, $_POST['selectBus']);
-    $selectedSeats = mysqli_real_escape_string($conn, $_POST['seats']); // Comma-separated seats
-    $seatCount = count(explode(',', $selectedSeats));
-    $amount = $seatCount * 500; // Example: $500 per seat
+    
+     // Get selected seats from the input field
+     $selectedSeatsString = $_POST['seats']; 
 
+     // Split the comma-separated string into an array
+     $selectedSeatsArray = explode(',', $selectedSeatsString); 
+ 
+     // Count the number of selected seats
+     $seatCount = count($selectedSeatsArray); 
+ 
+     $amount = $seatCount * 500; // Example: $500 per seat
+
+    //var_dump($selectedSeats);
     // Limit seat selection
     if ($seatCount > 4) {
         echo "<div class='bg-red-300 p-3'>You can't select more than 4 seats!</div>";
     } else {
         $sql = "INSERT INTO bookings (customerId, customerName, customerNumber, route, destination, selectBus, seat, amount) 
-                VALUES ('$customerId', '$customerName', '$customerNumber', '$route', '$destination', '$selectBus', '$selectedSeats', '$amount')";
+                VALUES ('$customerId', '$customerName', '$customerNumber', '$route', '$destination', '$selectBus', '$selectedSeatsString', '$amount')";
         if (mysqli_query($conn, $sql)) {
             echo "<div class='bg-green-300 p-3'>Booking added successfully!</div>";
         } else {
@@ -146,7 +155,7 @@ if (isset($_POST['updateBookingBtn'])) {
                     <option value="NBS4455">NBS4455</option>
                     <option value="QWQXF65">QWQXF65</option>
                 </select>
-                    <div id="busSeat" name="seats" class="grid grid-cols-5 gap-4 mb-6 hidden">
+                    <div id="busSeat" name="seat" class="grid grid-cols-5 gap-4 mb-6 hidden">
                         <!-- Driver -->
                         <div class="col-span-5 flex justify-end mb-4">
                             <div class="bg-gray-800 text-white cursor-pointer mr-2 mt-2 px-4 py-2 rounded-md">Driver</div>
@@ -246,8 +255,9 @@ if (isset($_POST['updateBookingBtn'])) {
                             </div>
                             <!-- Add more rows as needed -->
                         </div>
-                        <input type="hidden" name="seats" id="selectedSeatsInput">
+                        
                     </div>
+                <input type="hidden" name="seats" id="selectedSeatsInput">
                 <label class="font-semibold text-lg">Amount</label><br>
                 <input type="text" name="amount" placeholder="Amount" class="w-full mt-2 border border-gray-300 p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" /> <br>
             </div>
@@ -286,7 +296,7 @@ if (isset($_POST['updateBookingBtn'])) {
                         <td class='border px-4 py-2'>{$row['destination']}</td>
                         <td class='border px-4 py-2'>{$row['selectBus']}</td>
                         <td class='border px-4 py-2'>{$row['seat']}</td>
-                        <td class='border px-4 py-2'>{$row['amount']}</td>
+                        <td class='border px-4 py-2'>$ {$row['amount']}</td>
                         <td class='px-4 flex gap-2 py-2 border text-center'>
                             <button class='text-white rounded-md px-3 py-1 bg-blue-500 edit-button' 
                                     data-id='{$row['id']}' 
@@ -404,31 +414,12 @@ if (isset($_POST['updateBookingBtn'])) {
                     }
 
                     console.log('Selected Seats:', selectedSeats);
+                    document.getElementById('selectedSeatsInput').value = selectedSeats.join(',');
                 });
             });
         });
 
-        $(document).ready(function () {
-            $.post("booking.php", { selectBus: "Bus1" }, function (data) {
-                let bookedSeats = JSON.parse(data); // Assume PHP returns JSON seat data
-                for (let seat in bookedSeats) {
-                    $(`.seat[data-seat="${seat}"]`).addClass('booked').prop('disabled', true);
-                }
-            });
-
-            // Select and deselect seats
-            $(".seat").not(".booked").click(function () {
-                $(this).toggleClass("selected");
-                updateSelectedSeats();
-            });
-
-            function updateSelectedSeats() {
-                let selectedSeats = $(".seat.selected").map(function () {
-                    return $(this).data("seat");
-                }).get().join(",");
-                $("#selectedSeatsInput").val(selectedSeats);
-            }
-        });
+        
 
 
         
