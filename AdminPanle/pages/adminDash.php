@@ -4,6 +4,11 @@ $conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
+$result = mysqli_query($conn, "SELECT SUM(amount) AS totalEarnings FROM bookings");
+$row = mysqli_fetch_assoc($result);
+$totalEarnings = $row['totalEarnings'] ?? 0;
+
 ?>
 
 <!DOCTYPE html>
@@ -132,7 +137,7 @@ if (!$conn) {
                     </div>
                 </div>
                 <p class="text-gray-600 text-sm font-medium">Total Earnings</p>
-                <p class="text-gray-900 text-3xl font-bold mt-1">999</p>
+                <p class="text-gray-900 text-3xl font-bold mt-1">$ <?php echo number_format($totalEarnings, 2); ?></p>
                 <a class="flex justify-end items-center gap-1 text-green-600 text-sm font-medium mt-2 hover:underline" href="#">View More <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
