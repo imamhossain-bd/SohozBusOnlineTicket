@@ -33,11 +33,9 @@ if (isset($_POST['submitBookingBtn'])) {
      $selectedSeatsArray = explode(',', $selectedSeatsString); 
 
      $seatCount = count($selectedSeatsArray); 
-     $cost = $_POST['route_step_cost'];
  
-     $route = "INSERT INTO routes (bus_no, route_cities, route_dep_date, route_dep_time, route_step_cost, route_created) VALUE ('$cost')";
-
-     $amount = $seatCount * $cost; // Example: $500 per seat
+     
+     $amount = $seatCount * 500; // Example: $500 per seat
 
 
     if ($seatCount > 4) {
