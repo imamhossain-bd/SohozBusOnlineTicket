@@ -41,6 +41,17 @@ if (isset($_POST['submitBookingBtn'])) {
     if ($seatCount > 4) {
         echo "<div class='bg-red-300 p-3'>You can't select more than 4 seats!</div>";
     } else {
+
+        $customerCheckQuery = "SELECT * FROM customer WHERE customer_id = '$customerId'";
+        $customerResult = mysqli_query($conn, $customerCheckQuery);
+
+        if (mysqli_num_rows($customerResult) == 0) {
+            $insertCustomerQuery = "INSERT INTO customer (customer_id, customer_name, customer_phone) 
+                                    VALUES ('$customerId', '$customerName', '$customerNumber')";
+            mysqli_query($conn, $insertCustomerQuery);
+        }
+
+
         $sql = "INSERT INTO bookings (customerId, customerName, customerNumber, route, destination, selectBus, seat, amount) 
                 VALUES ('$customerId', '$customerName', '$customerNumber', '$route', '$destination', '$selectBus', '$selectedSeatsString', '$amount')";
         if (mysqli_query($conn, $sql)) {

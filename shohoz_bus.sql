@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2025 at 06:03 PM
+-- Generation Time: Jan 22, 2025 at 03:35 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,7 +44,7 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `customerId`, `customerName`, `customerNumber`, `route`, `destination`, `selectBus`, `seat`, `amount`) VALUES
-(24, 'LRY745', 'Habib', '0164843458', 'Noakhali', 'Sonapur', 'NBS4455', 'B2,C2,C3,B3', 2000.00),
+(24, 'LRY745', 'Imam', '0164843458', 'Noakhali', 'Sonapur', 'NBS4455', 'B2,C2,C3,B3', 2000.00),
 (25, 'MRT456', 'Monir', '0187134574', 'Dhaka', 'Sonapur', 'NBS4455', 'B4,C3,C4,B3', 2000.00),
 (26, 'PRF345', 'Kobir', '0153562356', 'Chottogram', 'Bagerhat', 'NBS4455', 'C1,C2', 1000.00),
 (27, 'KHR456', 'Habib', '0198745236', 'Feni', 'Dhaka', 'NBS4455', 'E1,E2', 1000.00),
@@ -79,6 +79,20 @@ INSERT INTO `buses` (`id`, `bus_no`, `bus_assigned`, `bus_create`) VALUES
 (25, 'REYH4255', 0, '2024-12-31 11:40:42'),
 (32, 'IUEJGKD7654', 0, '2025-01-13 10:16:32'),
 (33, 'NBS4455', 0, '2025-01-15 23:24:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `id` int(11) NOT NULL,
+  `customer_id` varchar(50) NOT NULL,
+  `customer_name` varchar(100) NOT NULL,
+  `customer_phone` varchar(15) NOT NULL,
+  `customer_created` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -208,6 +222,13 @@ ALTER TABLE `buses`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `customer_id` (`customer_id`);
+
+--
 -- Indexes for table `routes`
 --
 ALTER TABLE `routes`
@@ -234,13 +255,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `buses`
 --
 ALTER TABLE `buses`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `routes`

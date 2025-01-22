@@ -6,7 +6,7 @@ if (!$conn) {
 }
 
 
-$result = mysqli_query($conn, "SELECT DISTINCT customerName, customerNumber FROM bookings");
+$result = mysqli_query($conn, "SELECT customer_name, customer_phone FROM customer");
 
 
 // Delete
