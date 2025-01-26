@@ -37,36 +37,138 @@
                             </div>
                         </li>
                         <li class="relative">
-                            <button class="py-3 px-4 ml-2 flex text-sm rounded-full focus:outline-none" id="user-messages" type="button" aria-haspopup="menu" aria-expanded="false" data-headlessui-state="">
-                                <div class="relative inline-block">
+                            <div class="relative font-sans w-max max-auto">
+                                <button  id="dropdownToggleMessage" class="py-3 px-4 ml-2 flex text-sm rounded-full focus:outline-none" id="user-messages" type="button" aria-haspopup="menu" aria-expanded="false" data-headlessui-state="">
                                     <div class="relative inline-block">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" class="bi bi-envelope w-6 h-6"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
-                                        </svg>
-                                        <span class="flex justify-center absolute -top-2 ml-5 ltr:-right-1 rtl:-left-1 text-center bg-pink-500 px-1 text-white rounded-full text-xs">
-                                        <span class="align-self-center">3</span>
-                                        </span>
+                                        <div class="relative inline-block">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="26px" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 112c-8.8 0-16 7.2-16 16l0 22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1l0-22.1c0-8.8-7.2-16-16-16L64 112zM48 212.2L48 384c0 8.8 7.2 16 16 16l384 0c8.8 0 16-7.2 16-16l0-171.8L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64l384 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128z"/></svg>
+                                            <span class="flex justify-center absolute -top-2 ml-5 ltr:-right-1 rtl:-left-1 text-center bg-pink-500 px-[6px] py-[1px] text-white rounded-full text-xs">
+                                            <span class="align-self-center">3</span>
+                                            </span>
+                                        </div>
                                     </div>
+                                </button>
+
+                                <div id="dropdownMenuMessage" class='hidden absolute right-0 shadow-lg bg-white py-4 z-[1000] min-w-full rounded-lg w-[300px] max-h-[300px] overflow-auto mt-2'>
+                                    <div class="flex items-center justify-between px-4 mb-4">
+                                    <p class="text-xs text-blue-600 cursor-pointer">Clear all</p>
+                                    <p class="text-xs text-blue-600 cursor-pointer">Mark as read</p>
+                                    </div>
+
+                                    <ul class="divide-y">
+                                    <li class='p-4 flex items-center hover:bg-gray-50 cursor-pointer'>
+                                        <div class="ml-6">
+                                        <h3 class="text-sm text-[#333] font-semibold">Your have a new message from Yin</h3>
+                                        <p class="text-xs text-gray-500 mt-2">Hello there, check this new items in from the your may interested from
+                                            the motion school.</p>
+                                        <p class="text-xs text-blue-600 leading-3 mt-2">10 minutes ago</p>
+                                        </div>
+                                    </li>
+
+                                    <li class='p-4 flex items-center hover:bg-gray-50 cursor-pointer'>
+                                        <div class="ml-6">
+                                        <h3 class="text-sm text-[#333] font-semibold">Your have a new message from Haper</h3>
+                                        <p class="text-xs text-gray-500 mt-2">Hello there, check this new items in from the your may interested from
+                                            the motion school.</p>
+                                        <p class="text-xs text-blue-600 leading-3 mt-2">2 hours ago</p>
+                                        </div>
+                                    </li>
+
+                                    <li class='p-4 flex items-center hover:bg-gray-50 cursor-pointer'>
+                                        <div class="ml-6">
+                                        <h3 class="text-sm text-[#333] font-semibold">Your have a new message from San</h3>
+                                        <p class="text-xs text-gray-500 mt-2">Hello there, check this new items in from the your may interested from
+                                            the motion school.</p>
+                                        <p class="text-xs text-blue-600 leading-3 mt-2">1 day ago</p>
+                                        </div>
+                                    </li>
+
+                                    <li class='p-4 flex items-center hover:bg-gray-50 cursor-pointer'>
+                                        <div class="ml-6">
+                                        <h3 class="text-base text-[#333] font-semibold">Your have a new message from Seeba</h3>
+                                        <p class="text-xs text-gray-500 mt-2">Hello there, check this new items in from the your may interested from
+                                            the motion school.</p>
+                                        <p class="text-xs text-blue-600 leading-3 mt-2">30 minutes ago</p>
+                                        </div>
+                                    </li>
+                                    </ul>
+                                    <p class="text-xs px-4 mt-6 mb-4 inline-block text-blue-600 cursor-pointer">View all Notifications</p>
                                 </div>
-                            </button>
+                            </div>
                         </li>
                         <li class="relative">
-                            <button class="py-3 px-4 flex text-sm rounded-full focus:outline-none" id="user-menu-button" type="button" aria-haspopup="menu" aria-expanded="false" data-headlessui-state="">
-                                <div class="relative inline-block">
-                                    <div class="relative inline-block">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" class="bi bi-bell w-6 h-6"><path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"></path></svg>
-                                        <span class="flex justify-center absolute -top-2 ltr:-right-1 ml-4 rtl:-left-1 text-center bg-pink-500 px-1 text-white rounded-full text-xs"><span class="align-self-center">2</span></span>
-                                    </div>
-                                </div>
+                        <div class="relative font-[sans-serif] w-max mx-auto">
+                            <button type="button" id="dropdownToggle"
+                                class="w-12 h-12 flex items-center justify-center rounded-full border-2 text-white border-none outline-none  ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22px" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M224 0c-17.7 0-32 14.3-32 32l0 19.2C119 66 64 130.6 64 208l0 25.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416l400 0c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4l0-25.4c0-77.4-55-142-128-156.8L256 32c0-17.7-14.3-32-32-32zm0 96c61.9 0 112 50.1 112 112l0 25.4c0 47.9 13.9 94.6 39.7 134.6L72.3 368C98.1 328 112 281.3 112 233.4l0-25.4c0-61.9 50.1-112 112-112zm64 352l-64 0-64 0c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/></svg>
+                                <span class="flex justify-center absolute mt-[-1.6rem] ml-5 ltr:-right-1 rtl:-left-1 text-center bg-pink-500 px-[6px] py-[1px] text-white rounded-full text-xs">
+                                <span class="align-self-center">3</span>
+                                </span>
                             </button>
+
+                            <div id="dropdownMenu" class='hidden absolute right-0 shadow-lg bg-white py-4 z-[1000] min-w-full rounded-lg w-[300px] max-h-[300px] overflow-auto mt-2'>
+                                <div class="flex items-center justify-between px-4 mb-4">
+                                <p class="text-xs text-blue-600 cursor-pointer">Clear all</p>
+                                <p class="text-xs text-blue-600 cursor-pointer">Mark as read</p>
+                                </div>
+
+                                <ul class="divide-y">
+                                <li class='p-4 flex items-center hover:bg-gray-50 cursor-pointer'>
+                                    <img src="https://readymadeui.com/profile_2.webp" class="w-12 h-12 rounded-full shrink-0" />
+
+                                    <div class="ml-6">
+                                    <h3 class="text-sm text-[#333] font-semibold">Your have a new message from Yin</h3>
+                                    <p class="text-xs text-gray-500 mt-2">Hello there, check this new items in from the your may interested from
+                                        the motion school.</p>
+                                    <p class="text-xs text-blue-600 leading-3 mt-2">10 minutes ago</p>
+                                    </div>
+                                </li>
+
+                                <li class='p-4 flex items-center hover:bg-gray-50 cursor-pointer'>
+                                    <img src="https://readymadeui.com/team-2.webp" class="w-12 h-12 rounded-full shrink-0" />
+
+                                    <div class="ml-6">
+                                    <h3 class="text-sm text-[#333] font-semibold">Your have a new message from Haper</h3>
+                                    <p class="text-xs text-gray-500 mt-2">Hello there, check this new items in from the your may interested from
+                                        the motion school.</p>
+                                    <p class="text-xs text-blue-600 leading-3 mt-2">2 hours ago</p>
+                                    </div>
+                                </li>
+
+                                <li class='p-4 flex items-center hover:bg-gray-50 cursor-pointer'>
+                                    <img src="https://readymadeui.com/team-3.webp" class="w-12 h-12 rounded-full shrink-0" />
+
+                                    <div class="ml-6">
+                                    <h3 class="text-sm text-[#333] font-semibold">Your have a new message from San</h3>
+                                    <p class="text-xs text-gray-500 mt-2">Hello there, check this new items in from the your may interested from
+                                        the motion school.</p>
+                                    <p class="text-xs text-blue-600 leading-3 mt-2">1 day ago</p>
+                                    </div>
+                                </li>
+
+                                <li class='p-4 flex items-center hover:bg-gray-50 cursor-pointer'>
+                                    <img src="https://readymadeui.com/team-4.webp" class="w-12 h-12 rounded-full shrink-0" />
+
+                                    <div class="ml-6">
+                                    <h3 class="text-sm text-[#333] font-semibold">Your have a new message from Seeba</h3>
+                                    <p class="text-xs text-gray-500 mt-2">Hello there, check this new items in from the your may interested from
+                                        the motion school.</p>
+                                    <p class="text-xs text-blue-600 leading-3 mt-2">30 minutes ago</p>
+                                    </div>
+                                </li>
+                                </ul>
+                                <p class="text-xs px-4 mt-6 mb-4 inline-block text-blue-600 cursor-pointer">View all Notifications</p>
+                            </div>
+                        </div>
                         </li>
                         <div>
-                            <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 mt-[-9px] dark:focus:ring-gray-600" type="button">
+                            <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 ml-5 mt-[-9px] dark:focus:ring-gray-600" type="button">
                             <span class="sr-only">Open user menu</span>
                             <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo">
                             </button>
 
                             <!-- Dropdown menu -->
-                            <div id="dropdownAvatar" class=" absolute hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44 dark:bg-gray-700 dark:divide-gray-600 ">
+                            <div id="dropdownAvatar" class=" absolute hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-[240px] dark:bg-gray-700 dark:divide-gray-600 ">
                                 <div class="px-4 py-3 text-center text-sm text-gray-900 dark:text-white">
                                     <div class="font-medium">Imam Hossain</div>
                                     <div class="font-medium truncate">imamhossain@gmail.com</div>
@@ -91,5 +193,39 @@
             </div>
             <!-- Navbar End -->
     </section>
+
+    <script>
+        let dropdownToggle = document.getElementById('dropdownToggle');
+        let dropdownMenu = document.getElementById('dropdownMenu');
+
+        function handleClick() {
+            if (dropdownMenu.className.includes('block')) {
+                dropdownMenu.classList.add('hidden')
+                dropdownMenu.classList.remove('block')
+            } else {
+                dropdownMenu.classList.add('block')
+                dropdownMenu.classList.remove('hidden')
+            }
+        }
+
+        dropdownToggle.addEventListener('click', handleClick);
+
+        let dropdownToggleMessage = document.getElementById('dropdownToggleMessage');
+        let dropdownMenuMessage = document.getElementById('dropdownMenuMessage');
+
+        function handleClickMess() {
+            if (dropdownMenuMessage.className.includes('block')) {
+                dropdownMenuMessage.classList.add('hidden')
+                dropdownMenuMessage.classList.remove('block')
+            } else {
+                dropdownMenuMessage.classList.add('block')
+                dropdownMenuMessage.classList.remove('hidden')
+            }
+        }
+
+        dropdownToggleMessage.addEventListener('click', handleClickMess);
+    </script>
+
+
 </body>
 </html>

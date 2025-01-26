@@ -1,11 +1,7 @@
 <?php
 ob_start();
 // Database connection
-$conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
-
-if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
-}
+$conn = mysqli_connect("localhost","root","","shohoz_bus");
 
 // Function to check if the route already exists
 function exist_routes($conn, $viaCities, $departureDate, $departureTime) {

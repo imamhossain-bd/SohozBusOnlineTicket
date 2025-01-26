@@ -1,10 +1,5 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
-
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
+$conn = mysqli_connect("localhost","root","","shohoz_bus");
 
 $result = mysqli_query($conn, "SELECT customer_name, customer_phone FROM customer");
 

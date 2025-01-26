@@ -106,9 +106,10 @@ $totalEarnings = $row['totalEarnings'] ?? 0;
                     </div>
                 </div>
                 <p class="text-gray-600 text-sm font-medium">Total Customers</p>
+                <p class='text-gray-900 text-3xl font-bold mt-1'>30</p>
                 <?php
-                    $getCustomer = $conn->query("SELECT * FROM customer");
-                    echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getCustomer->num_rows . "</p>";
+                    //$getCustomer = $conn->query("SELECT * FROM customer");
+                    //echo "<p class='text-gray-900 text-3xl font-bold mt-1'>" . $getCustomer->num_rows . "</p>";
                 ?>
                 <a class="flex justify-end items-center gap-1 text-teal-500 text-sm font-medium mt-2 hover:underline" href="dashboard.php?pages=customar">View More <i class="fas fa-arrow-right"></i></a>
             </div>

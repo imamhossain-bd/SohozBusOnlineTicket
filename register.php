@@ -100,7 +100,7 @@ if (isset($_POST['registerBtn'])) {
         }
         
         body {
-            height: 125vh;
+            height: 105vh;
             padding: 0 10px;
             background: #f4f4f4;
             padding-top: 2%;

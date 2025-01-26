@@ -1,6 +1,8 @@
 <?php
 ob_start();
-$conn = mysqli_connect("localhost", "root", "", "shohoz_bus");
+$conn = mysqli_connect("localhost","root","","shohoz_bus");
+
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['submitBtn'])) {
