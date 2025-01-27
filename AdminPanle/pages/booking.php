@@ -6,6 +6,8 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+
+
 $seatStatus = [];
 if (isset($_POST['selectBus']) || isset($_GET['selectBus'])) {
     $selectedBus = ( $_POST['selectBus'] ?? $_GET['selectBus']);
@@ -31,8 +33,7 @@ if (isset($_POST['submitBookingBtn'])) {
      $selectedSeatsArray = explode(',', $selectedSeatsString); 
 
      $seatCount = count($selectedSeatsArray); 
- 
-     
+      
      $amount = $seatCount * 500; // Example: $500 per seat
 
 
@@ -260,7 +261,18 @@ if (isset($_POST['updateBookingBtn'])) {
                             </div>
                             <!-- Add more rows as needed -->
                         </div>
-                        
+        <!-- <div class="seat-layout grid grid-cols-5 gap-x-28 gap-y-10">
+        <?php
+        // $seats = ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4', 'E1', 'E2', 'E3', 'E4', 'F1', 			'F2', 'F3', 'F4', 'G1', 'G2', 'G3', 'G4', 'H1', 'H2', 'H3', 'H4', 'I1', 'I2', 'I3', 'I4', 'J1', 'J2', 'J3', 'J4'];
+        // foreach ($seats as $seat) {
+        //     $status = isset($seatStatus[$seat]) && $seatStatus[$seat] === 'booked' ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-500';
+        //     $disabled = isset($seatStatus[$seat]) && $seatStatus[$seat] === 'booked' ? 'disabled' : '';
+        //     echo "<div class='col-span-2 flex justify-around gap-8 cursor-pointer'>
+        //             <div class='seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center $status' id='seat-$seat' 				$disabled>$seat</div>
+        //           </div>";
+        // }
+        ?>
+    </div> -->
                     </div>
                 <input type="hidden" name="seats" id="selectedSeatsInput">
                 <label class="font-semibold text-lg">Amount</label><br>
