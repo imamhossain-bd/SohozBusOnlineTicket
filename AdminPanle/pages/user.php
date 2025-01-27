@@ -69,11 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     <?php } ?>
 
-    <section class="pt-16">
-        <h3 class="lg:text-5xl md:text-4xl text-2xl uppercase titel_content text-center">Manage Users</h3>
-
-        <div class="overflow-x-auto">
-            <table class="w-full table table-xs md:table-md mb-20">
+    <section class="pt-14">
+        <div class="w-full">
+        <h3 class="lg:text-5xl md:text-4xl text-2xl w-full uppercase ml-[65%] mb-5">Manage Users</h3>
+            <table class=" ml-[40%] table table-xs md:table-md mb-20">
                 <thead>
                     <tr class="bg-gray-200 text-black border-b text-center text-xs md:text-sm font-thin">
                         <th>SL</th>
@@ -85,38 +84,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </tr>
                 </thead>
                 <tbody class="bg-white">
-                    <?php
+                   <?php
                     $getUsers = $conn->query("SELECT * FROM users");
                     if ($getUsers->num_rows > 0) {
                         $counter = 1;
                         while ($row = $getUsers->fetch_assoc()) {
-                            $id = $row['id'] ?? 'Unknown';
-                            $name = $row['name'] ?? 'Unknown';
-                            $email = $row['email'] ?? 'Unknown';
-                            $type = $row['type'] ?? 'Unknown';
-                            $photo = $row['photo'] ?? null;
-                            $photo_mime = $row['mime_type'] ?? null;
-
+                            $id = $row['id'];
+                            $name = $row['name'];
+                            $email = $row['email'];
+                            $type = $row['type'];
+                            $photo = $row['photo'];
+                            $photo_mime = $row['mime_type'];
                             echo "
-                                <tr class='text-center text-sm'>
-                                    <td>$counter</td>
-                                    <td>";
-                            if (!empty($photo) && !empty($photo_mime)) {
-                                echo "<img class='h-10 w-10 object-cover rounded-full' src='data:$photo_mime;base64," . base64_encode($photo) . "' alt='User Photo'>";
-                            } else {
-                                echo "<span>No Photo</span>";
-                            }
-                            echo "</td>
+                                <tr class=' text-xs md:text-sm text-center'>
+                                    <td>
+                                      $counter
+                                    </td>
+                                    <td>
+                                        <img class='h-10 w-10 object-cover rounded-full' 
+                                            src='data:$photo_mime;base64," . base64_encode($photo) . "' alt='User Photo'>
+                                    </td>
                                     <td>$name</td>
                                     <td>$email</td>
                                     <td>$type</td>
                                     <td>
-                                        <button class='px-3 py-1 rounded-md text-sm border border-blue-500 font-medium hover:text-white hover:bg-blue-500' 
-                                            onclick=\"openUpdateModal($id, '$type')\">
+                                        <button data-tip='Edit User' class='tooltip px-3 py-1 rounded-md text-xs md:text-sm border border-blue-500 font-medium 
+                                                        hover:text-white hover:bg-blue-500 transition duration-150' 
+                                                        onclick=\"openUpdateModal($id, '$type')\">
                                             <i class='fa-solid fa-pen-to-square'></i>
                                         </button>
-                                        <button class='px-3 py-1 rounded-md text-sm border border-red-500 font-medium hover:text-white hover:bg-red-500' 
-                                            onclick=\"openModal($id, '$name')\">
+                                        <button data-tip='delete user' class='tooltip px-3 py-1 rounded-md text-xs md:text-sm border border-red-500 font-medium 
+                                                        hover:text-white hover:bg-red-500 transition duration-150' 
+                                                        onclick=\"openModal($id, '$name')\">
                                             <i class='fa-solid fa-trash-can'></i>
                                         </button>
                                     </td>
@@ -125,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $counter++;
                         }
                     } else {
-                        echo "<tr><td colspan='6' class='text-center'>No users found</td></tr>";
+                        echo "<tr><td colspan='5'>Users not found</td></tr>";
                     }
                     ?>
                 </tbody>

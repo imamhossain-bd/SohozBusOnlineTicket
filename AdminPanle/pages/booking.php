@@ -6,8 +6,6 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-
-
 $seatStatus = [];
 if (isset($_POST['selectBus']) || isset($_GET['selectBus'])) {
     $selectedBus = ( $_POST['selectBus'] ?? $_GET['selectBus']);

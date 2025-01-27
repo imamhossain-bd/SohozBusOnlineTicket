@@ -6,75 +6,75 @@ $errors = [];
 if (isset($_POST['registerBtn'])) {
     $firstName = trim($_POST['firstName']);
     $lastName = trim($_POST['secondName']);
-    //$type = $_POST['type'];
     $email = trim($_POST['email']);
     $number = trim($_POST['number']);
     $pass = $_POST['password'];
     $cPass = $_POST['cpassword'];
-    // $uploadDir = 'uploads/images/'; 
-    // $fileName = $_FILES['profilePhoto']['name'] ?? '';
-    // $fileTmpName = $_FILES['profilePhoto']['tmp_name'] ?? '';
-    // $fileError = $_FILES['profilePhoto']['error'] ?? '';
+    $profileName = $_FILES['profilePhoto'] ?? '';
 
     $defaultType = 'user';
-    
+    $errors = [];
 
     // Validate required fields
     if (empty($firstName)) $errors['firstName'] = "First Name is required.";
     if (empty($lastName)) $errors['secondName'] = "Last Name is required.";
-    //if (empty($type)) $errors['type'] = "Type is required.";
     if (empty($email)) $errors['email'] = "Email is required.";
     if (empty($number)) $errors['number'] = "Mobile Number is required.";
     if (empty($pass)) $errors['password'] = "Password is required.";
     if ($pass !== $cPass) $errors['cpassword'] = "Passwords do not match.";
 
-    // Validate and upload the file if any
-    // if (empty($errors['profilePhoto'])) {
-    //     if ($fileError === UPLOAD_ERR_NO_FILE) {
-    //         // Optionally, handle when no file is uploaded
-    //     } elseif ($fileError !== UPLOAD_ERR_OK) {
-    //         $errors['profilePhoto'] = "An error occurred during file upload.";
-    //     } else {
-    //         $allowedExtensions = ['jpg', 'jpeg', 'png'];
-    //         $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+    // Validate and process the uploaded file
+    if ($profileName['error'] === UPLOAD_ERR_NO_FILE) {
+        $errors['upload_photo'] = "Photo is required.";
+    } else {
+        $allowed_exten = ['jpg', 'jpeg', 'png', 'gif'];
+        $allowed_photo_types = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+        $file_size_limit = 400 * 1024; // 400 KB
+        $file_exten = strtolower(pathinfo($profileName['name'], PATHINFO_EXTENSION));
+        $photo_type = mime_content_type($profileName['tmp_name']);
 
-    //         if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
-    //             $errors['profilePhoto'] = "Only JPG, JPEG, and PNG files are allowed.";
-    //         } else {
-    //             $uniqueFileName = uniqid() . '.' . $fileExtension;
-    //             $targetFile = $uploadDir . $uniqueFileName;
-    //             // Move file to upload directory
-    //             move_uploaded_file($fileTmpName, $targetFile);
-    //         }
-    //     }
-    // }
+        if (!in_array($file_exten, $allowed_exten) || !in_array($photo_type, $allowed_photo_types)) {
+            $errors['upload_photo'] = "Invalid file format. Only JPG, PNG, or GIF are allowed.";
+        } elseif ($profileName['size'] > $file_size_limit) {
+            $errors['upload_photo'] = "File size must not exceed 400 KB.";
+        }
 
-    // Check if there are any errors
+        $uplodePhoto = file_get_contents($profileName['tmp_name']);
+    }
+
+    // Check for errors
     if (empty($errors)) {
         // Check if email already exists
-        $select = "SELECT * FROM users WHERE email = '$email'";
-        $result = mysqli_query($conn, $select);
+        $select = "SELECT * FROM users WHERE email = ?";
+        $stmt = $conn->prepare($select);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if (mysqli_num_rows($result) > 0) {
+        if ($result->num_rows > 0) {
             $errors['email'] = "Email already registered.";
         } else {
             // Hash password before saving to the database
             $hashedPassword = password_hash($pass, PASSWORD_DEFAULT);
             $name = $firstName . ' ' . $lastName;
 
-            // Insert new user into the database
-            $insert = "INSERT INTO users (name, number, email, password, type) 
-                       VALUES ('$name', '$number', '$email', '$hashedPassword', '$defaultType')";
+            // Insert new user into the database using prepared statement
+            $insert = "INSERT INTO users (name, number, email, password, type, photo, mime_type) 
+                       VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($insert);
+            $stmt->bind_param("ssssssb", $name, $number, $email, $hashedPassword, $defaultType, $uplodePhoto, $photo_type);
 
-            if (mysqli_query($conn, $insert)) {
+            if ($stmt->execute()) {
                 header('Location: login.php');
                 exit;
             } else {
-                $errors['general'] = "Error: " . mysqli_error($conn);
+                $errors['general'] = "Error: " . $conn->error;
             }
         }
     }
 }
+
+
 
 
 ?>

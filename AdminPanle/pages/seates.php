@@ -69,6 +69,10 @@ if (isset($_GET['submit'])) {
         .seat.available {
             background-color: #10b981; /* Green color for available seat */
         }
+        .cursor-not-allowed {
+            pointer-events: none; /* Disable all clicks */
+            opacity: 0.6; /* Reduce visibility */
+        }
     </style>
 </head>
 <body>
@@ -91,7 +95,7 @@ if (isset($_GET['submit'])) {
             </p>
 
             <div class="grid grid-cols-5 gap-4">
-                <!-- Driver -->
+            <!-- Driver -->
                 <div class="col-span-5 flex justify-end mb-4">
                     <div class="bg-gray-800 text-white cursor-pointer mr-5 px-4 py-2 rounded-md">Driver</div>
                 </div>
@@ -109,19 +113,24 @@ if (isset($_GET['submit'])) {
                     $status_right_1 = $seatStatus[$seat_right_1] ?? 'available';
                     $status_right_2 = $seatStatus[$seat_right_2] ?? 'available';
 
-                    $class_left_1 = ($status_left_1 === 'booked') ? 'seat booked' : 'seat available';
-                    $class_left_2 = ($status_left_2 === 'booked') ? 'seat booked' : 'seat available';
-                    $class_right_1 = ($status_right_1 === 'booked') ? 'seat booked' : 'seat available';
-                    $class_right_2 = ($status_right_2 === 'booked') ? 'seat booked' : 'seat available';
+                    $class_left_1 = ($status_left_1 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
+                    $class_left_2 = ($status_left_2 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
+                    $class_right_1 = ($status_right_1 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
+                    $class_right_2 = ($status_right_2 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
 
-                    echo "<div class='col-span-2 flex justify-around cursor-pointer'>
-                            <div class='$class_left_1 text-white w-16 h-12 rounded-md flex items-center justify-center'>$seat_left_1</div>
-                            <div class='$class_left_2 text-white w-16 h-12 rounded-md flex items-center justify-center'>$seat_left_2</div>
+                    $disabled_left_1 = ($status_left_1 === 'booked') ? 'disabled' : '';
+                    $disabled_left_2 = ($status_left_2 === 'booked') ? 'disabled' : '';
+                    $disabled_right_1 = ($status_right_1 === 'booked') ? 'disabled' : '';
+                    $disabled_right_2 = ($status_right_2 === 'booked') ? 'disabled' : '';
+
+                    echo "<div class='col-span-2 flex justify-around'>
+                            <button class='seat text-white w-16 h-12 rounded-md flex items-center justify-center $class_left_1' $disabled_left_1>$seat_left_1</button>
+                            <button class='seat text-white w-16 h-12 rounded-md flex items-center justify-center $class_left_2' $disabled_left_2>$seat_left_2</button>
                         </div>";
                     echo "<div class='col-span-1'></div>"; // Empty space
-                    echo "<div class='col-span-2 flex justify-around cursor-pointer'>
-                            <div class='$class_right_1 text-white w-16 h-12 rounded-md flex items-center justify-center'>$seat_right_1</div>
-                            <div class='$class_right_2 text-white w-16 h-12 rounded-md flex items-center justify-center'>$seat_right_2</div>
+                    echo "<div class='col-span-2 flex justify-around'>
+                            <button class='seat text-white w-16 h-12 rounded-md flex items-center justify-center $class_right_1' $disabled_right_1>$seat_right_1</button>
+                            <button class='seat text-white w-16 h-12 rounded-md flex items-center justify-center $class_right_2' $disabled_right_2>$seat_right_2</button>
                         </div>";
                 }
                 ?>
@@ -129,5 +138,12 @@ if (isset($_GET['submit'])) {
         </div>
 
     </section>
+
+    <script>
+        
+
+    </script>
+
+
 </body>
 </html>
