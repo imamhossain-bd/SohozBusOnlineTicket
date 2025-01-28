@@ -145,6 +145,19 @@ $totalEarnings = $row['totalEarnings'] ?? 0;
                 <a class="flex justify-end items-center gap-1 text-green-600 text-sm font-medium mt-2 hover:underline" href="#">View More <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
+
+        <section>
+        
+        </section>
     </section>
+
+
+
+
+
+    <script>
+
+    </script>
+
 </body>
 </html>

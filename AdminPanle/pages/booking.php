@@ -7,13 +7,12 @@ if (!$conn) {
 }
 
 
-// Initialize seat status
 $seatStatus = [];
 $totalBookedSeats = 0;
 
 if (isset($_POST['selectBus']) || isset($_GET['selectBus'])) {
     $selectedBus = ($_POST['selectBus'] ?? $_GET['selectBus']);
-    
+
     // Retrieve booked seats from the database
     $result = $conn->query("SELECT seat FROM bookings WHERE selectBus = '$selectedBus'");
     while ($row = $result->fetch_assoc()) {
@@ -34,15 +33,14 @@ if (isset($_POST['submitBookingBtn'])) {
     $destination = $_POST['destination'];
     $selectBus = $_POST['selectBus'];
     $selectedSeatsString = $_POST['seats']; // Comma-separated seat list
-    $selectedSeatsArray = explode(',', $selectedSeatsString); // Array of selected seats
-    $seatCount = count($selectedSeatsArray); // Count of selected seats
-    $amount = $seatCount * 500; // Calculate total amount (e.g., $500 per seat)
+    $selectedSeatsArray = explode(',', $selectedSeatsString);
+    $seatCount = count($selectedSeatsArray);
+    $amount = $seatCount * 500;
 
-    // Prevent selecting more than 4 seats
     if ($seatCount > 4) {
         echo "<div class='bg-red-300 p-3'>You can't select more than 4 seats!</div>";
     } else {
-        // Insert new customer if not already in the database
+        // Check if customer exists, if not, create a new customer record
         $customerCheckQuery = "SELECT * FROM customer WHERE customer_id = '$customerId'";
         $customerResult = $conn->query($customerCheckQuery);
         if ($customerResult->num_rows == 0) {
@@ -51,11 +49,29 @@ if (isset($_POST['submitBookingBtn'])) {
             $conn->query($insertCustomerQuery);
         }
 
-        // Insert booking into the database
+        // Insert booking data into the database
         $sql = "INSERT INTO bookings (customerId, customerName, customerNumber, route, destination, selectBus, seat, amount) 
                 VALUES ('$customerId', '$customerName', '$customerNumber', '$route', '$destination', '$selectBus', '$selectedSeatsString', '$amount')";
         if ($conn->query($sql)) {
-            echo "<div class='bg-green-300 p-3 mb-5'>Booking added successfully!</div>";
+            // Generate and display the invoice (using a library like Dompdf)
+            require_once 'autoload.php'; 
+            $html = '
+                <h1>Booking Invoice</h1>
+                <p>Customer ID: ' . $customerId . '</p>
+                <p>Customer Name: ' . $customerName . '</p>
+                <p>Customer Number: ' . $customerNumber . '</p>
+                <p>Route: ' . $route . '</p>
+                <p>Destination: ' . $destination . '</p>
+                <p>Bus: ' . $selectBus . '</p>
+                <p>Seats: ' . $selectedSeatsString . '</p>
+                <p>Amount: $' . $amount . '</p>
+            ';
+
+            $mpdf = new \Mpdf\Mpdf();
+            $mpdf->WriteHtml($html);
+            $mpdf->Output(); // Output the PDF directly to the browser
+
+            echo "<div class='bg-green-300 p-3 mb-5'>Booking added successfully! Invoice generated.</div>";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
@@ -170,34 +186,34 @@ if (isset($_POST['updateBookingBtn'])) {
                         </div>
 
                         <?php
-                        $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-                        foreach ($rows as $row) {
-                            $seat_left_1 = $row . '1';
-                            $seat_left_2 = $row . '2';
-                            $seat_right_1 = $row . '3';
-                            $seat_right_2 = $row . '4';
+                            $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+                            foreach ($rows as $row) {
+                                $seat_left_1 = $row . '1';
+                                $seat_left_2 = $row . '2';
+                                $seat_right_1 = $row . '3';
+                                $seat_right_2 = $row . '4';
 
-                            $status_left_1 = $seatStatus[$seat_left_1] ?? 'available';
-                            $status_left_2 = $seatStatus[$seat_left_2] ?? 'available';
-                            $status_right_1 = $seatStatus[$seat_right_1] ?? 'available';
-                            $status_right_2 = $seatStatus[$seat_right_2] ?? 'available';
+                                $status_left_1 = $seatStatus[$seat_left_1] ?? 'available';
+                                $status_left_2 = $seatStatus[$seat_left_2] ?? 'available';
+                                $status_right_1 = $seatStatus[$seat_right_1] ?? 'available';
+                                $status_right_2 = $seatStatus[$seat_right_2] ?? 'available';
 
-                            $class_left_1 = ($status_left_1 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
-                            $class_left_2 = ($status_left_2 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
-                            $class_right_1 = ($status_right_1 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
-                            $class_right_2 = ($status_right_2 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
+                                $class_left_1 = ($status_left_1 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
+                                $class_left_2 = ($status_left_2 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
+                                $class_right_1 = ($status_right_1 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
+                                $class_right_2 = ($status_right_2 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
 
-                            echo "<div class='col-span-2 flex justify-around'>
-                                    <div class='seat w-16 h-12 rounded-md flex items-center justify-center $class_left_1'>$seat_left_1</div>
-                                    <div class='seat w-16 h-12 rounded-md flex items-center justify-center $class_left_2'>$seat_left_2</div>
-                                </div>";
-                            echo "<div class='col-span-1'></div>"; // Empty space
-                            echo "<div class='col-span-2 flex justify-around'>
-                                    <div class='seat w-16 h-12 rounded-md flex items-center justify-center $class_right_1'>$seat_right_1</div>
-                                    <div class='seat w-16 h-12 rounded-md flex items-center justify-center $class_right_2'>$seat_right_2</div>
-                                </div>";
-                        }
-                        ?>
+                                echo "<div class='col-span-2 flex justify-around'>
+                                        <div class='seat w-16 h-12 rounded-md flex items-center justify-center $class_left_1' data-seat='$seat_left_1'>$seat_left_1</div>
+                                        <div class='seat w-16 h-12 rounded-md flex items-center justify-center $class_left_2' data-seat='$seat_left_2'>$seat_left_2</div>
+                                    </div>";
+                                echo "<div class='col-span-1'></div>"; // Empty space
+                                echo "<div class='col-span-2 flex justify-around'>
+                                        <div class='seat w-16 h-12 rounded-md flex items-center justify-center $class_right_1' data-seat='$seat_right_1'>$seat_right_1</div>
+                                        <div class='seat w-16 h-12 rounded-md flex items-center justify-center $class_right_2' data-seat='$seat_right_2'>$seat_right_2</div>
+                                    </div>";
+                            }
+                            ?>
                     </div>
                 <input type="hidden" name="seats" id="selectedSeatsInput">
                 <label class="font-semibold text-lg">Amount</label><br>

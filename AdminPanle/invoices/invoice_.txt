@@ -1,0 +1,9 @@
+Invoice for Bus Booking
+
+Customer Name: 
+Contact Number: 
+Route: 
+Destination: 
+Bus: NBS4455
+Seats: G2,G1
+Total Amount: 1000

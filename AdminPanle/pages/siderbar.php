@@ -30,7 +30,7 @@
                     <ul class="w-full ">
                         <li class="mb-4 rounded-lg text-base hover:text-[#11BE86] hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=adminDash"><i class="fa-solid fa-gauge w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Dashboard</a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=buses"><i class="fa-solid fa-bus w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Buses</a></li>
-                        <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href=""><i class="fa-solid fa-calendar-days w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Schedule </a></li>
+                        <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=schedules"><i class="fa-solid fa-calendar-days w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Schedule </a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=routes"><i class="fa-solid fa-road w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Routes</a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=customar"><i class="fa-solid fa-users w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Customers</a></li>
                         <li class="mb-4 rounded-lg text-base hover:bg-[#e5e7eb] py-2 px-3"><a href="dashboard.php?pages=booking"><i class="fa-solid fa-ticket w-9 h-9 bg-[#eeeeee] shadow-xl rounded-lg text-center  pt-3"></i> Booking</a></li>

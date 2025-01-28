@@ -88,53 +88,111 @@ if (isset($_GET['submit'])) {
         </div>
 
         
-        <div id="Bus_Number" class="w-full ml-[200px] mt-24 max-w-4xl p-6 bg-[#e9e8e8] rounded-lg shadow-xl">
+        <div id="Bus_Number" class="w-full ml-[150px] mt-24 max-w-2xl p-6 bg-[#e9e8e8] rounded-lg shadow-xl">
             <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Bus Seat Reservation</h1>
             <p class="text-gray-600 mb-6 font-bold text-center">
                 <?php echo isset($bus_no) ? "Bus NO: $bus_no" : "Bus Number"; ?>
             </p>
 
-            <div class="grid grid-cols-5 gap-4">
-            <!-- Driver -->
-                <div class="col-span-5 flex justify-end mb-4">
-                    <div class="bg-gray-800 text-white cursor-pointer mr-5 px-4 py-2 rounded-md">Driver</div>
-                </div>
-                <?php
-                $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-                $seats_per_row = 4;
-                foreach ($rows as $row) {
-                    $seat_left_1 = $row . '1';
-                    $seat_left_2 = $row . '2';
-                    $seat_right_1 = $row . '3';
-                    $seat_right_2 = $row . '4';
-
-                    $status_left_1 = $seatStatus[$seat_left_1] ?? 'available';
-                    $status_left_2 = $seatStatus[$seat_left_2] ?? 'available';
-                    $status_right_1 = $seatStatus[$seat_right_1] ?? 'available';
-                    $status_right_2 = $seatStatus[$seat_right_2] ?? 'available';
-
-                    $class_left_1 = ($status_left_1 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
-                    $class_left_2 = ($status_left_2 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
-                    $class_right_1 = ($status_right_1 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
-                    $class_right_2 = ($status_right_2 === 'booked') ? 'bg-red-500 cursor-not-allowed' : 'bg-green-500 cursor-pointer';
-
-                    $disabled_left_1 = ($status_left_1 === 'booked') ? 'disabled' : '';
-                    $disabled_left_2 = ($status_left_2 === 'booked') ? 'disabled' : '';
-                    $disabled_right_1 = ($status_right_1 === 'booked') ? 'disabled' : '';
-                    $disabled_right_2 = ($status_right_2 === 'booked') ? 'disabled' : '';
-
-                    echo "<div class='col-span-2 flex justify-around'>
-                            <button class='seat text-white w-16 h-12 rounded-md flex items-center justify-center $class_left_1' $disabled_left_1>$seat_left_1</button>
-                            <button class='seat text-white w-16 h-12 rounded-md flex items-center justify-center $class_left_2' $disabled_left_2>$seat_left_2</button>
-                        </div>";
-                    echo "<div class='col-span-1'></div>"; // Empty space
-                    echo "<div class='col-span-2 flex justify-around'>
-                            <button class='seat text-white w-16 h-12 rounded-md flex items-center justify-center $class_right_1' $disabled_right_1>$seat_right_1</button>
-                            <button class='seat text-white w-16 h-12 rounded-md flex items-center justify-center $class_right_2' $disabled_right_2>$seat_right_2</button>
-                        </div>";
-                }
-                ?>
-            </div>
+                        <!-- Driver -->
+                        <div class="col-span-5 flex justify-end mb-4">
+                            <div class="bg-gray-800 text-white cursor-pointer mr-1 mt-2 px-4 py-2 rounded-md">Driver</div>
+                        </div>
+                        <div class="seat-layout grid grid-cols-5 gap-x-28 gap-y-10">
+                            <!-- Repeat this block for each row -->
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">A1</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">A2</div>
+                            </div>
+                            <div class="col-span-1"></div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">A3</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">A4</div>
+                            </div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">B1</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">B2</div>
+                            </div>
+                            <div class="col-span-1"></div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">B3</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">B4</div>
+                            </div>
+                            
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">C1</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">C2</div>
+                            </div>
+                            <div class="col-span-1"></div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">C3</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">C4</div>
+                            </div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">D1</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">D2</div>
+                            </div>
+                            <div class="col-span-1"></div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">D3</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">D4</div>
+                            </div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">E1</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">E2</div>
+                            </div>
+                            <div class="col-span-1"></div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">E3</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">E4</div>
+                            </div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">F1</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">F2</div>
+                            </div>
+                            <div class="col-span-1"></div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">F3</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">F4</div>
+                            </div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">G1</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">G2</div>
+                            </div>
+                            <div class="col-span-1"></div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">G3</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">G4</div>
+                            </div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">H1</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">H2</div>
+                            </div>
+                            <div class="col-span-1"></div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">H3</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">H4</div>
+                            </div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">I1</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">I2</div>
+                            </div>
+                            <div class="col-span-1"></div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">I3</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">I4</div>
+                            </div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">J1</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">J2</div>
+                            </div>
+                            <div class="col-span-1"></div>
+                            <div class="col-span-2 flex justify-around gap-8 cursor-pointer">
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">J3</div>
+                                <div class="seat text-white w-16 h-12 px-10 py-4 rounded-md flex items-center justify-center bg-green-500">J4</div>
+                            </div>
+                            <!-- Add more rows as needed -->
+                        </div>
         </div>
 
     </section>
