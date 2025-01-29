@@ -12,8 +12,7 @@ $totalBookedSeats = 0;
 
 if (isset($_POST['selectBus']) || isset($_GET['selectBus'])) {
     $selectedBus = ($_POST['selectBus'] ?? $_GET['selectBus']);
-
-    // Retrieve booked seats from the database
+    
     $result = $conn->query("SELECT seat FROM bookings WHERE selectBus = '$selectedBus'");
     while ($row = $result->fetch_assoc()) {
         $bookedSeats = explode(',', $row['seat']);
@@ -21,10 +20,9 @@ if (isset($_POST['selectBus']) || isset($_GET['selectBus'])) {
             $seatStatus[$seat] = 'booked';
         }
     }
-    $totalBookedSeats = count($seatStatus); // Count total booked seats
+    $totalBookedSeats = count($seatStatus); 
 }
 
-// Handle booking form submission
 if (isset($_POST['submitBookingBtn'])) {
     $customerId = $_POST['customerId'];
     $customerName = $_POST['customerName'];
@@ -32,15 +30,14 @@ if (isset($_POST['submitBookingBtn'])) {
     $route = $_POST['route'];
     $destination = $_POST['destination'];
     $selectBus = $_POST['selectBus'];
-    $selectedSeatsString = $_POST['seats']; // Comma-separated seat list
-    $selectedSeatsArray = explode(',', $selectedSeatsString);
+    $selectedSeatsString = $_POST['seats']; 
+    $selectedSeatsArray = explode(',', $selectedSeatsString); 
     $seatCount = count($selectedSeatsArray);
-    $amount = $seatCount * 500;
+    $amount = $seatCount * 500; 
 
     if ($seatCount > 4) {
         echo "<div class='bg-red-300 p-3'>You can't select more than 4 seats!</div>";
     } else {
-        // Check if customer exists, if not, create a new customer record
         $customerCheckQuery = "SELECT * FROM customer WHERE customer_id = '$customerId'";
         $customerResult = $conn->query($customerCheckQuery);
         if ($customerResult->num_rows == 0) {
@@ -49,35 +46,42 @@ if (isset($_POST['submitBookingBtn'])) {
             $conn->query($insertCustomerQuery);
         }
 
-        // Insert booking data into the database
         $sql = "INSERT INTO bookings (customerId, customerName, customerNumber, route, destination, selectBus, seat, amount) 
                 VALUES ('$customerId', '$customerName', '$customerNumber', '$route', '$destination', '$selectBus', '$selectedSeatsString', '$amount')";
-        if ($conn->query($sql)) {
-            // Generate and display the invoice (using a library like Dompdf)
-            require_once 'autoload.php'; 
-            $html = '
-                <h1>Booking Invoice</h1>
-                <p>Customer ID: ' . $customerId . '</p>
-                <p>Customer Name: ' . $customerName . '</p>
-                <p>Customer Number: ' . $customerNumber . '</p>
-                <p>Route: ' . $route . '</p>
-                <p>Destination: ' . $destination . '</p>
-                <p>Bus: ' . $selectBus . '</p>
-                <p>Seats: ' . $selectedSeatsString . '</p>
-                <p>Amount: $' . $amount . '</p>
-            ';
+        if ($conn->query($sql) === TRUE) {
+            // Invoice generation logic
+            $invoiceData = [
+                'customerName' => $customerName,
+                'customerNumber' => $customerNumber,
+                'route' => $route,
+                'destination' => $destination,
+                'bus' => $selectBus,
+                'seats' => $selectedSeatsString,
+                'amount' => $amount,
+            ];
 
-            $mpdf = new \Mpdf\Mpdf();
-            $mpdf->WriteHtml($html);
-            $mpdf->Output(); // Output the PDF directly to the browser
+            // Create an invoice as a downloadable file
+            $invoiceFileName = "invoice_{$customerId}.txt";
+            $invoiceFilePath = "invoices/{$invoiceFileName}";
+            $invoiceContent = "Invoice for Bus Booking\n\n"
+                . "Customer Name: {$invoiceData['customerName']}\n"
+                . "Contact Number: {$invoiceData['customerNumber']}\n"
+                . "Route: {$invoiceData['route']}\n"
+                . "Destination: {$invoiceData['destination']}\n"
+                . "Bus: {$invoiceData['bus']}\n"
+                . "Seats: {$invoiceData['seats']}\n"
+                . "Total Amount: {$invoiceData['amount']}\n";
 
-            echo "<div class='bg-green-300 p-3 mb-5'>Booking added successfully! Invoice generated.</div>";
+            // Save the invoice to a file
+            file_put_contents($invoiceFilePath, $invoiceContent);
+
+            echo "<div class='bg-green-300 p-3 mb-5'>Booking added successfully! "
+               . "<a href='{$invoiceFilePath}' download class='text-blue-600 underline'>Download Invoice</a></div>";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
     }
 }
-
 // Delete
 if (isset($_GET['deleteId'])) {
     $deleteId = intval($_GET['deleteId']);
@@ -378,7 +382,15 @@ if (isset($_POST['updateBookingBtn'])) {
         });
 
         
-
+        function fetchBookedSeats(busId) {
+    fetch(`get_booked_seats.php?busId=${busId}`)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(seat => {
+                document.getElementById(`seat-${seat}`).classList.add("booked");
+            });
+        });
+}
 
         
     </script>
